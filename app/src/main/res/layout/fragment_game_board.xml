@@ -76,14 +76,14 @@
 
     </RelativeLayout>
 
-    <com.example.root.shaper.GameBoardGridView
+    <com.rafal.pathrecall.GameBoardGridView
         android:id="@+id/mainGrid"
         android:padding="@dimen/padding_default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottomBar"
         >
-    </com.example.root.shaper.GameBoardGridView>
+    </com.rafal.pathrecall.GameBoardGridView>
 
     <RelativeLayout
         android:id="@+id/bottomBar"

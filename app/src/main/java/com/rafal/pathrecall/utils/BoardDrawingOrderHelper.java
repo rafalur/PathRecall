@@ -39,6 +39,13 @@ public class BoardDrawingOrderHelper {
         Log.d("shaper", "Selected: " + mSelectedViewsList.toString());
     }
 
+    public void deselect(int index){
+        if(mSelectedViewsList.contains(index)){
+            mSelectedViewsList.remove(index);
+            mNotSelecteViewsList.add(index);
+        }
+    }
+
     public int getDrawingOrderForIndex(int index){
         if(index < mNotSelecteViewsList.size()) {
             return mNotSelecteViewsList.get(index);
