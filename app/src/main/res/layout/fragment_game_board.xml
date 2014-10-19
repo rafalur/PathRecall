@@ -1,0 +1,125 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dp"
+    android:background="@drawable/main_background_gradient"
+    android:orientation="vertical"
+    tools:context="com.example.root.shaper.GameBoardFragment">
+
+    <RelativeLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/mainGrid"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/offset_medium"
+        android:layout_centerHorizontal="true"
+        style="@style/TitleStyle"
+        android:text="@string/game_board_title"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/titleTextView"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/offset_medium"
+        android:layout_marginBottom="@dimen/offset_large">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/info_box_gradient_inverted">
+
+                </View>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/info_box_gradient_end">
+                </View>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/info_box_gradient">
+            </View>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/infoDescriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            style="@style/TextMainAccent"/>
+
+        <View
+            style="@style/Divider"
+            android:layout_alignParentTop="true"/>
+
+        <View
+            style="@style/Divider"
+            android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <com.example.root.shaper.GameBoardGridView
+        android:id="@+id/mainGrid"
+        android:padding="@dimen/padding_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomBar"
+        >
+    </com.example.root.shaper.GameBoardGridView>
+
+    <RelativeLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/offset_large"
+        >
+        <ToggleButton
+            android:id="@+id/drawToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ButtonNormalStyle"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textOn="Draw On"
+            android:textOff="Draw Off"
+            />
+
+        <Button
+            android:id="@+id/playPathButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ButtonNormalStyle"
+            android:layout_centerInParent="true"
+            android:text="Play path"/>
+
+        <Button
+            android:id="@+id/clearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ButtonNormalStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="Clear"/>
+    </RelativeLayout>
+
+</RelativeLayout>
