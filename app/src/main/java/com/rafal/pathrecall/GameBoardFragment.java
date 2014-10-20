@@ -28,13 +28,9 @@ public class GameBoardFragment extends Fragment {
     public static final int COLUMNS_NUMBER = 10;
     public static final int PLAYP_PATH_COUNTDOWN_MAX = 3;
 
-    //@InjectView(R.id.mainGrid)
     GameBoardGridView mMainGrid;
-    //@InjectView(R.id.clearButton)
     Button mClearButton;
-    //@InjectView(R.id.playPathButton)
     Button mPlayPathButton;
-    //@InjectView(R.id.drawToggleButton)
     ToggleButton mToggleButton;
 
 
@@ -48,10 +44,6 @@ public class GameBoardFragment extends Fragment {
     public static GameBoardFragment newInstance(String param1, String param2) {
         GameBoardFragment fragment = new GameBoardFragment();
         return fragment;
-    }
-
-    public GameBoardFragment() {
-
     }
 
     @Override
@@ -74,9 +66,6 @@ public class GameBoardFragment extends Fragment {
 
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //RoboGuice.getInjector(getActivity()).injectViewMembers(this);
-        // Do whatever with your injected views.
-        //confViews();
     }
 
 

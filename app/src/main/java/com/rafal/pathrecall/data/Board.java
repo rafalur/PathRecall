@@ -35,21 +35,26 @@ public class Board {
 
         if(brick.isSelected() != selected) {
             brick.setSelected(selected);
-
-            notifySelectionStateChanged(x, y, selected);
+            setBrickSelectionShade(x, y, selected ? 1.0f : 0.0f);
+            notifySelectionChanged(x, y, selected);
         }
     }
 
     public void setBrickSelectionShade(int x, int y, float alpha){
         Brick brick = mBricks[x][y];
         brick.setSelectionShade(alpha);
-
-        notifySelectionStateChanged(x, y, alpha == 1.0 ? true : false);
+        notifySelectionShadeChanged(x, y, alpha);
     }
 
-    private void notifySelectionStateChanged(int x, int y, boolean selected) {
+    private void notifySelectionChanged(int x, int y, boolean selected) {
         if (mBoardStateListener != null) {
             mBoardStateListener.onBrickSelectionChanged(x, y, selected);
+        }
+    }
+
+    private void notifySelectionShadeChanged(int x, int y, float alpha) {
+        if (mBoardStateListener != null) {
+            mBoardStateListener.onBrickSelectionShadeChanged(x, y, alpha);
         }
     }
 
@@ -59,6 +64,7 @@ public class Board {
 
     public interface OnBoardStateChangedListener {
         public void onBrickSelectionChanged(int x, int y, boolean selected);
+        public void onBrickSelectionShadeChanged(int x, int y, float alpha);
         public void onBoardCleared();
     }
 }

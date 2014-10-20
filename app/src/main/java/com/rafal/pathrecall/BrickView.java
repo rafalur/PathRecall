@@ -43,13 +43,6 @@ public class BrickView extends RelativeLayout {
         mSelectionOverlay = root.findViewById(R.id.slectionOverlay);
     }
 
-    public void setSelected(boolean selected){
-        float alpha;
-        alpha = selected ? 1.0f : 0.0f;
-
-        setSelectionShade(alpha);
-    }
-
     public void setSelectionShade(float alpha){
         if(alpha == 1.0){
             playZoomInAnimation();

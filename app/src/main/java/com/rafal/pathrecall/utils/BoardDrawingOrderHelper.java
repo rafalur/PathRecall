@@ -34,15 +34,16 @@ public class BoardDrawingOrderHelper {
         }
 
         mNotSelecteViewsList.remove(new Integer(index));
-
-        Log.d("shaper", "Not selected: " + mNotSelecteViewsList.toString());
-        Log.d("shaper", "Selected: " + mSelectedViewsList.toString());
+//        Log.d("shaper", "Not selected: " + mNotSelecteViewsList.toString());
+//        Log.d("shaper", "Selected: " + mSelectedViewsList.toString());
     }
 
     public void deselect(int index){
         if(mSelectedViewsList.contains(index)){
-            mSelectedViewsList.remove(index);
-            mNotSelecteViewsList.add(index);
+            mSelectedViewsList.remove(Integer.valueOf(index));
+            if(!mNotSelecteViewsList.contains(index)) {
+                mNotSelecteViewsList.add(index);
+            }
         }
     }
 

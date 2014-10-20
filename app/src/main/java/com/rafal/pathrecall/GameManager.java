@@ -9,7 +9,7 @@ import com.rafal.pathrecall.data.Point;
 
 public class GameManager {
     public static final int BOARD_SIZE = 10;
-    public static final int PATH_STEP_DELAY_MILLIS = 70;
+    public static final int PATH_STEP_DELAY_MILLIS = 80;
     public static final int PATH_TAIL_LENGTH = 7;
 
     private static GameManager mInstance;
@@ -70,28 +70,37 @@ public class GameManager {
             mPathPlayTimerHandler.postDelayed(mPathPlayRunnable, PATH_STEP_DELAY_MILLIS);
             mPathStepIndex++;
 
-            if(index < mPath.getCount()) {
-                Point point = mPath.getPointAt(index);
-                mBoard.setBrickSelectionShade(point.getX(), point.getY(), 1.0f);
-            }
-
-            if(index > PATH_TAIL_LENGTH){
-                Point pointToDeselect = mPath.getPointAt(index - PATH_TAIL_LENGTH );
-                mBoard.setBrickSelectionShade(pointToDeselect.getX(), pointToDeselect.getY(), 0.0f);
-            }
-
-            for (int i = 1; i < PATH_TAIL_LENGTH + 1; i++) {
-                if(index - i >= 0 && index - i < mPath.getCount()){
-                    Point tailPoint = mPath.getPointAt(index - i);
-                    float alpha = (float)(PATH_TAIL_LENGTH - i)/PATH_TAIL_LENGTH;
-                    mBoard.setBrickSelectionShade(tailPoint.getX(), tailPoint.getY(), alpha);
-                }
-            }
-
+            selectFirstPointOfTail(index);
+            markTailInnerPointsShaded(index);
+            deselectLastPointOfTail(index);
         }
         else{
             mIsPathPlaying = false;
             mPathStepIndex = 0;
+        }
+    }
+
+    private void markTailInnerPointsShaded(int index) {
+        for (int i = 1; i < PATH_TAIL_LENGTH + 1; i++) {
+            if(index - i >= 0 && index - i < mPath.getCount()){
+                Point tailPoint = mPath.getPointAt(index - i);
+                float alpha = (float)(PATH_TAIL_LENGTH - i)/PATH_TAIL_LENGTH;
+                mBoard.setBrickSelectionShade(tailPoint.getX(), tailPoint.getY(), alpha);
+            }
+        }
+    }
+
+    private void deselectLastPointOfTail(int index) {
+        if(index > PATH_TAIL_LENGTH){
+            Point pointToDeselect = mPath.getPointAt(index - PATH_TAIL_LENGTH );
+            mBoard.setBrickSelected(pointToDeselect.getX(), pointToDeselect.getY(), false);
+        }
+    }
+
+    private void selectFirstPointOfTail(int index) {
+        if(index < mPath.getCount()) {
+            Point point = mPath.getPointAt(index);
+            mBoard.setBrickSelected(point.getX(), point.getY(), true);
         }
     }
 }

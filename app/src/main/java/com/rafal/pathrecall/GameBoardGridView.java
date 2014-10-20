@@ -58,7 +58,6 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
             if(ev.getX() > view.getLeft() && ev.getX() < view.getRight()
                     && ev.getY() > view.getTop() && ev.getY() < view.getBottom()) {
                 if (view instanceof BrickView) {
-                    BrickView brick = (BrickView) view;
                     boolean isDrawingEnabled = GameManager.instance().isDrawingEnabled();
                     mBoard.setBrickSelected(i / Board.BOARD_SIZE, i % Board.BOARD_SIZE, isDrawingEnabled);
                 }
@@ -72,12 +71,18 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     public void onBrickSelectionChanged(int x, int y, boolean selected) {
         int viewIndex = y*Board.BOARD_SIZE + x;
 
-        ((BrickView)(getChildAt(viewIndex))).setSelectionShade(mBoard.getBrick(x, y).getSelectionShade());
-
         if(selected) {
             mDrawingOrderHelper.select(viewIndex);
         }
+        else {
+            mDrawingOrderHelper.deselect(viewIndex);
+        }
+    }
 
+    @Override
+    public void onBrickSelectionShadeChanged(int x, int y, float alpha) {
+        int viewIndex = y*Board.BOARD_SIZE + x;
+        ((BrickView)(getChildAt(viewIndex))).setSelectionShade(mBoard.getBrick(x, y).getSelectionShade());
         invalidate();
     }
 
@@ -122,7 +127,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             BrickView brick;
-            if (view == null) {  // if it's not recycled, initialize some attributes
+            if (view == null) {
                 brick = new BrickView(mContext);
                 brick.setLayoutParams(new GridView.LayoutParams (mScreenWidth/Board.BOARD_SIZE, mScreenWidth/Board.BOARD_SIZE));
             } else {
