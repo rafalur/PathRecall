@@ -1,5 +1,7 @@
 package com.rafal.pathrecall.data;
 
+import android.util.Log;
+
 public class Board {
     public static final int BOARD_SIZE = 10;
 
@@ -44,6 +46,18 @@ public class Board {
         Brick brick = mBricks[x][y];
         brick.setSelectionShade(alpha);
         notifySelectionShadeChanged(x, y, alpha);
+    }
+
+    public int getSelectedBricksCount(){
+        int counter = 0;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if(getBrick(i, j).isSelected()){
+                    ++counter;
+                }
+            }
+        }
+        return counter;
     }
 
     private void notifySelectionChanged(int x, int y, boolean selected) {

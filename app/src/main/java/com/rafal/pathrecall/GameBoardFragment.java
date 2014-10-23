@@ -28,13 +28,11 @@ public class GameBoardFragment extends Fragment {
     public static final int COLUMNS_NUMBER = 10;
     public static final int PLAYP_PATH_COUNTDOWN_MAX = 3;
 
-    GameBoardGridView mMainGrid;
-    Button mClearButton;
-    Button mPlayPathButton;
-    ToggleButton mToggleButton;
-
-
-    TextView mInfoDescTextView;
+    private GameBoardGridView mMainGrid;
+    private Button mClearButton;
+    private Button mPlayPathButton;
+    private ToggleButton mToggleButton;
+    private TextView mInfoDescTextView;
 
     private int mPlayPathCountdownCounter;
 
@@ -68,7 +66,6 @@ public class GameBoardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-
     private void findViews(View root){
         mMainGrid = (GameBoardGridView)root.findViewById(R.id.mainGrid);
         mClearButton = (Button)root.findViewById(R.id.clearButton);
@@ -91,7 +88,7 @@ public class GameBoardFragment extends Fragment {
         mPlayPathButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mGameManager.isPathPlaying() && (mCountdownAnimatorSet == null || !mCountdownAnimatorSet.isRunning())) {
+                if((mCountdownAnimatorSet == null || !mCountdownAnimatorSet.isRunning())) {
                     mPlayPathCountdownCounter = PLAYP_PATH_COUNTDOWN_MAX;
                     playPlayPathCountdownAnim();
                 }
@@ -143,7 +140,7 @@ public class GameBoardFragment extends Fragment {
         }
         else {
             mInfoDescTextView.setText("");
-            mGameManager.playPath();
+            mGameManager.playRandomPath();
         }
     }
 

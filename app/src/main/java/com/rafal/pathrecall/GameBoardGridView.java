@@ -2,6 +2,7 @@ package com.rafal.pathrecall;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -68,22 +69,34 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     }
 
     @Override
-    public void onBrickSelectionChanged(int x, int y, boolean selected) {
-        int viewIndex = y*Board.BOARD_SIZE + x;
+    public void onBrickSelectionChanged(int x, int y, final boolean selected) {
+        final int viewIndex = y*Board.BOARD_SIZE + x;
 
-        if(selected) {
-            mDrawingOrderHelper.select(viewIndex);
-        }
-        else {
-            mDrawingOrderHelper.deselect(viewIndex);
-        }
+        post(new Runnable() {
+            @Override
+            public void run() {
+                if(selected) {
+                    mDrawingOrderHelper.select(viewIndex);
+                }
+                else {
+                    mDrawingOrderHelper.deselect(viewIndex);
+                }
+                invalidate();
+            }
+        });
     }
 
     @Override
-    public void onBrickSelectionShadeChanged(int x, int y, float alpha) {
-        int viewIndex = y*Board.BOARD_SIZE + x;
-        ((BrickView)(getChildAt(viewIndex))).setSelectionShade(mBoard.getBrick(x, y).getSelectionShade());
-        invalidate();
+    public void onBrickSelectionShadeChanged(final int x, final int y, final float alpha) {
+        final int viewIndex = y*Board.BOARD_SIZE + x;
+        post(new Runnable() {
+            @Override
+            public void run() {
+
+                ((BrickView)(getChildAt(viewIndex))).setSelectionShade(mBoard.getBrick(x, y).getSelectionShade());
+            }
+        });
+
     }
 
     @Override
