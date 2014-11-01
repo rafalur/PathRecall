@@ -7,6 +7,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,9 @@ public class GameBoardFragment extends Fragment {
     public static final int PLAYP_PATH_COUNTDOWN_MAX = 3;
 
     private GameBoardGridView mMainGrid;
-    private Button mClearButton;
-    private Button mPlayPathButton;
-    private ToggleButton mToggleButton;
+    private Button mRightButton;
+    private Button mCenterButton;
+    private ToggleButton mLeftButton;
     private TextView mInfoDescTextView;
 
     private int mPlayPathCountdownCounter;
@@ -68,44 +69,47 @@ public class GameBoardFragment extends Fragment {
 
     private void findViews(View root){
         mMainGrid = (GameBoardGridView)root.findViewById(R.id.mainGrid);
-        mClearButton = (Button)root.findViewById(R.id.clearButton);
-        mPlayPathButton = (Button)root.findViewById(R.id.playPathButton);
-        mToggleButton = (ToggleButton)root.findViewById(R.id.drawToggleButton);
-        mToggleButton = (ToggleButton)root.findViewById(R.id.drawToggleButton);
+        mRightButton = (Button)root.findViewById(R.id.rightButton);
+        mCenterButton = (Button)root.findViewById(R.id.centerButton);
+        mLeftButton = (ToggleButton)root.findViewById(R.id.leftButton);
+        mLeftButton = (ToggleButton)root.findViewById(R.id.leftButton);
         mInfoDescTextView = (TextView)root.findViewById(R.id.infoDescriptionTextView);
     }
 
     private void confViews() {
         mMainGrid.setNumColumns(COLUMNS_NUMBER);
         mMainGrid.setBoard(GameManager.instance().getBoard());
-        mClearButton.setOnClickListener(new View.OnClickListener() {
+        mRightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clearBoard();
             }
         });
 
-        mPlayPathButton.setOnClickListener(new View.OnClickListener() {
+        mCenterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if((mCountdownAnimatorSet == null || !mCountdownAnimatorSet.isRunning())) {
+                if ((mCountdownAnimatorSet == null || !mCountdownAnimatorSet.isRunning())) {
                     mPlayPathCountdownCounter = PLAYP_PATH_COUNTDOWN_MAX;
                     playPlayPathCountdownAnim();
                 }
             }
         });
 
-        mToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mLeftButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mGameManager.enableDrawing(mToggleButton.isChecked());
+                mGameManager.enableDrawing(mLeftButton.isChecked());
             }
         });
 
-        mToggleButton.setChecked(true);
+        mLeftButton.setChecked(true);
+
+        mGameManager.setGameStatusListener(mGameStateListener);
+        mGameManager.startGame();
     }
 
-    private void playPlayPathCountdownAnim() {
+        private void playPlayPathCountdownAnim() {
 
         if(mPlayPathCountdownCounter > 0) {
             mInfoDescTextView.setText(Integer.toString(mPlayPathCountdownCounter));
@@ -127,6 +131,7 @@ public class GameBoardFragment extends Fragment {
                     public void onAnimationEnd(Animator animator) {
                         mPlayPathCountdownCounter--;
                         playPlayPathCountdownAnim();
+                        resetInfoDescTextView();
                     }
 
                     @Override
@@ -144,8 +149,58 @@ public class GameBoardFragment extends Fragment {
         }
     }
 
+    private void resetInfoDescTextView() {
+        mInfoDescTextView.setAlpha(1.0f);
+        mInfoDescTextView.setScaleX(1.0f);
+        mInfoDescTextView.setScaleY(1.0f);
+    }
+
     private void clearBoard() {
         GameManager.instance().getBoard().clear();
+    }
+
+    private GameManager.GameStateListener mGameStateListener = new GameManager.GameStateListener() {
+        @Override
+        public void OnGameSessionStateChanged(final GameSession.GameState newState) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    configureViewsForState(newState);
+
+                }
+            });
+        }
+    };
+
+    private void configureViewsForState(GameSession.GameState newState) {
+        // TODO: use different buttons for states
+
+        Log.d("path", "Game sesson state changed: " + newState);
+        switch (newState) {
+            case IDLE:
+                mInfoDescTextView.setText(R.string.idle_state_description);
+                mLeftButton.setVisibility(View.INVISIBLE);
+                mRightButton.setVisibility(View.INVISIBLE);
+                mCenterButton.setText("Play path");
+
+                break;
+            case PLAYING_PATH:
+                mInfoDescTextView.setText(R.string.playing_path_state_description);
+                mCenterButton.setText("Stop");
+                mLeftButton.setVisibility(View.INVISIBLE);
+                mRightButton.setVisibility(View.INVISIBLE);
+
+                break;
+            case USER_DRAW:
+                mInfoDescTextView.setText(R.string.draw_state_description);
+                mCenterButton.setVisibility(View.INVISIBLE);
+                mLeftButton.setVisibility(View.INVISIBLE);
+                mRightButton.setVisibility(View.VISIBLE);
+
+                break;
+            case REPLAY_VERIFY:
+                break;
+        }
     }
 }
 

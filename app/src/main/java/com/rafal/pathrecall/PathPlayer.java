@@ -18,6 +18,8 @@ public class PathPlayer {
     private boolean mIsPathPlaying;
     private Timer mPathPlayTimer;
 
+    private PathPlayerStateListener mStateListener;
+
     public PathPlayer(Board board){
         mBoard = board;
     }
@@ -57,6 +59,13 @@ public class PathPlayer {
             mPathPlayTimer.cancel();
             mIsPathPlaying = false;
             mPathStepIndex = 0;
+            notifyPathFinished();
+        }
+    }
+
+    private void notifyPathFinished() {
+        if(mStateListener != null){
+            mStateListener.onPathPlayFinished();
         }
     }
 
@@ -82,5 +91,13 @@ public class PathPlayer {
             Point point = mPath.getPointAt(index);
             mBoard.setBrickSelected(point.getX(), point.getY(), true);
         }
+    }
+
+    public void setStateListener(PathPlayerStateListener stateListener) {
+        this.mStateListener = stateListener;
+    }
+
+    public interface PathPlayerStateListener{
+        public void onPathPlayFinished();
     }
 }

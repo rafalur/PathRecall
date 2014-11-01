@@ -94,7 +94,7 @@
         android:padding="@dimen/offset_large"
         >
         <ToggleButton
-            android:id="@+id/drawToggleButton"
+            android:id="@+id/leftButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ButtonNormalStyle"
@@ -105,7 +105,7 @@
             />
 
         <Button
-            android:id="@+id/playPathButton"
+            android:id="@+id/centerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ButtonNormalStyle"
@@ -113,7 +113,7 @@
             android:text="Play path"/>
 
         <Button
-            android:id="@+id/clearButton"
+            android:id="@+id/rightButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ButtonNormalStyle"

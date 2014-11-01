@@ -12,34 +12,42 @@ public class GameSession {
     }
 
     public GameSession(){
-        mState = GameState.IDLE;
+
     }
 
     private GameState mState;
-    private List<GameStatusListener> mGameStatusListeners;
+    private List<GameSessionStatusListener> mGameStatusListeners;
+
+    public void init(){
+        setState(GameState.IDLE);
+    }
 
     public GameState getState() {
         return mState;
     }
 
     public void setState(GameState state) {
-        notifyStatusListeners(mState, state);
-        this.mState = state;
-    }
-
-    private void notifyStatusListeners(GameState newState, GameState oldState) {
-        for(GameStatusListener listener : mGameStatusListeners){
-            listener.onGameStateChanged(newState, oldState);
+        if(state != mState){
+            this.mState = state;
+            notifyStatusListeners(mState, state);
         }
     }
 
-    public void addGameStatusListener(GameStatusListener listener){
+    private void notifyStatusListeners(GameState newState, GameState oldState) {
+        if(mGameStatusListeners != null) {
+            for (GameSessionStatusListener listener : mGameStatusListeners) {
+                listener.onGameStateChanged(newState, oldState);
+            }
+        }
+    }
+
+    public void addGameStatusListener(GameSessionStatusListener listener){
         if(mGameStatusListeners == null)
-            mGameStatusListeners = new ArrayList<GameStatusListener>();
+            mGameStatusListeners = new ArrayList<GameSessionStatusListener>();
         mGameStatusListeners.add(listener);
     }
 
-    public interface GameStatusListener{
+    public interface GameSessionStatusListener {
         public void onGameStateChanged(GameState newState, GameState oldState);
     }
 }

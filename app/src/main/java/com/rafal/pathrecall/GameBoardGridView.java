@@ -60,7 +60,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
                     && ev.getY() > view.getTop() && ev.getY() < view.getBottom()) {
                 if (view instanceof BrickView) {
                     boolean isDrawingEnabled = GameManager.instance().isDrawingEnabled();
-                    mBoard.setBrickSelected(i / Board.BOARD_SIZE, i % Board.BOARD_SIZE, isDrawingEnabled);
+                    mBoard.setBrickSelected(i % Board.BOARD_SIZE, i / Board.BOARD_SIZE, isDrawingEnabled);
                 }
             }
         }

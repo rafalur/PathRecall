@@ -1,17 +1,10 @@
 package com.rafal.pathrecall;
 
-import android.os.Handler;
-import android.util.Log;
-
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Path;
-import com.rafal.pathrecall.data.Point;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 
-public class GameManager {
+public class GameManager implements GameSession.GameSessionStatusListener {
     public static final int BOARD_SIZE = 10;
 
     private static GameManager mInstance;
@@ -19,6 +12,7 @@ public class GameManager {
     private Board mBoard;
     private Path mPath;
     private GameSession mCurrentGameSession;
+    private GameStateListener mGameStatusListener;
 
     private boolean mIsDrawingEnabled;
     private PathPlayer mPlayer;
@@ -26,12 +20,21 @@ public class GameManager {
     private GameManager(){
         mBoard = new Board();
         mPlayer = new PathPlayer(mBoard);
+        mPlayer.setStateListener(mPathPlayerListener);
+
+
     };
 
     public static synchronized GameManager instance(){
         if(mInstance == null)
             mInstance = new GameManager();
         return mInstance;
+    }
+
+    public void startGame() {
+        loadGameSession(new GameSession());
+        mCurrentGameSession.addGameStatusListener(this);
+        mCurrentGameSession.init();
     }
 
     public Board getBoard() {
@@ -47,6 +50,7 @@ public class GameManager {
     private void generateRandomPathAndPlayIt(){
         mPath = Path.generateRandomPath(4);
         mPlayer.loadPath(mPath);
+        mCurrentGameSession.setState(GameSession.GameState.PLAYING_PATH);
         mPlayer.playPath();
     }
 
@@ -60,5 +64,27 @@ public class GameManager {
 
     public boolean isDrawingEnabled() {
         return mIsDrawingEnabled;
+    }
+
+    @Override
+    public void onGameStateChanged(GameSession.GameState newState, GameSession.GameState oldState) {
+        if(mGameStatusListener != null){
+            mGameStatusListener.OnGameSessionStateChanged(newState);
+        }
+    }
+
+    public void setGameStatusListener(GameStateListener gameStatusListener) {
+        this.mGameStatusListener = gameStatusListener;
+    }
+
+    private PathPlayer.PathPlayerStateListener mPathPlayerListener = new PathPlayer.PathPlayerStateListener() {
+        @Override
+        public void onPathPlayFinished() {
+            mCurrentGameSession.setState(GameSession.GameState.USER_DRAW);
+        }
+    };
+
+    public interface GameStateListener{
+        public void OnGameSessionStateChanged(GameSession.GameState newState);
     }
 }
