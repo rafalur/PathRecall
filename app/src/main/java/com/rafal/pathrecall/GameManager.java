@@ -66,8 +66,19 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         return mIsDrawingEnabled;
     }
 
+    public void clearBoard() {
+        mBoard.clear();
+    }
+
+    public void verifyPath(){
+        // TODO: do actual verify instead of switch to idle state
+        mBoard.clear();
+        mCurrentGameSession.setState(GameSession.GameState.IDLE);
+    }
+
     @Override
     public void onGameStateChanged(GameSession.GameState newState, GameSession.GameState oldState) {
+        enableDrawing(newState == GameSession.GameState.USER_DRAW);
         if(mGameStatusListener != null){
             mGameStatusListener.OnGameSessionStateChanged(newState);
         }

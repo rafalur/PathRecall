@@ -7,4 +7,8 @@
     <string name="idle_state_description">Path recall</string>
     <string name="playing_path_state_description">Playing path...</string>
     <string name="draw_state_description">Draw the path</string>
+    <string name="play_path_button_text">Play path</string>
+    <string name="stop_button_text">Stop</string>
+    <string name="undo_button_text">Undo</string>
+    <string name="verify_button_text">Verify</string>
 </resources>

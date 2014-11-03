@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -34,11 +36,15 @@ public class GameBoardFragment extends Fragment {
     private Button mCenterButton;
     private ToggleButton mLeftButton;
     private TextView mInfoDescTextView;
+    private FrameLayout mBottomButtonsLayout;
 
     private int mPlayPathCountdownCounter;
 
     private GameManager mGameManager;
     private AnimatorSet mCountdownAnimatorSet;
+    private RelativeLayout mPlayPathButtonsLayout;
+    private RelativeLayout mIdleButtonsLayout;
+    private RelativeLayout mVerifyButtonsLayout;
 
     public static GameBoardFragment newInstance(String param1, String param2) {
         GameBoardFragment fragment = new GameBoardFragment();
@@ -69,48 +75,26 @@ public class GameBoardFragment extends Fragment {
 
     private void findViews(View root){
         mMainGrid = (GameBoardGridView)root.findViewById(R.id.mainGrid);
-        mRightButton = (Button)root.findViewById(R.id.rightButton);
-        mCenterButton = (Button)root.findViewById(R.id.centerButton);
-        mLeftButton = (ToggleButton)root.findViewById(R.id.leftButton);
-        mLeftButton = (ToggleButton)root.findViewById(R.id.leftButton);
         mInfoDescTextView = (TextView)root.findViewById(R.id.infoDescriptionTextView);
+        mBottomButtonsLayout = (FrameLayout)root.findViewById(R.id.bottomButtonsBar);
+        mPlayPathButtonsLayout = (RelativeLayout)root.findViewById(R.id.playPathButtonsLayout);
+        mIdleButtonsLayout = (RelativeLayout)root.findViewById(R.id.idleButtonsLayout);
+        mVerifyButtonsLayout = (RelativeLayout)root.findViewById(R.id.verifyButtonsLayout);
+        ((Button)root.findViewById(R.id.playPathButton)).setOnClickListener(mClickListener);
+        ((Button)root.findViewById(R.id.clearButton)).setOnClickListener(mClickListener);
+        ((Button)root.findViewById(R.id.verifyPathButton)).setOnClickListener(mClickListener);
+        ((Button)root.findViewById(R.id.undoButton)).setOnClickListener(mClickListener);
     }
 
     private void confViews() {
         mMainGrid.setNumColumns(COLUMNS_NUMBER);
         mMainGrid.setBoard(GameManager.instance().getBoard());
-        mRightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clearBoard();
-            }
-        });
-
-        mCenterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if ((mCountdownAnimatorSet == null || !mCountdownAnimatorSet.isRunning())) {
-                    mPlayPathCountdownCounter = PLAYP_PATH_COUNTDOWN_MAX;
-                    playPlayPathCountdownAnim();
-                }
-            }
-        });
-
-        mLeftButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mGameManager.enableDrawing(mLeftButton.isChecked());
-            }
-        });
-
-        mLeftButton.setChecked(true);
 
         mGameManager.setGameStatusListener(mGameStateListener);
         mGameManager.startGame();
     }
 
-        private void playPlayPathCountdownAnim() {
-
+    private void playPlayPathCountdownAnim() {
         if(mPlayPathCountdownCounter > 0) {
             mInfoDescTextView.setText(Integer.toString(mPlayPathCountdownCounter));
             ObjectAnimator animX = ObjectAnimator.ofFloat(mInfoDescTextView, "scaleX", 1.0f, 3.0f);
@@ -155,10 +139,6 @@ public class GameBoardFragment extends Fragment {
         mInfoDescTextView.setScaleY(1.0f);
     }
 
-    private void clearBoard() {
-        GameManager.instance().getBoard().clear();
-    }
-
     private GameManager.GameStateListener mGameStateListener = new GameManager.GameStateListener() {
         @Override
         public void OnGameSessionStateChanged(final GameSession.GameState newState) {
@@ -173,35 +153,53 @@ public class GameBoardFragment extends Fragment {
     };
 
     private void configureViewsForState(GameSession.GameState newState) {
-        // TODO: use different buttons for states
-
         Log.d("path", "Game sesson state changed: " + newState);
+        hideAllButtonsBars();
         switch (newState) {
             case IDLE:
                 mInfoDescTextView.setText(R.string.idle_state_description);
-                mLeftButton.setVisibility(View.INVISIBLE);
-                mRightButton.setVisibility(View.INVISIBLE);
-                mCenterButton.setText("Play path");
-
+                mIdleButtonsLayout.setVisibility(View.VISIBLE);
                 break;
             case PLAYING_PATH:
                 mInfoDescTextView.setText(R.string.playing_path_state_description);
-                mCenterButton.setText("Stop");
-                mLeftButton.setVisibility(View.INVISIBLE);
-                mRightButton.setVisibility(View.INVISIBLE);
-
+                mPlayPathButtonsLayout.setVisibility(View.VISIBLE);
                 break;
             case USER_DRAW:
                 mInfoDescTextView.setText(R.string.draw_state_description);
-                mCenterButton.setVisibility(View.INVISIBLE);
-                mLeftButton.setVisibility(View.INVISIBLE);
-                mRightButton.setVisibility(View.VISIBLE);
-
+                mVerifyButtonsLayout.setVisibility(View.VISIBLE);
                 break;
             case REPLAY_VERIFY:
                 break;
         }
     }
+
+    private void hideAllButtonsBars() {
+        for (int i = 0; i < mBottomButtonsLayout.getChildCount(); i++) {
+            mBottomButtonsLayout.getChildAt(i).setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private View.OnClickListener mClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.playPathButton:
+                    mPlayPathCountdownCounter = PLAYP_PATH_COUNTDOWN_MAX;
+                    playPlayPathCountdownAnim();
+                    break;
+                case R.id.clearButton:
+                    mGameManager.clearBoard();
+                    break;
+                case R.id.undoButton:
+
+                    break;
+                case R.id.verifyPathButton:
+                    mGameManager.verifyPath();
+                    break;
+            }
+        }
+    };
+
 }
 
 

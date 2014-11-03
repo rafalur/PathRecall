@@ -81,45 +81,72 @@
         android:padding="@dimen/padding_default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomBar"
+        android:layout_above="@+id/bottomButtonsBar"
         >
     </com.rafal.pathrecall.GameBoardGridView>
 
-    <RelativeLayout
-        android:id="@+id/bottomBar"
+    <FrameLayout
+        android:id="@+id/bottomButtonsBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="@dimen/offset_large"
-        >
-        <ToggleButton
-            android:id="@+id/leftButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/ButtonNormalStyle"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:textOn="Draw On"
-            android:textOff="Draw Off"
-            />
+        android:layout_alignParentBottom="true">
 
-        <Button
-            android:id="@+id/centerButton"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/idleButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/offset_large" >
+            <Button
+                android:id="@+id/playPathButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ButtonNormalStyle"
+                android:layout_centerInParent="true"
+                android:text="@string/play_path_button_text"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/playPathButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/offset_large" >
+            <Button
+                android:id="@+id/stopButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ButtonNormalStyle"
+                android:layout_centerInParent="true"
+                android:text="@string/stop_button_text"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/verifyButtonsLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ButtonNormalStyle"
-            android:layout_centerInParent="true"
-            android:text="Play path"/>
+            android:padding="@dimen/offset_large" >
+            <Button
+                android:id="@+id/undoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ButtonNormalStyle"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/undo_button_text"/>
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ButtonNormalStyle"
+                android:layout_centerInParent="true"
+                android:text="Clear"/>
+            <Button
+                android:id="@+id/verifyPathButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ButtonNormalStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="@string/verify_button_text"/>
+        </RelativeLayout>
+    </FrameLayout>
 
-        <Button
-            android:id="@+id/rightButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/ButtonNormalStyle"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="Clear"/>
-    </RelativeLayout>
 
 </RelativeLayout>
