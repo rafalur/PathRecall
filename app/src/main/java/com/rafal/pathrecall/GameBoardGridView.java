@@ -14,12 +14,16 @@ import android.widget.GridView;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
 import com.rafal.pathrecall.utils.BoardDrawingOrderHelper;
+import com.rafal.pathrecall.utils.PathDrawHandler;
 
 public class GameBoardGridView extends GridView implements Board.OnBoardStateChangedListener {
 
     private BoardAdapter mBoardAdapter;
     private Board mBoard;
+    private PathDrawHandler mDrawHandler;
     private BoardDrawingOrderHelper mDrawingOrderHelper;
+
+    private int mBrickSize;
 
     public GameBoardGridView(Context context) {
         super(context);
@@ -37,6 +41,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     }
 
     public void init(Context context){
+        calculateBrickSize();
         mBoardAdapter = new BoardAdapter(context);
         setAdapter(mBoardAdapter);
         setClipToPadding(false);
@@ -45,13 +50,32 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
         mDrawingOrderHelper = new BoardDrawingOrderHelper();
     }
 
+    private void calculateBrickSize() {
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        int screenWidth = display.getWidth();
+        mBrickSize = screenWidth/Board.BOARD_SIZE;
+    }
+
     public void setBoard(Board board){
         mBoard = board;
         mBoard.setBrickSelectionListener(this);
+        mDrawHandler = new PathDrawHandler(mBoard);
+        mDrawHandler.setBrickSize(mBrickSize);
+        mDrawHandler.setSimulatedEventsListener(new PathDrawHandler.PathDrawSimulatedEventListener() {
+            @Override
+            public void onSimulatedEvent(MotionEvent event) {
+                handleTouchEvent(event, true);
+            }
+        });
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev){
+        return handleTouchEvent(ev, false);
+    }
+
+    private boolean handleTouchEvent(MotionEvent ev, boolean simulated) {
         int childCount = getChildCount();
 
         for(int i = 0; i< childCount; i++){
@@ -59,12 +83,12 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
             if(ev.getX() > view.getLeft() && ev.getX() < view.getRight()
                     && ev.getY() > view.getTop() && ev.getY() < view.getBottom()) {
                 if (view instanceof BrickView) {
-                    boolean isDrawingEnabled = GameManager.instance().isDrawingEnabled();
-                    mBoard.setBrickSelected(i % Board.BOARD_SIZE, i / Board.BOARD_SIZE, isDrawingEnabled);
+                    mDrawHandler.handleTouchOnBrick(i % Board.BOARD_SIZE, i / Board.BOARD_SIZE, ev, simulated);
+                    return true;
                 }
             }
         }
-
+        mDrawHandler.handleTouchOnBrick(-1, -1, ev, simulated);
         return true;
     }
 
@@ -92,7 +116,6 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
         post(new Runnable() {
             @Override
             public void run() {
-
                 ((BrickView)(getChildAt(viewIndex))).setSelectionShade(mBoard.getBrick(x, y).getSelectionShade());
             }
         });
@@ -112,14 +135,10 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     private class BoardAdapter extends BaseAdapter {
 
         private Context mContext;
-        private int mScreenWidth;
+
 
         public BoardAdapter(Context context){
             mContext = context;
-
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
-            mScreenWidth = display.getWidth();
         }
 
         @Override
@@ -142,18 +161,13 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
             BrickView brick;
             if (view == null) {
                 brick = new BrickView(mContext);
-                brick.setLayoutParams(new GridView.LayoutParams (mScreenWidth/Board.BOARD_SIZE, mScreenWidth/Board.BOARD_SIZE));
+                brick.setLayoutParams(new GridView.LayoutParams (mBrickSize, mBrickSize));
             } else {
                 brick = (BrickView) view;
             }
 
             brick.setSelectionShade(((Brick)getItem(i)).getSelectionShade());
             return brick;
-        }
-
-        public void setBrickSelected(int x, int y, boolean selected) {
-            GameManager.instance().getBoard().setBrickSelected(x, y, selected);
-            notifyDataSetChanged();
         }
     }
 }
