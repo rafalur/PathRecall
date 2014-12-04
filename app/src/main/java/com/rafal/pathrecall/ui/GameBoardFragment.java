@@ -148,7 +148,7 @@ public class GameBoardFragment extends Fragment {
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.playPathButton:
-                    mGameManager.playCurrentPath();
+                    mGameManager.playRandomPath();
 //                    mPlayPathCountdownCounter = PLAYP_PATH_COUNTDOWN_MAX;
 //                    playPlayPathCountdownAnim();
                 break;

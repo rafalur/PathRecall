@@ -33,7 +33,7 @@ public class StatusInfoBackgroundView extends View {
         int height = getHeight();
         int width = getWidth();
         Paint paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.info_box_gradient_end));
+        paint.setColor(getResources().getColor(R.color.secondary_accent_color));
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(false);
 

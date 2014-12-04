@@ -21,8 +21,6 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         mBoard = new Board();
         mPlayer = new PathPlayer(mBoard);
         mPlayer.setStateListener(mPathPlayerListener);
-
-
     };
 
     public static synchronized GameManager instance(){
@@ -44,7 +42,7 @@ public class GameManager implements GameSession.GameSessionStatusListener {
 
     public void playRandomPath(){
         if(!mPlayer.isPathPlaying()){
-            generateRandomPathAndPlayIt();
+            generateRandomPathAndPlayIt(4);
         }
     }
 
@@ -54,8 +52,8 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         mPlayer.playPath();
     }
 
-    private void generateRandomPathAndPlayIt(){
-        generateRandomPathAndPlayIt();
+    private void generateRandomPathAndPlayIt(int turnsNumber){
+        generateRandomPath(turnsNumber);
         playCurrentPath();
     }
 
