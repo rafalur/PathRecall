@@ -7,5 +7,7 @@
     <dimen name="padding_button">5dp</dimen>
     <dimen name="offset_normal">10dp</dimen>
     <dimen name="offset_large">16dp</dimen>
+    <dimen name="offset_xlarge">20dp</dimen>
     <dimen name="offset_medium">5dp</dimen>
+    <dimen name="offset_small">2dp</dimen>
 </resources>

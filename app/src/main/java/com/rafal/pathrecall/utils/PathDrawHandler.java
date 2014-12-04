@@ -82,13 +82,7 @@ public class PathDrawHandler {
     }
 
     private void simulateInBetweenEventsIfNeeded(float x, float y) {
-        float startX = mLastEventPoint.x;
-        float startY = mLastEventPoint.y;
-
-        float endX = x;
-        float endY = y;
-
-        generateSimulatedEventsIfNeeded(startX, startY, endX, endY);
+        generateSimulatedEventsIfNeeded(mLastEventPoint.x, mLastEventPoint.y, x, y);
     }
 
     private void generateSimulatedEventsIfNeeded(float startX, float startY, float endX, float endY) {
@@ -124,19 +118,26 @@ public class PathDrawHandler {
             pointToSimualteX = newPointToSimulateX;
             pointToSimualteY = newPointToSimulateY;
 
-            triggerSimulatedMotionEvent(pointToSimualteX, pointToSimualteY, invertedAxises);
+            EventPoint point = getInterpolationEventPoint(pointToSimualteX, pointToSimualteY, invertedAxises);
+
+            triggerSimulatedMotionEvent(point);
         }
     }
 
-    private void triggerSimulatedMotionEvent(float pointToSimualteX, float pointToSimualteY, boolean invertedAxises) {
-        MotionEvent event;
+    private EventPoint getInterpolationEventPoint(float pointToSimualteX, float pointToSimualteY, boolean invertedAxises) {
+        EventPoint point;
 
         if(invertedAxises){
-            event = MotionEvent.obtain( 0, 0, MotionEvent.ACTION_MOVE, pointToSimualteY,pointToSimualteX, 0);
+            point = new EventPoint(pointToSimualteY, pointToSimualteX);
         }
         else{
-            event = MotionEvent.obtain( 0, 0, MotionEvent.ACTION_MOVE, pointToSimualteX,pointToSimualteY, 0);
+            point = new EventPoint(pointToSimualteX, pointToSimualteY);
         }
+        return point;
+    }
+
+    private void triggerSimulatedMotionEvent(EventPoint point) {
+        MotionEvent event = MotionEvent.obtain( 0, 0, MotionEvent.ACTION_MOVE, point.x ,point.y, 0);
 
         if(mSimulatedEventsListener != null){
             mSimulatedEventsListener.onSimulatedEvent(event);

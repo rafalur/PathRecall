@@ -13,6 +13,7 @@ public class Path {
     public static final int MIN_SECTION_LENGHT = 3;
 
     private List<Point> mPoints;
+    private int mTurnsNumber;
 
     public Path(){
         mPoints = new ArrayList<Point>();
@@ -61,6 +62,8 @@ public class Path {
 
     public static Path generateRandomPath(int turnsNumber){
         Path path = new Path();
+
+        path.setTurnsNumber(turnsNumber);
 
         Point startPoint;
         Direction direction = null;
@@ -148,6 +151,14 @@ public class Path {
             ret = pointCoord;
         }
         return ret;
+    }
+
+    public int getTurnsNumber() {
+        return mTurnsNumber;
+    }
+
+    public void setTurnsNumber(int turnsNumber) {
+        this.mTurnsNumber = turnsNumber;
     }
 
     private static class RandomEnum<E extends Enum> {

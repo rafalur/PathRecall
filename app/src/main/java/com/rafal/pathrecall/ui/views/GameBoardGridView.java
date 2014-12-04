@@ -1,8 +1,7 @@
-package com.rafal.pathrecall;
+package com.rafal.pathrecall.ui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,8 +10,10 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
+import com.rafal.pathrecall.GameManager;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
+import com.rafal.pathrecall.ui.views.BrickView;
 import com.rafal.pathrecall.utils.BoardDrawingOrderHelper;
 import com.rafal.pathrecall.utils.PathDrawHandler;
 

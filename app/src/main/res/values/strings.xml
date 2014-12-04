@@ -11,4 +11,6 @@
     <string name="stop_button_text">Stop</string>
     <string name="undo_button_text">Undo</string>
     <string name="verify_button_text">Verify</string>
+    <string name="info_points_to_get">Points to get:</string>
+    <string name="info_turns_number">Turns number:</string>
 </resources>

@@ -12,78 +12,163 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/mainGrid"
-        android:orientation="vertical">
+        android:layout_above="@+id/infoDescriptionLayout">
 
-    <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/offset_medium"
-        android:layout_centerHorizontal="true"
-        style="@style/TitleStyle"
-        android:text="@string/game_board_title"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/titleTextView"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/offset_medium"
-        android:layout_marginBottom="@dimen/offset_large">
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/info_box_gradient_inverted">
-
-                </View>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/info_box_gradient_end">
-                </View>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/info_box_gradient">
-            </View>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/infoDescriptionTextView"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            style="@style/TextMainAccent"/>
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/offset_large">
 
-        <View
-            style="@style/Divider"
-            android:layout_alignParentTop="true"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/info_box_gradient_inverted">
 
-        <View
-            style="@style/Divider"
-            android:layout_alignParentBottom="true"/>
+                    </View>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/info_box_gradient_end">
+                    </View>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/info_box_gradient">
+                </View>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/offset_medium">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    style="@style/TextLevel"
+                    android:text="Level 1"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/bottomInfoLayout">
+                    <TextView
+                        android:id="@+id/pointsToGetLabel"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/info_points_to_get"
+                        android:gravity="right"
+                        style="@style/TextInfoLabel"/>
+                    <TextView
+                        android:id="@+id/pointsToGetValueView"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/offset_medium"
+                        android:gravity="left"
+                        style="@style/TextInfoValues"
+                        android:text="120"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@id/bottomInfoLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/turnsNumberLabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_turns_number"
+                    android:gravity="right"
+                    style="@style/TextInfoLabel"/>
+                <TextView
+                    android:id="@+id/turnsNumberValueView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:layout_marginLeft="@dimen/offset_medium"
+                    style="@style/TextInfoValues"
+                    android:text="4"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+
+
+
+
+
+            <View
+                style="@style/Divider"
+                android:layout_alignParentTop="true"/>
+
+            <View
+                style="@style/Divider"
+                android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>
 
     </RelativeLayout>
 
-    <com.rafal.pathrecall.GameBoardGridView
-        android:id="@+id/mainGrid"
+    <RelativeLayout
+        android:id="@id/infoDescriptionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/offset_normal"
+        android:layout_marginBottom="@dimen/offset_normal"
+        android:layout_above="@+id/mainGrid">
+        <View
+            style="@style/Divider"
+            android:layout_width="match_parent"
+            android:layout_centerVertical="true"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+            <com.rafal.pathrecall.ui.views.StatusInfoBackgroundView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/infoDescriptionTextView"
+                android:layout_alignRight="@id/infoDescriptionTextView"
+                android:layout_alignTop="@id/infoDescriptionTextView"
+                android:layout_alignBottom="@id/infoDescriptionTextView"
+                />
+            <TextView
+                android:id="@id/infoDescriptionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/offset_xlarge"
+                android:paddingRight="@dimen/offset_xlarge"
+                android:paddingTop="@dimen/offset_small"
+                android:paddingBottom="@dimen/offset_medium"
+                style="@style/TextStatus"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.rafal.pathrecall.ui.views.GameBoardGridView
+        android:id="@id/mainGrid"
         android:padding="@dimen/padding_default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottomButtonsBar"
         >
-    </com.rafal.pathrecall.GameBoardGridView>
+    </com.rafal.pathrecall.ui.views.GameBoardGridView>
 
     <FrameLayout
         android:id="@+id/bottomButtonsBar"

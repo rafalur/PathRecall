@@ -1,4 +1,4 @@
-package com.rafal.pathrecall;
+package com.rafal.pathrecall.ui;
 
 
 
@@ -12,11 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.rafal.pathrecall.GameManager;
+import com.rafal.pathrecall.GameSession;
+import com.rafal.pathrecall.R;
+import com.rafal.pathrecall.ui.views.GameBoardGridView;
 
 import static android.animation.Animator.AnimatorListener;
 
@@ -80,10 +84,10 @@ public class GameBoardFragment extends Fragment {
         mPlayPathButtonsLayout = (RelativeLayout)root.findViewById(R.id.playPathButtonsLayout);
         mIdleButtonsLayout = (RelativeLayout)root.findViewById(R.id.idleButtonsLayout);
         mVerifyButtonsLayout = (RelativeLayout)root.findViewById(R.id.verifyButtonsLayout);
-        ((Button)root.findViewById(R.id.playPathButton)).setOnClickListener(mClickListener);
-        ((Button)root.findViewById(R.id.clearButton)).setOnClickListener(mClickListener);
-        ((Button)root.findViewById(R.id.verifyPathButton)).setOnClickListener(mClickListener);
-        ((Button)root.findViewById(R.id.undoButton)).setOnClickListener(mClickListener);
+        root.findViewById(R.id.playPathButton).setOnClickListener(mClickListener);
+        root.findViewById(R.id.clearButton).setOnClickListener(mClickListener);
+        root.findViewById(R.id.verifyPathButton).setOnClickListener(mClickListener);
+        root.findViewById(R.id.undoButton).setOnClickListener(mClickListener);
     }
 
     private void confViews() {
@@ -91,46 +95,7 @@ public class GameBoardFragment extends Fragment {
         mMainGrid.setBoard(GameManager.instance().getBoard());
 
         mGameManager.setGameStatusListener(mGameStateListener);
-        mGameManager.startGame();
-    }
-
-    private void playPlayPathCountdownAnim() {
-        if(mPlayPathCountdownCounter > 0) {
-            mInfoDescTextView.setText(Integer.toString(mPlayPathCountdownCounter));
-            ObjectAnimator animX = ObjectAnimator.ofFloat(mInfoDescTextView, "scaleX", 1.0f, 3.0f);
-            ObjectAnimator animY = ObjectAnimator.ofFloat(mInfoDescTextView, "scaleY", 1.0f, 3.0f);
-            ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mInfoDescTextView, "alpha", 1.0f, 0.0f);
-
-            mCountdownAnimatorSet = new AnimatorSet();
-            mCountdownAnimatorSet.playTogether(animX, animY, animAlpha);
-            mCountdownAnimatorSet.setDuration(300);
-            mCountdownAnimatorSet.start();
-
-                mCountdownAnimatorSet.addListener(new AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        mPlayPathCountdownCounter--;
-                        playPlayPathCountdownAnim();
-                        resetInfoDescTextView();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-                    }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-                }
-            });
-        }
-        else {
-            mInfoDescTextView.setText("");
-            mGameManager.playRandomPath();
-        }
+        mGameManager.initializeGame();
     }
 
     private void resetInfoDescTextView() {
@@ -146,7 +111,6 @@ public class GameBoardFragment extends Fragment {
                 @Override
                 public void run() {
                     configureViewsForState(newState);
-
                 }
             });
         }
@@ -184,9 +148,10 @@ public class GameBoardFragment extends Fragment {
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.playPathButton:
-                    mPlayPathCountdownCounter = PLAYP_PATH_COUNTDOWN_MAX;
-                    playPlayPathCountdownAnim();
-                    break;
+                    mGameManager.playCurrentPath();
+//                    mPlayPathCountdownCounter = PLAYP_PATH_COUNTDOWN_MAX;
+//                    playPlayPathCountdownAnim();
+                break;
                 case R.id.clearButton:
                     mGameManager.clearBoard();
                     break;
@@ -200,6 +165,45 @@ public class GameBoardFragment extends Fragment {
         }
     };
 
+    //unused for now
+    private void playPlayPathCountdownAnim() {
+        if(mPlayPathCountdownCounter > 0) {
+            mInfoDescTextView.setText(Integer.toString(mPlayPathCountdownCounter));
+            ObjectAnimator animX = ObjectAnimator.ofFloat(mInfoDescTextView, "scaleX", 1.0f, 3.0f);
+            ObjectAnimator animY = ObjectAnimator.ofFloat(mInfoDescTextView, "scaleY", 1.0f, 3.0f);
+            ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mInfoDescTextView, "alpha", 1.0f, 0.0f);
+
+            mCountdownAnimatorSet = new AnimatorSet();
+            mCountdownAnimatorSet.playTogether(animX, animY, animAlpha);
+            mCountdownAnimatorSet.setDuration(300);
+            mCountdownAnimatorSet.start();
+
+            mCountdownAnimatorSet.addListener(new AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    mPlayPathCountdownCounter--;
+                    playPlayPathCountdownAnim();
+                    resetInfoDescTextView();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+                }
+            });
+        }
+        else {
+            mInfoDescTextView.setText("");
+            mGameManager.playCurrentPath();
+        }
+    }
 }
 
 

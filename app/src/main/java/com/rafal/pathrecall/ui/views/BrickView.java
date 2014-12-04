@@ -1,4 +1,4 @@
-package com.rafal.pathrecall;
+package com.rafal.pathrecall.ui.views;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
@@ -6,6 +6,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import com.rafal.pathrecall.R;
 
 public class BrickView extends RelativeLayout {
 

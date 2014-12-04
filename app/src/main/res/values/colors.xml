@@ -19,8 +19,8 @@
 
     <color name="divider_normal">#FFFFFF</color>
     <color name="overlay_semitransparent">#22FFFFFF</color>
-    <color name="info_box_gradient_start">#22FFFFFF</color>
-    <color name="info_box_gradient_end">#55FFFFFF</color>
+    <color name="info_box_gradient_start">#164459</color>
+    <color name="info_box_gradient_end">#4E839C</color>
 
     <color name="main_accent_color">#FF00081C</color>
     <color name="secondary_accent_color">#FF275B73</color>

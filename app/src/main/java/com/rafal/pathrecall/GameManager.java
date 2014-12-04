@@ -31,10 +31,11 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         return mInstance;
     }
 
-    public void startGame() {
+    public void initializeGame() {
         loadGameSession(new GameSession());
         mCurrentGameSession.addGameStatusListener(this);
         mCurrentGameSession.init();
+        generateRandomPath(4);
     }
 
     public Board getBoard() {
@@ -47,11 +48,19 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         }
     }
 
-    private void generateRandomPathAndPlayIt(){
-        mPath = Path.generateRandomPath(4);
+    public void playCurrentPath(){
         mPlayer.loadPath(mPath);
         mCurrentGameSession.setState(GameSession.GameState.PLAYING_PATH);
         mPlayer.playPath();
+    }
+
+    private void generateRandomPathAndPlayIt(){
+        generateRandomPathAndPlayIt();
+        playCurrentPath();
+    }
+
+    private void generateRandomPath(int turnsNumber){
+        mPath = Path.generateRandomPath(turnsNumber);
     }
 
     public void loadGameSession(GameSession session){
