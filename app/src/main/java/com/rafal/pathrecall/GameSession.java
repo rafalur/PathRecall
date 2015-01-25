@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSession {
+
     public enum GameState{
         IDLE,
         PLAYING_PATH,
@@ -12,13 +13,14 @@ public class GameSession {
     }
 
     public GameSession(){
-
     }
 
     private GameState mState;
     private List<GameSessionStatusListener> mGameStatusListeners;
+    private int mLevel;
 
     public void init(){
+        mLevel = 1;
         setState(GameState.IDLE);
     }
 
@@ -26,8 +28,15 @@ public class GameSession {
         return mState;
     }
 
+    public int getLevel() {
+        return mLevel;
+    }
+
     public void setState(GameState state) {
         if(state != mState){
+            if(mState == GameState.REPLAY_VERIFY && state == GameState.IDLE){
+                mLevel++;
+            }
             this.mState = state;
             notifyStatusListeners(mState, state);
         }

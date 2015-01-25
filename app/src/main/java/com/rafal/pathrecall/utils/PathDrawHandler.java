@@ -27,8 +27,6 @@ public class PathDrawHandler {
         public float y;
     }
 
-
-
     private Board mBoard;
     private Path mUserPath;
     private EventPoint mLastEventPoint;

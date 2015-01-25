@@ -1,7 +1,12 @@
 package com.rafal.pathrecall;
 
+import android.util.Log;
+
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Path;
+import com.rafal.pathrecall.data.PathStats;
+import com.rafal.pathrecall.data.Player;
+import com.rafal.pathrecall.data.Refree;
 
 
 public class GameManager implements GameSession.GameSessionStatusListener {
@@ -17,6 +22,8 @@ public class GameManager implements GameSession.GameSessionStatusListener {
     private boolean mIsDrawingEnabled;
     private PathPlayer mPlayer;
 
+    private Player mCurrentPlayer;
+
     private GameManager(){
         mBoard = new Board();
         mPlayer = new PathPlayer(mBoard);
@@ -31,6 +38,7 @@ public class GameManager implements GameSession.GameSessionStatusListener {
 
     public void initializeGame() {
         loadGameSession(new GameSession());
+        mCurrentPlayer = new Player();
         mCurrentGameSession.addGameStatusListener(this);
         mCurrentGameSession.init();
         generateRandomPath(4);
@@ -52,6 +60,10 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         mPlayer.playPath();
     }
 
+    private void prepareNextPath(){
+        generateRandomPath(4);
+    }
+
     private void generateRandomPathAndPlayIt(int turnsNumber){
         generateRandomPath(turnsNumber);
         playCurrentPath();
@@ -59,6 +71,9 @@ public class GameManager implements GameSession.GameSessionStatusListener {
 
     private void generateRandomPath(int turnsNumber){
         mPath = Path.generateRandomPath(turnsNumber);
+        if(mGameStatusListener != null){
+            mGameStatusListener.OnCurrentPathStatsChanged(mPath.getStats());
+        }
     }
 
     public void loadGameSession(GameSession session){
@@ -78,14 +93,21 @@ public class GameManager implements GameSession.GameSessionStatusListener {
     }
 
     public void verifyPath(){
-        // TODO: do actual verify instead of switch to idle state
-        mBoard.clear();
-        mCurrentGameSession.setState(GameSession.GameState.IDLE);
+        Path playerPath = mBoard.generatePathFromBoardSelection();
+
+        mBoard.clearSelectionLeavingLastStateFadedOut();
+
+        Refree.countAndAddPointsForPlayer(mCurrentPlayer, playerPath, mPath);
+
+        mCurrentGameSession.setState(GameSession.GameState.REPLAY_VERIFY);
     }
 
     @Override
     public void onGameStateChanged(GameSession.GameState newState, GameSession.GameState oldState) {
         enableDrawing(newState == GameSession.GameState.USER_DRAW);
+        if(newState == GameSession.GameState.IDLE){
+            prepareNextPath();
+        }
         if(mGameStatusListener != null){
             mGameStatusListener.OnGameSessionStateChanged(newState);
         }
@@ -98,11 +120,33 @@ public class GameManager implements GameSession.GameSessionStatusListener {
     private PathPlayer.PathPlayerStateListener mPathPlayerListener = new PathPlayer.PathPlayerStateListener() {
         @Override
         public void onPathPlayFinished() {
-            mCurrentGameSession.setState(GameSession.GameState.USER_DRAW);
+            if(mCurrentGameSession.getState() == GameSession.GameState.PLAYING_PATH) {
+                mCurrentGameSession.setState(GameSession.GameState.USER_DRAW);
+            }
+            else if (mCurrentGameSession.getState() == GameSession.GameState.REPLAY_VERIFY){
+                mCurrentGameSession.setState(GameSession.GameState.IDLE);
+                mBoard.clear();
+            }
         }
     };
 
+    public int getCurrentScore() {
+        if(mCurrentPlayer != null) {
+            return mCurrentPlayer.getScore();
+        }
+        return 0;
+    }
+
+    public int getCurrentLevel(){
+        return mCurrentGameSession.getLevel();
+    }
+
+    public void playCurrentPathForVerification() {
+        mPlayer.playPath();
+    }
+
     public interface GameStateListener{
         public void OnGameSessionStateChanged(GameSession.GameState newState);
+        public void OnCurrentPathStatsChanged(PathStats pathStats);
     }
 }

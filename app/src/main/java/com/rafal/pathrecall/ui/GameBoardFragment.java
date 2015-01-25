@@ -6,20 +6,21 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.rafal.pathrecall.GameManager;
 import com.rafal.pathrecall.GameSession;
 import com.rafal.pathrecall.R;
+import com.rafal.pathrecall.data.PathStats;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
 
 import static android.animation.Animator.AnimatorListener;
@@ -35,20 +36,22 @@ public class GameBoardFragment extends Fragment {
     public static final int COLUMNS_NUMBER = 10;
     public static final int PLAYP_PATH_COUNTDOWN_MAX = 3;
 
+    private int mPlayPathCountdownCounter;
+
     private GameBoardGridView mMainGrid;
-    private Button mRightButton;
-    private Button mCenterButton;
-    private ToggleButton mLeftButton;
     private TextView mInfoDescTextView;
     private FrameLayout mBottomButtonsLayout;
 
-    private int mPlayPathCountdownCounter;
-
-    private GameManager mGameManager;
-    private AnimatorSet mCountdownAnimatorSet;
     private RelativeLayout mPlayPathButtonsLayout;
     private RelativeLayout mIdleButtonsLayout;
     private RelativeLayout mVerifyButtonsLayout;
+
+    private TextView mTurnsNumberTextView;
+    private TextView mPointsToGetTextView;
+    private TextView mScoreTextView;
+    private TextView mLevelTexteView;
+
+    private GameManager mGameManager;
 
     public static GameBoardFragment newInstance(String param1, String param2) {
         GameBoardFragment fragment = new GameBoardFragment();
@@ -88,6 +91,13 @@ public class GameBoardFragment extends Fragment {
         root.findViewById(R.id.clearButton).setOnClickListener(mClickListener);
         root.findViewById(R.id.verifyPathButton).setOnClickListener(mClickListener);
         root.findViewById(R.id.undoButton).setOnClickListener(mClickListener);
+
+
+        //TODO: make info bar separate view
+        mTurnsNumberTextView = (TextView)root.findViewById(R.id.turnsNumberValueView);
+        mPointsToGetTextView = (TextView)root.findViewById(R.id.pointsToGetValueView);
+        mScoreTextView = (TextView)root.findViewById(R.id.scoreTextView);
+        mLevelTexteView = (TextView)root.findViewById(R.id.levelTextView);
     }
 
     private void confViews() {
@@ -114,6 +124,17 @@ public class GameBoardFragment extends Fragment {
                 }
             });
         }
+
+        @Override
+        public void OnCurrentPathStatsChanged(final PathStats pathStats) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mTurnsNumberTextView.setText(Integer.toString(pathStats.getTurnsNumber()));
+                    mPointsToGetTextView.setText(Integer.toString(pathStats.getPointsToGet()));
+                }
+            });
+        }
     };
 
     private void configureViewsForState(GameSession.GameState newState) {
@@ -123,6 +144,8 @@ public class GameBoardFragment extends Fragment {
             case IDLE:
                 mInfoDescTextView.setText(R.string.idle_state_description);
                 mIdleButtonsLayout.setVisibility(View.VISIBLE);
+                mScoreTextView.setText(Integer.toString(mGameManager.getCurrentScore()));
+                mLevelTexteView.setText(String.format(getString(R.string.level), mGameManager.getCurrentLevel()));
                 break;
             case PLAYING_PATH:
                 mInfoDescTextView.setText(R.string.playing_path_state_description);
@@ -133,6 +156,13 @@ public class GameBoardFragment extends Fragment {
                 mVerifyButtonsLayout.setVisibility(View.VISIBLE);
                 break;
             case REPLAY_VERIFY:
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mGameManager.playCurrentPathForVerification();
+                    }
+                }, 1000);
                 break;
         }
     }
@@ -148,7 +178,7 @@ public class GameBoardFragment extends Fragment {
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.playPathButton:
-                    mGameManager.playRandomPath();
+                    mGameManager.playCurrentPath();
 //                    mPlayPathCountdownCounter = PLAYP_PATH_COUNTDOWN_MAX;
 //                    playPlayPathCountdownAnim();
                 break;
@@ -173,7 +203,7 @@ public class GameBoardFragment extends Fragment {
             ObjectAnimator animY = ObjectAnimator.ofFloat(mInfoDescTextView, "scaleY", 1.0f, 3.0f);
             ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mInfoDescTextView, "alpha", 1.0f, 0.0f);
 
-            mCountdownAnimatorSet = new AnimatorSet();
+            AnimatorSet mCountdownAnimatorSet = new AnimatorSet();
             mCountdownAnimatorSet.playTogether(animX, animY, animAlpha);
             mCountdownAnimatorSet.setDuration(300);
             mCountdownAnimatorSet.start();

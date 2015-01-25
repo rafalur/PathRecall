@@ -38,6 +38,10 @@ public class Path {
         return null;
     }
 
+    public boolean contains(Point point){
+        return mPoints.contains(point);
+    }
+
     public void clear(){
         mPoints.clear();
     }
@@ -159,6 +163,10 @@ public class Path {
 
     public void setTurnsNumber(int turnsNumber) {
         this.mTurnsNumber = turnsNumber;
+    }
+
+    public PathStats getStats(){
+        return new PathStats(this);
     }
 
     private static class RandomEnum<E extends Enum> {

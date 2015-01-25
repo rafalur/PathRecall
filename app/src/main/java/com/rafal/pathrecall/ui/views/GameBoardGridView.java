@@ -125,7 +125,12 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
 
     @Override
     public void onBoardCleared() {
-        mBoardAdapter.notifyDataSetChanged();
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mBoardAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -149,7 +154,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
 
         @Override
         public Object getItem(int i) {
-            return GameManager.instance().getBoard().getBrick(i / Board.BOARD_SIZE, i % Board.BOARD_SIZE);
+            return GameManager.instance().getBoard().getBrick( i % Board.BOARD_SIZE, i / Board.BOARD_SIZE);
         }
 
         @Override

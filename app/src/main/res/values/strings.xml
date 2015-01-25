@@ -13,4 +13,6 @@
     <string name="verify_button_text">Verify</string>
     <string name="info_points_to_get">Points to get:</string>
     <string name="info_turns_number">Turns number:</string>
+    <string name="score">Score</string>
+    <string name="level">Level %d</string>
 </resources>

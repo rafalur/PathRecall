@@ -21,7 +21,7 @@ public class Board {
     public void clear(){
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                setBrickSelected(i, j, false);
+                setBrickSelected(i, j, false, true);
             }
         }
 
@@ -32,10 +32,14 @@ public class Board {
         return mBricks[x][y];
     }
 
-    public void setBrickSelected(int x, int y, boolean selected){
+    public void setBrickSelected(int x, int y, boolean selected) {
+        setBrickSelected(x, y, selected, false);
+    }
+
+    public void setBrickSelected(int x, int y, boolean selected, boolean forceUpdateShade){
         Brick brick = mBricks[x][y];
 
-        if(brick.isSelected() != selected) {
+        if(forceUpdateShade || brick.isSelected() != selected) {
             brick.setSelected(selected);
             setBrickSelectionShade(x, y, selected ? 1.0f : 0.0f);
             notifySelectionChanged(x, y, selected);
@@ -76,9 +80,35 @@ public class Board {
         this.mBoardStateListener = mBrickSelectionListener;
     }
 
+    public Path generatePathFromBoardSelection() {
+        Path path = new Path();{
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
+                    if(getBrick(i, j).isSelected()){
+                        path.addPoint(new Point(i, j));
+                    }
+                }
+            }
+        }
+        return path;
+    }
+
     public interface OnBoardStateChangedListener {
         public void onBrickSelectionChanged(int x, int y, boolean selected);
         public void onBrickSelectionShadeChanged(int x, int y, float alpha);
         public void onBoardCleared();
+    }
+
+    public void clearSelectionLeavingLastStateFadedOut() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if(getBrick(i, j).isSelected()){
+                    setBrickSelected(i,j, false);
+                    setBrickSelectionShade(i, j, 0.4f);
+                }
+            }
+        }
+
+        mBoardStateListener.onBoardCleared();
     }
 }
