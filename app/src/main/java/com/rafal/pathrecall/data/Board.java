@@ -52,6 +52,10 @@ public class Board {
         notifySelectionShadeChanged(x, y, alpha);
     }
 
+    public void fadeOutBrickSelection(int x, int y){
+        notifyBrickFadedOut(x, y);
+    }
+
     public int getSelectedBricksCount(){
         int counter = 0;
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -76,6 +80,12 @@ public class Board {
         }
     }
 
+    private void notifyBrickFadedOut(int x, int y) {
+        if (mBoardStateListener != null) {
+            mBoardStateListener.onBrickFadedOut(x, y);
+        }
+    }
+
     public void setBrickSelectionListener(OnBoardStateChangedListener mBrickSelectionListener) {
         this.mBoardStateListener = mBrickSelectionListener;
     }
@@ -96,6 +106,7 @@ public class Board {
     public interface OnBoardStateChangedListener {
         public void onBrickSelectionChanged(int x, int y, boolean selected);
         public void onBrickSelectionShadeChanged(int x, int y, float alpha);
+        public void onBrickFadedOut(int x, int y);
         public void onBoardCleared();
     }
 
@@ -104,11 +115,11 @@ public class Board {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if(getBrick(i, j).isSelected()){
                     setBrickSelected(i,j, false);
-                    setBrickSelectionShade(i, j, 0.4f);
+                    fadeOutBrickSelection(i,j);
                 }
             }
         }
 
-        mBoardStateListener.onBoardCleared();
+        //mBoardStateListener.onBoardCleared();
     }
 }

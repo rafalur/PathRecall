@@ -3,6 +3,7 @@ package com.rafal.pathrecall.ui.views;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
+import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.RelativeLayout;
 
 import com.rafal.pathrecall.R;
@@ -18,7 +20,7 @@ import com.rafal.pathrecall.R;
 public class BrickView extends RelativeLayout {
 
     private View mContentView;
-    //private View mSelectionOverlay;
+    private ArgbEvaluator mColorEvaluator;
 
     public BrickView(Context context) {
         super(context);
@@ -39,6 +41,8 @@ public class BrickView extends RelativeLayout {
     private void init(AttributeSet attrs, int defStyle) {
         View rootView = inflate(getContext(), R.layout.view_brick, this);
         findViews(rootView);
+
+        mColorEvaluator = new ArgbEvaluator();
     }
 
     private void confViews() {
@@ -58,10 +62,9 @@ public class BrickView extends RelativeLayout {
 
         GradientDrawable bgShape = (GradientDrawable)mContentView.getBackground();
 
-        Object strokeColor = new ArgbEvaluator().evaluate(alpha, 0xFF808080, 0xFFFFFFFF);
-        Object color = new ArgbEvaluator().evaluate(alpha, 0xFF808080, 0xFF660005);
+        Object strokeColor = evaluateStrokeColor(alpha);
+        Object color = evaluateBackgroundColor(alpha);
         bgShape.setStroke(2, (Integer) strokeColor);
-
 
         bgShape.setColor((Integer)color);
     }
@@ -73,21 +76,32 @@ public class BrickView extends RelativeLayout {
         set.start();
     }
 
-    public void switchToUserSelesection(){
-        final ValueAnimator valueAnimator = ValueAnimator.ofObject(new ArgbEvaluator(),
-                0xFFFFFFFF,
-                0xff78c5f9);
 
-        final GradientDrawable background = (GradientDrawable) this.getBackground();
+
+    public void switchToUserFadedOutSelection(){
+        final float endAlpha = 0.4f;
+
+        final ValueAnimator valueAnimator = ValueAnimator.ofObject(new FloatEvaluator(), 1.0f, endAlpha);
+
+        final GradientDrawable background = (GradientDrawable)mContentView.getBackground();
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
             @Override
             public void onAnimationUpdate(final ValueAnimator animator) {
-                background.setColor((Integer) animator.getAnimatedValue());
+                background.setColor((Integer) evaluateBackgroundColor((Float) animator.getAnimatedValue()));
+                background.setStroke(2, (Integer) evaluateStrokeColor((Float) animator.getAnimatedValue()));
             }
-
         });
-        valueAnimator.setDuration(1000);
+        valueAnimator.setDuration(getResources().getInteger(R.integer.brick_user_selection_fade_out_duration));
+        valueAnimator.setInterpolator(new AccelerateInterpolator());
         valueAnimator.start();
+    }
+
+    private Object evaluateBackgroundColor(float alpha){
+        return mColorEvaluator.evaluate(alpha, getResources().getColor(R.color.brick_background_normal), getResources().getColor(R.color.brick_background_selected));
+    }
+
+    private Object evaluateStrokeColor(float alpha){
+        return mColorEvaluator.evaluate(alpha, getResources().getColor(R.color.brick_background_normal), getResources().getColor(R.color.white));
     }
 }

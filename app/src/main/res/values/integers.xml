@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="brick_scale_down_anim_duration">300</integer>
+    <integer name="brick_user_selection_fade_out_duration">1000</integer>
 </resources>

@@ -124,6 +124,17 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     }
 
     @Override
+    public void onBrickFadedOut(int x, int y) {
+        final int viewIndex = y*Board.BOARD_SIZE + x;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                ((BrickView)(getChildAt(viewIndex))).switchToUserFadedOutSelection();
+            }
+        });
+    }
+
+    @Override
     public void onBoardCleared() {
         post(new Runnable() {
             @Override

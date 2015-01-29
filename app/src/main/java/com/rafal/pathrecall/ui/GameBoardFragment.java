@@ -162,7 +162,7 @@ public class GameBoardFragment extends Fragment {
                     public void run() {
                         mGameManager.playCurrentPathForVerification();
                     }
-                }, 1000);
+                }, getResources().getInteger(R.integer.brick_user_selection_fade_out_duration));
                 break;
         }
     }
