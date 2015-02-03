@@ -2,6 +2,7 @@ package com.rafal.pathrecall.ui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,11 +12,17 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 
 import com.rafal.pathrecall.GameManager;
+import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
+import com.rafal.pathrecall.modules.GameObjectsProviderModule;
 import com.rafal.pathrecall.ui.views.BrickView;
 import com.rafal.pathrecall.utils.BoardDrawingOrderHelper;
 import com.rafal.pathrecall.utils.PathDrawHandler;
+
+import javax.inject.Inject;
+
+import dagger.ObjectGraph;
 
 public class GameBoardGridView extends GridView implements Board.OnBoardStateChangedListener {
 
@@ -25,6 +32,8 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     private BoardDrawingOrderHelper mDrawingOrderHelper;
 
     private int mBrickSize;
+    @Inject
+    GameManager mGameManager;
 
     public GameBoardGridView(Context context) {
         super(context);
@@ -42,6 +51,8 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     }
 
     public void init(Context context){
+        PathRecallApp.getObjectGraph().inject(this);
+
         calculateBrickSize();
         mBoardAdapter = new BoardAdapter(context);
         setAdapter(mBoardAdapter);
@@ -73,23 +84,25 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
 
     @Override
     public boolean onTouchEvent(MotionEvent ev){
+        Log.d("Touch", "BOARD event, event: " + ev);
         return handleTouchEvent(ev, false);
     }
 
     private boolean handleTouchEvent(MotionEvent ev, boolean simulated) {
         int childCount = getChildCount();
+        boolean drawingEnabled = mGameManager.isDrawingEnabled();
 
         for(int i = 0; i< childCount; i++){
             View view = getChildAt(i);
             if(ev.getX() > view.getLeft() && ev.getX() < view.getRight()
                     && ev.getY() > view.getTop() && ev.getY() < view.getBottom()) {
                 if (view instanceof BrickView) {
-                    mDrawHandler.handleTouchOnBrick(i % Board.BOARD_SIZE, i / Board.BOARD_SIZE, ev, simulated);
+                    mDrawHandler.handleTouchOnBrick(i % Board.BOARD_SIZE, i / Board.BOARD_SIZE, ev, simulated, drawingEnabled);
                     return true;
                 }
             }
         }
-        mDrawHandler.handleTouchOnBrick(-1, -1, ev, simulated);
+        mDrawHandler.handleTouchOnBrick(-1, -1, ev, simulated, drawingEnabled);
         return true;
     }
 
@@ -165,7 +178,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
 
         @Override
         public Object getItem(int i) {
-            return GameManager.instance().getBoard().getBrick( i % Board.BOARD_SIZE, i / Board.BOARD_SIZE);
+            return mGameManager.getBoard().getBrick( i % Board.BOARD_SIZE, i / Board.BOARD_SIZE);
         }
 
         @Override

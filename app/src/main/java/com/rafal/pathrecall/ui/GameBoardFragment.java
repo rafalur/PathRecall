@@ -1,16 +1,12 @@
 package com.rafal.pathrecall.ui;
 
-
-
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -19,11 +15,12 @@ import android.widget.TextView;
 
 import com.rafal.pathrecall.GameManager;
 import com.rafal.pathrecall.GameSession;
+import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.R;
 import com.rafal.pathrecall.data.PathStats;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
 
-import static android.animation.Animator.AnimatorListener;
+import javax.inject.Inject;
 
 
 /**
@@ -34,9 +31,6 @@ import static android.animation.Animator.AnimatorListener;
  */
 public class GameBoardFragment extends Fragment {
     public static final int COLUMNS_NUMBER = 10;
-    public static final int PLAYP_PATH_COUNTDOWN_MAX = 3;
-
-    private int mPlayPathCountdownCounter;
 
     private GameBoardGridView mMainGrid;
     private TextView mInfoDescTextView;
@@ -51,7 +45,8 @@ public class GameBoardFragment extends Fragment {
     private TextView mScoreTextView;
     private TextView mLevelTexteView;
 
-    private GameManager mGameManager;
+    @Inject
+    GameManager mGameManager;
 
     public static GameBoardFragment newInstance(String param1, String param2) {
         GameBoardFragment fragment = new GameBoardFragment();
@@ -61,14 +56,13 @@ public class GameBoardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mGameManager = GameManager.instance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        PathRecallApp.getObjectGraph().inject(this);
+
         View root = inflater.inflate(R.layout.fragment_game_board, container, false);
         findViews(root);
         confViews();
@@ -92,6 +86,14 @@ public class GameBoardFragment extends Fragment {
         root.findViewById(R.id.verifyPathButton).setOnClickListener(mClickListener);
         root.findViewById(R.id.undoButton).setOnClickListener(mClickListener);
 
+        root.findViewById(R.id.gameBoardFragmentRoot).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.d("Touch", "Board layout event, event: " + motionEvent);
+                motionEvent.offsetLocation(-mMainGrid.getX(), -mMainGrid.getY());
+                return mMainGrid.onTouchEvent(motionEvent);
+            }
+        });
 
         //TODO: make info bar separate view
         mTurnsNumberTextView = (TextView)root.findViewById(R.id.turnsNumberValueView);
@@ -102,7 +104,7 @@ public class GameBoardFragment extends Fragment {
 
     private void confViews() {
         mMainGrid.setNumColumns(COLUMNS_NUMBER);
-        mMainGrid.setBoard(GameManager.instance().getBoard());
+        mMainGrid.setBoard(mGameManager.getBoard());
 
         mGameManager.setGameStatusListener(mGameStateListener);
         mGameManager.initializeGame();
@@ -156,13 +158,14 @@ public class GameBoardFragment extends Fragment {
                 mVerifyButtonsLayout.setVisibility(View.VISIBLE);
                 break;
             case REPLAY_VERIFY:
+                //mMainGrid.setSelectionFadedOut();
                 final Handler handler = new Handler(Looper.getMainLooper());
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mGameManager.playCurrentPathForVerification();
                     }
-                }, getResources().getInteger(R.integer.brick_user_selection_fade_out_duration));
+                }, 2000);
                 break;
         }
     }
@@ -179,8 +182,6 @@ public class GameBoardFragment extends Fragment {
             switch (view.getId()){
                 case R.id.playPathButton:
                     mGameManager.playCurrentPath();
-//                    mPlayPathCountdownCounter = PLAYP_PATH_COUNTDOWN_MAX;
-//                    playPlayPathCountdownAnim();
                 break;
                 case R.id.clearButton:
                     mGameManager.clearBoard();
@@ -194,46 +195,6 @@ public class GameBoardFragment extends Fragment {
             }
         }
     };
-
-    //unused for now
-    private void playPlayPathCountdownAnim() {
-        if(mPlayPathCountdownCounter > 0) {
-            mInfoDescTextView.setText(Integer.toString(mPlayPathCountdownCounter));
-            ObjectAnimator animX = ObjectAnimator.ofFloat(mInfoDescTextView, "scaleX", 1.0f, 3.0f);
-            ObjectAnimator animY = ObjectAnimator.ofFloat(mInfoDescTextView, "scaleY", 1.0f, 3.0f);
-            ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mInfoDescTextView, "alpha", 1.0f, 0.0f);
-
-            AnimatorSet mCountdownAnimatorSet = new AnimatorSet();
-            mCountdownAnimatorSet.playTogether(animX, animY, animAlpha);
-            mCountdownAnimatorSet.setDuration(300);
-            mCountdownAnimatorSet.start();
-
-            mCountdownAnimatorSet.addListener(new AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    mPlayPathCountdownCounter--;
-                    playPlayPathCountdownAnim();
-                    resetInfoDescTextView();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-                }
-            });
-        }
-        else {
-            mInfoDescTextView.setText("");
-            mGameManager.playCurrentPath();
-        }
-    }
 }
 
 

@@ -1,6 +1,18 @@
 package com.rafal.pathrecall.data;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.rafal.pathrecall.GameManager;
+
+import javax.inject.Inject;
+
+import dagger.Module;
+
+@Module(
+        injects = GameManager.class,
+        complete = false, library = true
+)
 
 public class Board {
     public static final int BOARD_SIZE = 10;
@@ -8,6 +20,8 @@ public class Board {
     private Brick[][] mBricks;
     private OnBoardStateChangedListener mBoardStateListener;
 
+
+    @Inject
     public Board(){
         mBricks = new Brick[BOARD_SIZE][BOARD_SIZE];
 
@@ -115,7 +129,7 @@ public class Board {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if(getBrick(i, j).isSelected()){
                     setBrickSelected(i,j, false);
-                    fadeOutBrickSelection(i,j);
+                    fadeOutBrickSelection(i, j);
                 }
             }
         }

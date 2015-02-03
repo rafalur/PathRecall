@@ -1,5 +1,6 @@
 package com.rafal.pathrecall;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.rafal.pathrecall.data.Board;
@@ -7,14 +8,22 @@ import com.rafal.pathrecall.data.Path;
 import com.rafal.pathrecall.data.PathStats;
 import com.rafal.pathrecall.data.Player;
 import com.rafal.pathrecall.data.Refree;
+import com.rafal.pathrecall.modules.GameObjectsProviderModule;
+import com.rafal.pathrecall.ui.GameBoardFragment;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.ObjectGraph;
 
 public class GameManager implements GameSession.GameSessionStatusListener {
     public static final int BOARD_SIZE = 10;
 
     private static GameManager mInstance;
 
-    private Board mBoard;
+    @Inject Board mBoard;
+
     private Path mPath;
     private GameSession mCurrentGameSession;
     private GameStateListener mGameStatusListener;
@@ -24,17 +33,12 @@ public class GameManager implements GameSession.GameSessionStatusListener {
 
     private Player mCurrentPlayer;
 
-    private GameManager(){
-        mBoard = new Board();
+    @Inject public GameManager(){
+        PathRecallApp.getObjectGraph().inject(this);
+
         mPlayer = new PathPlayer(mBoard);
         mPlayer.setStateListener(mPathPlayerListener);
     };
-
-    public static synchronized GameManager instance(){
-        if(mInstance == null)
-            mInstance = new GameManager();
-        return mInstance;
-    }
 
     public void initializeGame() {
         loadGameSession(new GameSession());

@@ -25,6 +25,7 @@ public class BrickView extends RelativeLayout {
     public BrickView(Context context) {
         super(context);
         init(null, 0);
+
     }
 
     public BrickView(Context context, AttributeSet attrs) {
@@ -92,6 +93,8 @@ public class BrickView extends RelativeLayout {
                 background.setStroke(2, (Integer) evaluateStrokeColor((Float) animator.getAnimatedValue()));
             }
         });
+
+
         valueAnimator.setDuration(getResources().getInteger(R.integer.brick_user_selection_fade_out_duration));
         valueAnimator.setInterpolator(new AccelerateInterpolator());
         valueAnimator.start();

@@ -51,15 +51,15 @@ public class PathDrawHandler {
         this.mSimulatedEventsListener = mSimulatedEventsListener;
     }
 
-    public void handleTouchOnBrick(int x, int y, MotionEvent event, boolean simulated){
-        if( GameManager.instance().isDrawingEnabled()) {
+    public void handleTouchOnBrick(int x, int y, MotionEvent event, boolean simulated, boolean isDrawingEnabled){
+        if( isDrawingEnabled) {
             if(mLastEventPoint != null && !simulated ){
                 simulateInBetweenEventsIfNeeded(event.getX(), event.getY());
             }
 
             if(x >= 0 && y >= 0) {
                 Brick brick = mBoard.getBrick(x, y);
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN || (event.getAction() == MotionEvent.ACTION_MOVE) && mCurrentDrawAction == DrawAction.NONE) {
                     mCurrentDrawAction = brick.isSelected() ? DrawAction.CLEAR : DrawAction.DRAW;
                 }
                 if (mCurrentDrawAction == DrawAction.CLEAR || mCurrentDrawAction == DrawAction.DRAW) {
@@ -73,7 +73,7 @@ public class PathDrawHandler {
                 mLastEventPoint = null;
             }
 
-            if(!simulated) {
+            if(!simulated && event.getAction() != MotionEvent.ACTION_UP) {
                 storeLastEventPoint((int) event.getX(), (int) event.getY());
             }
         }
