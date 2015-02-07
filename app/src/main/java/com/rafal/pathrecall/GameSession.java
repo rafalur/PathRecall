@@ -3,8 +3,9 @@ package com.rafal.pathrecall;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameSession {
+import javax.inject.Inject;
 
+public class GameSession {
     public enum GameState{
         IDLE,
         PLAYING_PATH,
@@ -12,6 +13,7 @@ public class GameSession {
         REPLAY_VERIFY
     }
 
+    @Inject
     public GameSession(){
     }
 
@@ -22,6 +24,10 @@ public class GameSession {
     public void init(){
         mLevel = 1;
         setState(GameState.IDLE);
+    }
+
+    public void reset() {
+        init();
     }
 
     public GameState getState() {

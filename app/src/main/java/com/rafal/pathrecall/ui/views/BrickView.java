@@ -15,12 +15,16 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.RelativeLayout;
 
+import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.R;
+
+import javax.inject.Inject;
 
 public class BrickView extends RelativeLayout {
 
     private View mContentView;
-    private ArgbEvaluator mColorEvaluator;
+    @Inject
+    ArgbEvaluator mColorEvaluator;
 
     public BrickView(Context context) {
         super(context);
@@ -43,7 +47,7 @@ public class BrickView extends RelativeLayout {
         View rootView = inflate(getContext(), R.layout.view_brick, this);
         findViews(rootView);
 
-        mColorEvaluator = new ArgbEvaluator();
+        PathRecallApp.get(getContext()).inject(this);
     }
 
     private void confViews() {
@@ -53,7 +57,6 @@ public class BrickView extends RelativeLayout {
 
     private void findViews(View root) {
         mContentView = root.findViewById(R.id.contentView);
-        //mSelectionOverlay = root.findViewById(R.id.slectionOverlay);
     }
 
     public void setSelectionShade(float alpha){

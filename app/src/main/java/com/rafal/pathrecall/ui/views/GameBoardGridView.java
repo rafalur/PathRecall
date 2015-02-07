@@ -15,8 +15,6 @@ import com.rafal.pathrecall.GameManager;
 import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
-import com.rafal.pathrecall.modules.GameObjectsProviderModule;
-import com.rafal.pathrecall.ui.views.BrickView;
 import com.rafal.pathrecall.utils.BoardDrawingOrderHelper;
 import com.rafal.pathrecall.utils.PathDrawHandler;
 
@@ -51,7 +49,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     }
 
     public void init(Context context){
-        PathRecallApp.getObjectGraph().inject(this);
+        mGameManager = PathRecallApp.getObjectGraph().get(GameManager.class);
 
         calculateBrickSize();
         mBoardAdapter = new BoardAdapter(context);

@@ -2,8 +2,13 @@ package com.rafal.pathrecall.data;
 
 import android.util.Log;
 
+import javax.inject.Inject;
+
 public class Player {
     private int mScore;
+
+    @Inject
+    Player(){}
 
     public int getScore() {
         return mScore;

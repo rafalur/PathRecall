@@ -62,6 +62,7 @@ public class GameBoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         PathRecallApp.getObjectGraph().inject(this);
+        //mGameManager = PathRecallApp.getObjectGraph().get(GameManager.class);
 
         View root = inflater.inflate(R.layout.fragment_game_board, container, false);
         findViews(root);

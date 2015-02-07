@@ -7,6 +7,8 @@ import com.rafal.pathrecall.data.Point;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.inject.Inject;
+
 public class PathPlayer {
     public static final int PATH_STEP_DELAY_MILLIS = 80;
     public static final int PATH_TAIL_LENGTH = 7;
@@ -20,6 +22,7 @@ public class PathPlayer {
 
     private PathPlayerStateListener mStateListener;
 
+    @Inject
     public PathPlayer(Board board){
         mBoard = board;
     }

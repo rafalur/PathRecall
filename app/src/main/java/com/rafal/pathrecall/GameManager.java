@@ -1,50 +1,34 @@
 package com.rafal.pathrecall;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Path;
 import com.rafal.pathrecall.data.PathStats;
 import com.rafal.pathrecall.data.Player;
 import com.rafal.pathrecall.data.Refree;
-import com.rafal.pathrecall.modules.GameObjectsProviderModule;
-import com.rafal.pathrecall.ui.GameBoardFragment;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.ObjectGraph;
 
 public class GameManager implements GameSession.GameSessionStatusListener {
     public static final int BOARD_SIZE = 10;
 
-    private static GameManager mInstance;
-
     @Inject Board mBoard;
+    @Inject PathPlayer mPlayer;
+    @Inject GameSession mCurrentGameSession;
+    @Inject Player mCurrentPlayer;
 
     private Path mPath;
-    private GameSession mCurrentGameSession;
     private GameStateListener mGameStatusListener;
 
     private boolean mIsDrawingEnabled;
-    private PathPlayer mPlayer;
 
-    private Player mCurrentPlayer;
-
-    @Inject public GameManager(){
+    public GameManager(){
         PathRecallApp.getObjectGraph().inject(this);
-
-        mPlayer = new PathPlayer(mBoard);
-        mPlayer.setStateListener(mPathPlayerListener);
     };
 
     public void initializeGame() {
-        loadGameSession(new GameSession());
-        mCurrentPlayer = new Player();
         mCurrentGameSession.addGameStatusListener(this);
         mCurrentGameSession.init();
+        mPlayer.setStateListener(mPathPlayerListener);
         generateRandomPath(4);
     }
 
@@ -78,10 +62,6 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         if(mGameStatusListener != null){
             mGameStatusListener.OnCurrentPathStatsChanged(mPath.getStats());
         }
-    }
-
-    public void loadGameSession(GameSession session){
-        mCurrentGameSession = session;
     }
 
     public void enableDrawing(boolean enable) {

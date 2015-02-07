@@ -1,35 +1,20 @@
 package com.rafal.pathrecall.data;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.rafal.pathrecall.GameManager;
+import com.rafal.pathrecall.PathRecallApp;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import dagger.Module;
-
-@Module(
-        injects = GameManager.class,
-        complete = false, library = true
-)
-
+@Singleton
 public class Board {
     public static final int BOARD_SIZE = 10;
 
-    private Brick[][] mBricks;
+    @Inject Brick[][] mBricks;
     private OnBoardStateChangedListener mBoardStateListener;
-
 
     @Inject
     public Board(){
-        mBricks = new Brick[BOARD_SIZE][BOARD_SIZE];
-
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                mBricks[i][j] = new Brick();
-            }
-        }
+        PathRecallApp.getObjectGraph().inject(this);
     };
 
     public void clear(){
