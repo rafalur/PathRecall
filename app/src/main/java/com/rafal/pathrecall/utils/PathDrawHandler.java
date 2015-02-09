@@ -8,9 +8,10 @@ import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
 import com.rafal.pathrecall.data.Path;
 
+import javax.inject.Inject;
+
 
 public class PathDrawHandler {
-    private int mBrickSize;
 
     private enum DrawAction{
         NONE,
@@ -34,6 +35,7 @@ public class PathDrawHandler {
 
     private DrawAction mCurrentDrawAction;
 
+    @Inject
     public PathDrawHandler(Board board){
         mBoard = board;
         mUserPath = new Path();
@@ -41,10 +43,6 @@ public class PathDrawHandler {
 
     public void reset(){
         mUserPath.clear();
-    }
-
-    public void setBrickSize(int size){
-        mBrickSize = size;
     }
 
     public void setSimulatedEventsListener(PathDrawSimulatedEventListener mSimulatedEventsListener) {

@@ -20,18 +20,16 @@ import com.rafal.pathrecall.utils.PathDrawHandler;
 
 import javax.inject.Inject;
 
-import dagger.ObjectGraph;
-
 public class GameBoardGridView extends GridView implements Board.OnBoardStateChangedListener {
 
-    private BoardAdapter mBoardAdapter;
-    private Board mBoard;
-    private PathDrawHandler mDrawHandler;
-    private BoardDrawingOrderHelper mDrawingOrderHelper;
-
     private int mBrickSize;
-    @Inject
-    GameManager mGameManager;
+
+    @Inject GameManager mGameManager;
+    @Inject Board mBoard;
+    @Inject PathDrawHandler mDrawHandler;
+    @Inject BoardDrawingOrderHelper mDrawingOrderHelper;
+
+    private BoardAdapter mBoardAdapter;
 
     public GameBoardGridView(Context context) {
         super(context);
@@ -49,7 +47,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     }
 
     public void init(Context context){
-        mGameManager = PathRecallApp.getObjectGraph().get(GameManager.class);
+        PathRecallApp.getObjectGraph().inject(this);
 
         calculateBrickSize();
         mBoardAdapter = new BoardAdapter(context);
@@ -57,7 +55,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
         setClipToPadding(false);
         setChildrenDrawingOrderEnabled(true);
 
-        mDrawingOrderHelper = new BoardDrawingOrderHelper();
+        initBoard();
     }
 
     private void calculateBrickSize() {
@@ -67,11 +65,9 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
         mBrickSize = screenWidth/Board.BOARD_SIZE;
     }
 
-    public void setBoard(Board board){
-        mBoard = board;
+    public void initBoard(){
         mBoard.setBrickSelectionListener(this);
-        mDrawHandler = new PathDrawHandler(mBoard);
-        mDrawHandler.setBrickSize(mBrickSize);
+        //mDrawHandler = new PathDrawHandler(mBoard);
         mDrawHandler.setSimulatedEventsListener(new PathDrawHandler.PathDrawSimulatedEventListener() {
             @Override
             public void onSimulatedEvent(MotionEvent event) {

@@ -7,11 +7,14 @@ import com.rafal.pathrecall.data.Board;
 
 import java.util.LinkedList;
 
+import javax.inject.Inject;
+
 public class BoardDrawingOrderHelper {
 
     private LinkedList<Integer> mNotSelecteViewsList;
     private LinkedList<Integer> mSelectedViewsList;
 
+    @Inject
     public BoardDrawingOrderHelper(){
         init();
     }

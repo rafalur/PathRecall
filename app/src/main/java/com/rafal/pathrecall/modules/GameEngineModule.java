@@ -25,7 +25,6 @@ public class GameEngineModule {
         return new GameManager();
     }
 
-
     @Provides
     public Brick[][] provideBricks(){
         Brick[][] bricks = new Brick[Board.BOARD_SIZE][Board.BOARD_SIZE];
