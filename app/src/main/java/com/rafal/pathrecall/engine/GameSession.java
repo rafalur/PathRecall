@@ -43,7 +43,7 @@ public class GameSession {
 
     public void setState(GameState state) {
         if(state != mState){
-            if(mState == GameState.REPLAY_VERIFY && state == GameState.IDLE){
+            if(mState == GameState.SCORE_PRESENTATION && state == GameState.IDLE){
                 mLevel++;
             }
             this.mState = state;
