@@ -1,5 +1,7 @@
 package com.rafal.pathrecall.ui;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,16 +11,21 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.rafal.pathrecall.GameManager;
-import com.rafal.pathrecall.GameSession;
+import com.rafal.pathrecall.engine.GameManager;
+import com.rafal.pathrecall.engine.GameSession;
 import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.R;
 import com.rafal.pathrecall.data.PathStats;
+import com.rafal.pathrecall.ui.utils.AccelerateSlowDownInterpolator;
+import com.rafal.pathrecall.ui.utils.DecelerateSlowDownInterpolator;
+import com.rafal.pathrecall.ui.utils.ScoreAnimator;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
+import com.rafal.pathrecall.ui.utils.UiUtils;
 
 import javax.inject.Inject;
 
@@ -39,11 +46,13 @@ public class GameBoardFragment extends Fragment {
     private RelativeLayout mPlayPathButtonsLayout;
     private RelativeLayout mIdleButtonsLayout;
     private RelativeLayout mVerifyButtonsLayout;
+    private FrameLayout mBoardFrameLayout;
 
     private TextView mTurnsNumberTextView;
     private TextView mPointsToGetTextView;
     private TextView mScoreTextView;
-    private TextView mLevelTexteView;
+    private TextView mLevelTextView;
+    private TextView mScoreFloatingTextView;
 
     @Inject
     GameManager mGameManager;
@@ -81,6 +90,7 @@ public class GameBoardFragment extends Fragment {
         mPlayPathButtonsLayout = (RelativeLayout)root.findViewById(R.id.playPathButtonsLayout);
         mIdleButtonsLayout = (RelativeLayout)root.findViewById(R.id.idleButtonsLayout);
         mVerifyButtonsLayout = (RelativeLayout)root.findViewById(R.id.verifyButtonsLayout);
+        mBoardFrameLayout = (FrameLayout)root.findViewById(R.id.boardFrameLayout);
         root.findViewById(R.id.playPathButton).setOnClickListener(mClickListener);
         root.findViewById(R.id.clearButton).setOnClickListener(mClickListener);
         root.findViewById(R.id.verifyPathButton).setOnClickListener(mClickListener);
@@ -90,7 +100,7 @@ public class GameBoardFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Log.d("Touch", "Board layout event, event: " + motionEvent);
-                motionEvent.offsetLocation(-mMainGrid.getX(), -mMainGrid.getY());
+                motionEvent.offsetLocation(-mBoardFrameLayout.getX(), -mBoardFrameLayout.getY());
                 return mMainGrid.onTouchEvent(motionEvent);
             }
         });
@@ -99,7 +109,8 @@ public class GameBoardFragment extends Fragment {
         mTurnsNumberTextView = (TextView)root.findViewById(R.id.turnsNumberValueView);
         mPointsToGetTextView = (TextView)root.findViewById(R.id.pointsToGetValueView);
         mScoreTextView = (TextView)root.findViewById(R.id.scoreTextView);
-        mLevelTexteView = (TextView)root.findViewById(R.id.levelTextView);
+        mLevelTextView = (TextView)root.findViewById(R.id.levelTextView);
+        mScoreFloatingTextView = (TextView)root.findViewById(R.id.scoreFloatingView);
     }
 
     private void confViews() {
@@ -107,12 +118,7 @@ public class GameBoardFragment extends Fragment {
 
         mGameManager.setGameStatusListener(mGameStateListener);
         mGameManager.initializeGame();
-    }
-
-    private void resetInfoDescTextView() {
-        mInfoDescTextView.setAlpha(1.0f);
-        mInfoDescTextView.setScaleX(1.0f);
-        mInfoDescTextView.setScaleY(1.0f);
+        mScoreFloatingTextView.setAlpha(0.0f);
     }
 
     private GameManager.GameStateListener mGameStateListener = new GameManager.GameStateListener() {
@@ -146,7 +152,7 @@ public class GameBoardFragment extends Fragment {
                 mInfoDescTextView.setText(R.string.idle_state_description);
                 mIdleButtonsLayout.setVisibility(View.VISIBLE);
                 mScoreTextView.setText(Integer.toString(mGameManager.getCurrentScore()));
-                mLevelTexteView.setText(String.format(getString(R.string.level), mGameManager.getCurrentLevel()));
+                mLevelTextView.setText(String.format(getString(R.string.level), mGameManager.getCurrentLevel()));
                 break;
             case PLAYING_PATH:
                 mInfoDescTextView.setText(R.string.playing_path_state_description);
@@ -166,7 +172,27 @@ public class GameBoardFragment extends Fragment {
                     }
                 }, 2000);
                 break;
+            case SCORE_PRESENTATION:
+                playScoreFloatingAnimation();
+                break;
         }
+    }
+
+    private void playScoreFloatingAnimation() {
+        int currentScore = mGameManager.getCurrentRoundScore();
+        String scoreString = Integer.valueOf(currentScore).toString();
+        if(currentScore > 0){
+            scoreString = "+" + scoreString;
+        }
+        mScoreFloatingTextView.setText(scoreString);
+        ScoreAnimator scoreAnimator = new ScoreAnimator();
+        scoreAnimator.setAnimationListener(new ScoreAnimator.ScoreAnimationListener() {
+            @Override
+            public void onAnimationEnd() {
+                mGameManager.onScorePresentationFinished();
+            }
+        });
+        scoreAnimator.playFloatInOutAnimation(mScoreFloatingTextView, getActivity());
     }
 
     private void hideAllButtonsBars() {

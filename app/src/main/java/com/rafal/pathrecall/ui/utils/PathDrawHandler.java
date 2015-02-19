@@ -1,9 +1,7 @@
-package com.rafal.pathrecall.utils;
+package com.rafal.pathrecall.ui.utils;
 
-import android.util.Log;
 import android.view.MotionEvent;
 
-import com.rafal.pathrecall.GameManager;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
 import com.rafal.pathrecall.data.Path;

@@ -1,6 +1,4 @@
-package com.rafal.pathrecall.utils;
-
-import android.util.Log;
+package com.rafal.pathrecall.ui.utils;
 
 
 import com.rafal.pathrecall.data.Board;

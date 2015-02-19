@@ -168,7 +168,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/offset_normal"
         android:layout_marginBottom="@dimen/offset_normal"
-        android:layout_above="@+id/mainGrid">
+        android:layout_above="@+id/boardFrameLayout">
         <View
             style="@style/Divider"
             android:layout_width="match_parent"
@@ -199,14 +199,27 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <com.rafal.pathrecall.ui.views.GameBoardGridView
-        android:id="@id/mainGrid"
-        android:padding="@dimen/padding_default"
+    <FrameLayout
+        android:id="@+id/boardFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomButtonsBar"
-        >
-    </com.rafal.pathrecall.ui.views.GameBoardGridView>
+        android:layout_above="@+id/bottomButtonsBar">
+        <com.rafal.pathrecall.ui.views.GameBoardGridView
+            android:id="@+id/mainGrid"
+            android:padding="@dimen/padding_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+        </com.rafal.pathrecall.ui.views.GameBoardGridView>
+        <TextView
+            android:id="@+id/scoreFloatingView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/TextScoreFloating"
+            android:text="+270"/>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/bottomButtonsBar"

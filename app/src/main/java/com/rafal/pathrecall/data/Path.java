@@ -2,7 +2,7 @@ package com.rafal.pathrecall.data;
 
 import android.util.Log;
 
-import com.rafal.pathrecall.GameManager;
+import com.rafal.pathrecall.engine.GameManager;
 
 import java.util.ArrayList;
 import java.util.List;

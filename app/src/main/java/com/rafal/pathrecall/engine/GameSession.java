@@ -1,4 +1,4 @@
-package com.rafal.pathrecall;
+package com.rafal.pathrecall.engine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class GameSession {
+
     public enum GameState{
         IDLE,
         PLAYING_PATH,
         USER_DRAW,
-        REPLAY_VERIFY
+        REPLAY_VERIFY,
+        SCORE_PRESENTATION
     }
 
     @Inject
@@ -20,6 +22,7 @@ public class GameSession {
     private GameState mState;
     private List<GameSessionStatusListener> mGameStatusListeners;
     private int mLevel;
+    private int mCurrentRoundScore;
 
     public void init(){
         mLevel = 1;
@@ -65,4 +68,13 @@ public class GameSession {
     public interface GameSessionStatusListener {
         public void onGameStateChanged(GameState newState, GameState oldState);
     }
+
+    public int getCurrentRoundScore() {
+        return mCurrentRoundScore;
+    }
+
+    public void setCurrentRoundScore(int mCurrentRoundScore) {
+        this.mCurrentRoundScore = mCurrentRoundScore;
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.rafal.pathrecall.modules;
 
-import com.rafal.pathrecall.GameManager;
-import com.rafal.pathrecall.PathRecallApp;
+import com.rafal.pathrecall.engine.GameManager;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
 import com.rafal.pathrecall.ui.GameBoardFragment;

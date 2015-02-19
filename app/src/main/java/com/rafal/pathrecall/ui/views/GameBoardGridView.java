@@ -3,20 +3,19 @@ package com.rafal.pathrecall.ui.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
-import com.rafal.pathrecall.GameManager;
+import com.rafal.pathrecall.engine.GameManager;
 import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
-import com.rafal.pathrecall.utils.BoardDrawingOrderHelper;
-import com.rafal.pathrecall.utils.PathDrawHandler;
+import com.rafal.pathrecall.ui.utils.BoardDrawingOrderHelper;
+import com.rafal.pathrecall.ui.utils.PathDrawHandler;
+import com.rafal.pathrecall.ui.utils.UiUtils;
 
 import javax.inject.Inject;
 
@@ -59,9 +58,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     }
 
     private void calculateBrickSize() {
-        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        int screenWidth = display.getWidth();
+        int screenWidth = UiUtils.getScreenSize(getContext()).x;
         mBrickSize = screenWidth/Board.BOARD_SIZE;
     }
 

@@ -1,4 +1,4 @@
-package com.rafal.pathrecall.utils;
+package com.rafal.pathrecall.ui.utils;
 
 public class LinearFunctionParameters {
     public float a;

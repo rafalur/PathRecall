@@ -1,5 +1,6 @@
-package com.rafal.pathrecall;
+package com.rafal.pathrecall.engine;
 
+import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Path;
 import com.rafal.pathrecall.data.PathStats;
@@ -12,7 +13,8 @@ public class GameManager implements GameSession.GameSessionStatusListener {
     public static final int BOARD_SIZE = 10;
 
     @Inject Board mBoard;
-    @Inject PathPlayer mPlayer;
+    @Inject
+    PathPlayer mPlayer;
     @Inject GameSession mCurrentGameSession;
     @Inject Player mCurrentPlayer;
 
@@ -81,7 +83,8 @@ public class GameManager implements GameSession.GameSessionStatusListener {
 
         mBoard.clearSelectionLeavingLastStateFadedOut();
 
-        Refree.countAndAddPointsForPlayer(mCurrentPlayer, playerPath, mPath);
+        int score = Refree.countAndAddPointsForPlayer(mCurrentPlayer, playerPath, mPath);
+        mCurrentGameSession.setCurrentRoundScore(score);
 
         mCurrentGameSession.setState(GameSession.GameState.REPLAY_VERIFY);
     }
@@ -108,7 +111,7 @@ public class GameManager implements GameSession.GameSessionStatusListener {
                 mCurrentGameSession.setState(GameSession.GameState.USER_DRAW);
             }
             else if (mCurrentGameSession.getState() == GameSession.GameState.REPLAY_VERIFY){
-                mCurrentGameSession.setState(GameSession.GameState.IDLE);
+                mCurrentGameSession.setState(GameSession.GameState.SCORE_PRESENTATION);
                 mBoard.clear();
             }
         }
@@ -125,8 +128,14 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         return mCurrentGameSession.getLevel();
     }
 
+    public int getCurrentRoundScore() { return mCurrentGameSession.getCurrentRoundScore(); }
+
     public void playCurrentPathForVerification() {
         mPlayer.playPath();
+    }
+
+    public void onScorePresentationFinished() {
+        mCurrentGameSession.setState(GameSession.GameState.IDLE);
     }
 
     public interface GameStateListener{

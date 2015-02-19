@@ -1,4 +1,4 @@
-package com.rafal.pathrecall;
+package com.rafal.pathrecall.engine;
 
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Path;
