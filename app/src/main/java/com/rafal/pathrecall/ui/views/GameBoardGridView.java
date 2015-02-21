@@ -64,7 +64,6 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
 
     public void initBoard(){
         mBoard.setBrickSelectionListener(this);
-        //mDrawHandler = new PathDrawHandler(mBoard);
         mDrawHandler.setSimulatedEventsListener(new PathDrawHandler.PathDrawSimulatedEventListener() {
             @Override
             public void onSimulatedEvent(MotionEvent event) {

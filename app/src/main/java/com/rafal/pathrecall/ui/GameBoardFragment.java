@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,6 +30,11 @@ import com.rafal.pathrecall.ui.utils.UiUtils;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnTouch;
+
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -39,20 +45,32 @@ import javax.inject.Inject;
 public class GameBoardFragment extends Fragment {
     public static final int COLUMNS_NUMBER = 10;
 
-    private GameBoardGridView mMainGrid;
-    private TextView mInfoDescTextView;
-    private FrameLayout mBottomButtonsLayout;
+    @InjectView(R.id.mainGrid)
+    GameBoardGridView mMainGrid;
+    @InjectView(R.id.infoDescriptionTextView)
+    TextView mInfoDescTextView;
+    @InjectView(R.id.bottomButtonsBar)
+    FrameLayout mBottomButtonsLayout;
 
-    private RelativeLayout mPlayPathButtonsLayout;
-    private RelativeLayout mIdleButtonsLayout;
-    private RelativeLayout mVerifyButtonsLayout;
-    private FrameLayout mBoardFrameLayout;
+    @InjectView(R.id.playPathButtonsLayout)
+    RelativeLayout mPlayPathButtonsLayout;
+    @InjectView(R.id.idleButtonsLayout)
+    RelativeLayout mIdleButtonsLayout;
+    @InjectView(R.id.verifyButtonsLayout)
+    RelativeLayout mVerifyButtonsLayout;
+    @InjectView(R.id.boardFrameLayout)
+    FrameLayout mBoardFrameLayout;
 
-    private TextView mTurnsNumberTextView;
-    private TextView mPointsToGetTextView;
-    private TextView mScoreTextView;
-    private TextView mLevelTextView;
-    private TextView mScoreFloatingTextView;
+    @InjectView(R.id.turnsNumberValueView)
+    TextView mTurnsNumberTextView;
+    @InjectView(R.id.pointsToGetValueView)
+    TextView mPointsToGetTextView;
+    @InjectView(R.id.scoreTextView)
+    TextView mScoreTextView;
+    @InjectView(R.id.levelTextView)
+    TextView mLevelTextView;
+    @InjectView(R.id.scoreFloatingView)
+    TextView mScoreFloatingTextView;
 
     @Inject
     GameManager mGameManager;
@@ -73,51 +91,17 @@ public class GameBoardFragment extends Fragment {
         PathRecallApp.getObjectGraph().inject(this);
 
         View root = inflater.inflate(R.layout.fragment_game_board, container, false);
-        findViews(root);
+        ButterKnife.inject(this, root);
         confViews();
+
+        mGameManager.initializeGame();
 
         return root;
     }
 
-    public void onViewCreated(final View view, final Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    private void findViews(View root){
-        mMainGrid = (GameBoardGridView)root.findViewById(R.id.mainGrid);
-        mInfoDescTextView = (TextView)root.findViewById(R.id.infoDescriptionTextView);
-        mBottomButtonsLayout = (FrameLayout)root.findViewById(R.id.bottomButtonsBar);
-        mPlayPathButtonsLayout = (RelativeLayout)root.findViewById(R.id.playPathButtonsLayout);
-        mIdleButtonsLayout = (RelativeLayout)root.findViewById(R.id.idleButtonsLayout);
-        mVerifyButtonsLayout = (RelativeLayout)root.findViewById(R.id.verifyButtonsLayout);
-        mBoardFrameLayout = (FrameLayout)root.findViewById(R.id.boardFrameLayout);
-        root.findViewById(R.id.playPathButton).setOnClickListener(mClickListener);
-        root.findViewById(R.id.clearButton).setOnClickListener(mClickListener);
-        root.findViewById(R.id.verifyPathButton).setOnClickListener(mClickListener);
-        root.findViewById(R.id.undoButton).setOnClickListener(mClickListener);
-
-        root.findViewById(R.id.gameBoardFragmentRoot).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Log.d("Touch", "Board layout event, event: " + motionEvent);
-                motionEvent.offsetLocation(-mBoardFrameLayout.getX(), -mBoardFrameLayout.getY());
-                return mMainGrid.onTouchEvent(motionEvent);
-            }
-        });
-
-        //TODO: make info bar separate view
-        mTurnsNumberTextView = (TextView)root.findViewById(R.id.turnsNumberValueView);
-        mPointsToGetTextView = (TextView)root.findViewById(R.id.pointsToGetValueView);
-        mScoreTextView = (TextView)root.findViewById(R.id.scoreTextView);
-        mLevelTextView = (TextView)root.findViewById(R.id.levelTextView);
-        mScoreFloatingTextView = (TextView)root.findViewById(R.id.scoreFloatingView);
-    }
-
     private void confViews() {
         mMainGrid.setNumColumns(COLUMNS_NUMBER);
-
         mGameManager.setGameStatusListener(mGameStateListener);
-        mGameManager.initializeGame();
         mScoreFloatingTextView.setAlpha(0.0f);
     }
 
@@ -181,7 +165,7 @@ public class GameBoardFragment extends Fragment {
     private void playScoreFloatingAnimation() {
         int currentScore = mGameManager.getCurrentRoundScore();
         String scoreString = Integer.valueOf(currentScore).toString();
-        if(currentScore > 0){
+        if (currentScore > 0) {
             scoreString = "+" + scoreString;
         }
         mScoreFloatingTextView.setText(scoreString);
@@ -201,25 +185,26 @@ public class GameBoardFragment extends Fragment {
         }
     }
 
-    private View.OnClickListener mClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()){
-                case R.id.playPathButton:
-                    mGameManager.playCurrentPath();
-                break;
-                case R.id.clearButton:
-                    mGameManager.clearBoard();
-                    break;
-                case R.id.undoButton:
+    @OnTouch(R.id.gameBoardFragmentRoot)
+    public boolean handleTouchOnRoot(View view, MotionEvent motionEvent) {
+        motionEvent.offsetLocation(-mBoardFrameLayout.getX(), -mBoardFrameLayout.getY());
+        return mMainGrid.onTouchEvent(motionEvent);
+    }
 
-                    break;
-                case R.id.verifyPathButton:
-                    mGameManager.verifyPath();
-                    break;
-            }
+    @OnClick({ R.id.playPathButton, R.id.clearButton, R.id.verifyPathButton })
+    protected void handleClicks(Button button) {
+        switch (button.getId()) {
+            case R.id.playPathButton:
+                mGameManager.playCurrentPath();
+                break;
+            case R.id.clearButton:
+                mGameManager.clearBoard();
+                break;
+            case R.id.verifyPathButton:
+                mGameManager.verifyPath();
+                break;
         }
-    };
+    }
 }
 
 

@@ -20,9 +20,14 @@ import com.rafal.pathrecall.R;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class BrickView extends RelativeLayout {
 
-    private View mContentView;
+    @InjectView(R.id.mainGrid)
+    View mContentView;
+
     @Inject
     ArgbEvaluator mColorEvaluator;
 
@@ -45,7 +50,7 @@ public class BrickView extends RelativeLayout {
 
     private void init(AttributeSet attrs, int defStyle) {
         View rootView = inflate(getContext(), R.layout.view_brick, this);
-        findViews(rootView);
+        ButterKnife.inject(this, rootView);
 
         PathRecallApp.get(getContext()).inject(this);
     }
@@ -53,10 +58,6 @@ public class BrickView extends RelativeLayout {
     private void confViews() {
         setPivotX(getWidth()/2);
         setPivotY(getHeight()/2);
-    }
-
-    private void findViews(View root) {
-        mContentView = root.findViewById(R.id.contentView);
     }
 
     public void setSelectionShade(float alpha){
