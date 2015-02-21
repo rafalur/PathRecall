@@ -2,6 +2,7 @@ package com.rafal.pathrecall.data;
 
 import android.util.Log;
 
+import com.rafal.pathrecall.constants.GameConstants;
 import com.rafal.pathrecall.engine.GameManager;
 
 import java.util.ArrayList;
@@ -125,9 +126,9 @@ public class Path {
         if(diffCoord > 0)
             boundryCoord = 0;
         else if(diffCoord < 0)
-            boundryCoord = GameManager.BOARD_SIZE - 1;
+            boundryCoord = GameConstants.BOARD_SIZE - 1;
         else
-            boundryCoord = RND.nextInt(GameManager.BOARD_SIZE - 1);
+            boundryCoord = RND.nextInt(GameConstants.BOARD_SIZE - 1);
 
         return boundryCoord;
     }
@@ -149,7 +150,7 @@ public class Path {
     private static int getSpaceAlongDirectionPointedByDiffCoord(int diffCoord, int pointCoord){
         int ret = 0;
         if(diffCoord > 0){
-            ret = GameManager.BOARD_SIZE - 1 - pointCoord;
+            ret = GameConstants.BOARD_SIZE - 1 - pointCoord;
         }
         else if(diffCoord < 0){
             ret = pointCoord;

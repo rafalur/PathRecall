@@ -10,7 +10,6 @@ import com.rafal.pathrecall.data.Refree;
 import javax.inject.Inject;
 
 public class GameManager implements GameSession.GameSessionStatusListener {
-    public static final int BOARD_SIZE = 10;
 
     @Inject Board mBoard;
     @Inject PathPlayer mPlayer;

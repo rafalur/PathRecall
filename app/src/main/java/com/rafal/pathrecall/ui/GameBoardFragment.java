@@ -151,18 +151,16 @@ public class GameBoardFragment extends Fragment {
                 mVerifyButtonsLayout.setVisibility(View.VISIBLE);
                 break;
             case REPLAY_VERIFY:
-                //mMainGrid.setSelectionFadedOut();
+                int fadeOutDuration = getResources().getInteger(R.integer.user_selection_fade_out_duration);
+                int pathReplayDelay = getResources().getInteger(R.integer.path_replay_delay);
                 final Handler handler = new Handler(Looper.getMainLooper());
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mGameManager.playCurrentPathForVerification();
                     }
-                }, 2000);
+                }, fadeOutDuration + pathReplayDelay);
                 break;
-//            case SCORE_PRESENTATION:
-//                playScoreFloatingAnimation(score);
-//                break;
         }
     }
 

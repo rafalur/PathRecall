@@ -6,10 +6,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -81,8 +78,6 @@ public class BrickView extends RelativeLayout {
         set.start();
     }
 
-
-
     public void switchToUserFadedOutSelection(){
         final float endAlpha = 0.4f;
 
@@ -98,8 +93,7 @@ public class BrickView extends RelativeLayout {
             }
         });
 
-
-        valueAnimator.setDuration(getResources().getInteger(R.integer.brick_user_selection_fade_out_duration));
+        valueAnimator.setDuration(getResources().getInteger(R.integer.user_selection_fade_out_duration));
         valueAnimator.setInterpolator(new AccelerateInterpolator());
         valueAnimator.start();
     }
