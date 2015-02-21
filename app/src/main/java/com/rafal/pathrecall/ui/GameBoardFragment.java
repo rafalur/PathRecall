@@ -1,7 +1,5 @@
 package com.rafal.pathrecall.ui;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -22,11 +19,8 @@ import com.rafal.pathrecall.engine.GameSession;
 import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.R;
 import com.rafal.pathrecall.data.PathStats;
-import com.rafal.pathrecall.ui.utils.AccelerateSlowDownInterpolator;
-import com.rafal.pathrecall.ui.utils.DecelerateSlowDownInterpolator;
 import com.rafal.pathrecall.ui.utils.ScoreAnimator;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
-import com.rafal.pathrecall.ui.utils.UiUtils;
 
 import javax.inject.Inject;
 
@@ -126,6 +120,16 @@ public class GameBoardFragment extends Fragment {
                 }
             });
         }
+
+        @Override
+        public void OnPointsReceived(final int score) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    playScoreFloatingAnimation(score);
+                }
+            });
+        }
     };
 
     private void configureViewsForState(GameSession.GameState newState) {
@@ -156,16 +160,15 @@ public class GameBoardFragment extends Fragment {
                     }
                 }, 2000);
                 break;
-            case SCORE_PRESENTATION:
-                playScoreFloatingAnimation();
-                break;
+//            case SCORE_PRESENTATION:
+//                playScoreFloatingAnimation(score);
+//                break;
         }
     }
 
-    private void playScoreFloatingAnimation() {
-        int currentScore = mGameManager.getCurrentRoundScore();
-        String scoreString = Integer.valueOf(currentScore).toString();
-        if (currentScore > 0) {
+    private void playScoreFloatingAnimation(int score) {;
+        String scoreString = Integer.valueOf(score).toString();
+        if (score > 0) {
             scoreString = "+" + scoreString;
         }
         mScoreFloatingTextView.setText(scoreString);

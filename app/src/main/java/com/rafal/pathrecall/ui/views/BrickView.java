@@ -25,7 +25,7 @@ import butterknife.InjectView;
 
 public class BrickView extends RelativeLayout {
 
-    @InjectView(R.id.mainGrid)
+    @InjectView(R.id.contentView)
     View mContentView;
 
     @Inject

@@ -153,9 +153,7 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
     }
 
     private class BoardAdapter extends BaseAdapter {
-
         private Context mContext;
-
 
         public BoardAdapter(Context context){
             mContext = context;

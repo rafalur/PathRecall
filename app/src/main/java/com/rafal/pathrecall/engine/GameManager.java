@@ -13,8 +13,7 @@ public class GameManager implements GameSession.GameSessionStatusListener {
     public static final int BOARD_SIZE = 10;
 
     @Inject Board mBoard;
-    @Inject
-    PathPlayer mPlayer;
+    @Inject PathPlayer mPlayer;
     @Inject GameSession mCurrentGameSession;
     @Inject Player mCurrentPlayer;
 
@@ -61,9 +60,7 @@ public class GameManager implements GameSession.GameSessionStatusListener {
 
     private void generateRandomPath(int turnsNumber){
         mPath = Path.generateRandomPath(turnsNumber);
-        if(mGameStatusListener != null){
-            mGameStatusListener.OnCurrentPathStatsChanged(mPath.getStats());
-        }
+        notifyOnCurrentPathStatsChanged();
     }
 
     public void enableDrawing(boolean enable) {
@@ -95,9 +92,7 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         if(newState == GameSession.GameState.IDLE){
             prepareNextPath();
         }
-        if(mGameStatusListener != null){
-            mGameStatusListener.OnGameSessionStateChanged(newState);
-        }
+        notifyOnGameSessionStateChanged(newState);
     }
 
     public void setGameStatusListener(GameStateListener gameStatusListener) {
@@ -112,10 +107,30 @@ public class GameManager implements GameSession.GameSessionStatusListener {
             }
             else if (mCurrentGameSession.getState() == GameSession.GameState.REPLAY_VERIFY){
                 mCurrentGameSession.setState(GameSession.GameState.SCORE_PRESENTATION);
+
+                notifyOnPointsReceived();
                 mBoard.clear();
             }
         }
     };
+
+    private void notifyOnGameSessionStateChanged(GameSession.GameState newState) {
+        if(mGameStatusListener != null){
+            mGameStatusListener.OnGameSessionStateChanged(newState);
+        }
+    }
+
+    private void notifyOnCurrentPathStatsChanged() {
+        if(mGameStatusListener != null){
+            mGameStatusListener.OnCurrentPathStatsChanged(mPath.getStats());
+        }
+    }
+
+    private void notifyOnPointsReceived() {
+        if(mGameStatusListener != null){
+            mGameStatusListener.OnPointsReceived(mCurrentGameSession.getCurrentRoundScore());
+        }
+    }
 
     public int getCurrentScore() {
         if(mCurrentPlayer != null) {
@@ -128,8 +143,6 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         return mCurrentGameSession.getLevel();
     }
 
-    public int getCurrentRoundScore() { return mCurrentGameSession.getCurrentRoundScore(); }
-
     public void playCurrentPathForVerification() {
         mPlayer.playPath();
     }
@@ -141,5 +154,6 @@ public class GameManager implements GameSession.GameSessionStatusListener {
     public interface GameStateListener{
         public void OnGameSessionStateChanged(GameSession.GameState newState);
         public void OnCurrentPathStatsChanged(PathStats pathStats);
+        public void OnPointsReceived(int score);
     }
 }
