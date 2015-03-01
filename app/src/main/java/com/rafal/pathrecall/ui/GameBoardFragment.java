@@ -44,7 +44,7 @@ public class GameBoardFragment extends Fragment {
     @InjectView(R.id.infoDescriptionTextView)
     TextView mInfoDescTextView;
     @InjectView(R.id.bottomButtonsBar)
-    FrameLayout mBottomButtonsLayout;
+    RelativeLayout mBottomButtonsLayout;
 
     @InjectView(R.id.playPathButtonsLayout)
     RelativeLayout mPlayPathButtonsLayout;

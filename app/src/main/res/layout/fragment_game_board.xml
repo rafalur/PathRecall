@@ -203,13 +203,12 @@
         android:id="@+id/boardFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomButtonsBar">
+        android:layout_above="@+id/bottomBarLayout">
         <com.rafal.pathrecall.ui.views.GameBoardGridView
             android:id="@+id/mainGrid"
             android:padding="@dimen/padding_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             >
         </com.rafal.pathrecall.ui.views.GameBoardGridView>
         <TextView
@@ -221,68 +220,106 @@
             android:text="+270"/>
     </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/bottomButtonsBar"
+
+    <RelativeLayout
+        android:id="@+id/bottomBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/offset_normal"
+        android:paddingBottom="@dimen/offset_normal">
+
+    <LinearLayout
+        android:id="@+id/bootomBarInnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/idleButtonsLayout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:padding="@dimen/offset_large" >
-            <Button
-                android:id="@+id/playPathButton"
+            android:layout_weight="1">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ButtonNormalStyle"
-                android:layout_centerInParent="true"
-                android:text="@string/play_path_button_text"/>
+                android:layout_centerInParent="true">
+                <com.rafal.pathrecall.ui.views.PlayerLifeView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"/>
+                <com.rafal.pathrecall.ui.views.PlayerLifeView
+                    android:layout_marginLeft="@dimen/offset_large"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"/>
+                <com.rafal.pathrecall.ui.views.PlayerLifeView
+                    android:layout_marginLeft="@dimen/offset_large"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"/>
+            </LinearLayout>
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/playPathButtonsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/offset_large" >
-            <Button
-                android:id="@+id/stopButton"
-                android:layout_width="wrap_content"
+            android:id="@+id/bottomButtonsBar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/idleButtonsLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/ButtonNormalStyle"
-                android:layout_centerInParent="true"
-                android:text="@string/stop_button_text"/>
+                android:padding="@dimen/offset_normal" >
+                <Button
+                    android:id="@+id/playPathButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonNormalStyle"
+                    android:layout_centerInParent="true"
+                    android:text="@string/play_path_button_text"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/playPathButtonsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/offset_normal" >
+                <Button
+                    android:id="@+id/stopButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonNormalStyle"
+                    android:layout_centerInParent="true"
+                    android:text="@string/stop_button_text"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/verifyButtonsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/offset_normal" >
+
+                <Button
+                    android:id="@+id/clearButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonNormalStyle"
+                    android:layout_alignParentLeft="true"
+                    android:text="Clear"/>
+                <Button
+                    android:id="@+id/verifyPathButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonNormalStyle"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/verify_button_text"/>
+            </RelativeLayout>
         </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/verifyButtonsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/offset_large" >
-            <Button
-                android:id="@+id/undoButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/ButtonNormalStyle"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="@string/undo_button_text"/>
-            <Button
-                android:id="@+id/clearButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/ButtonNormalStyle"
-                android:layout_centerInParent="true"
-                android:text="Clear"/>
-            <Button
-                android:id="@+id/verifyPathButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/ButtonNormalStyle"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="@string/verify_button_text"/>
-        </RelativeLayout>
-    </FrameLayout>
+    </LinearLayout>
+
+
+    <!--<View-->
+        <!--style="@style/Divider"-->
+        <!--android:layout_alignTop="@id/bootomBarInnerLayout"/>-->
+
+    <!--<View-->
+        <!--style="@style/Divider"-->
+        <!--android:layout_alignBottom="@id/bootomBarInnerLayout"/>-->
+    </RelativeLayout>
 
 
 </RelativeLayout>
