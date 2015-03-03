@@ -138,6 +138,10 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         return 0;
     }
 
+    public int getPlayerLostLives(){
+        return mCurrentPlayer.getLostLives();
+    }
+
     public int getCurrentLevel(){
         return mCurrentGameSession.getLevel();
     }

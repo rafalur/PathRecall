@@ -20,6 +20,10 @@ public class Refree {
             }
         }
 
+        if(score < 0){
+            player.onLifeLost();
+        }
+
         player.addPoints(score);
         return score;
     }

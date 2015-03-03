@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.rafal.pathrecall.R;
 import com.rafal.pathrecall.data.PathStats;
 import com.rafal.pathrecall.ui.utils.ScoreAnimator;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
+import com.rafal.pathrecall.ui.views.PlayerLifeView;
 
 import javax.inject.Inject;
 
@@ -65,6 +67,9 @@ public class GameBoardFragment extends Fragment {
     TextView mLevelTextView;
     @InjectView(R.id.scoreFloatingView)
     TextView mScoreFloatingTextView;
+
+    @InjectView(R.id.remainingLivesLayout)
+    LinearLayout mRemainingLivesLayout;
 
     @Inject
     GameManager mGameManager;
@@ -127,10 +132,20 @@ public class GameBoardFragment extends Fragment {
                 @Override
                 public void run() {
                     playScoreFloatingAnimation(score);
+                    selectPlayerLostLivesViews();
                 }
             });
         }
     };
+
+    private void selectPlayerLostLivesViews() {
+        for(int i =0; i < mRemainingLivesLayout.getChildCount(); i++){
+            PlayerLifeView view = (PlayerLifeView) mRemainingLivesLayout.getChildAt(i);
+            if(i < mGameManager.getPlayerLostLives()){
+                view.setSelected(true);
+            }
+        }
+    }
 
     private void configureViewsForState(GameSession.GameState newState) {
         Log.d("path", "Game sesson state changed: " + newState);

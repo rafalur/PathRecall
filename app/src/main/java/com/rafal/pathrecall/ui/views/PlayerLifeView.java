@@ -7,6 +7,7 @@ import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -50,5 +51,10 @@ public class PlayerLifeView extends RelativeLayout {
     private void confViews() {
         setPivotX(getWidth()/2);
         setPivotY(getHeight()/2);
+    }
+
+    public void setSelected(boolean selected){
+        ((GradientDrawable)mContentView.getBackground()).setColor(
+                getResources().getColor(selected ? R.color.brick_background_selected : R.color.button_regular_background_pressed));
     }
 }
