@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="RemainingLivesView">
+        <attr name="livesNumber" format="integer" />
+    </declare-styleable>
+</resources>

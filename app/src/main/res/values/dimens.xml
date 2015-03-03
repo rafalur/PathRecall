@@ -10,4 +10,5 @@
     <dimen name="offset_xlarge">20dp</dimen>
     <dimen name="offset_medium">5dp</dimen>
     <dimen name="offset_small">2dp</dimen>
+    <dimen name="life_view_size">22dp</dimen>
 </resources>

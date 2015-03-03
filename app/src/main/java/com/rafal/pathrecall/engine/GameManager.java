@@ -48,6 +48,10 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         mPlayer.playPath();
     }
 
+    public int getLivesNumber(){
+        return GameParameters.DEFAULT_LIVES_NUMBER;
+    }
+
     private void prepareNextPath(){
         generateRandomPath(4);
     }

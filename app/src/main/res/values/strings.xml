@@ -15,4 +15,5 @@
     <string name="info_turns_number">Turns number:</string>
     <string name="score">Score</string>
     <string name="level">Level %d</string>
+    <string name="remaining_lives">Lives remaining</string>
 </resources>

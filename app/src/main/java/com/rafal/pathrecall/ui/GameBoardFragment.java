@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +22,7 @@ import com.rafal.pathrecall.data.PathStats;
 import com.rafal.pathrecall.ui.utils.ScoreAnimator;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
 import com.rafal.pathrecall.ui.views.PlayerLifeView;
+import com.rafal.pathrecall.ui.views.RemainingLivesView;
 
 import javax.inject.Inject;
 
@@ -69,7 +69,7 @@ public class GameBoardFragment extends Fragment {
     TextView mScoreFloatingTextView;
 
     @InjectView(R.id.remainingLivesLayout)
-    LinearLayout mRemainingLivesLayout;
+    RemainingLivesView mRemainingLivesLayout;
 
     @Inject
     GameManager mGameManager;
@@ -102,6 +102,8 @@ public class GameBoardFragment extends Fragment {
         mMainGrid.setNumColumns(COLUMNS_NUMBER);
         mGameManager.setGameStatusListener(mGameStateListener);
         mScoreFloatingTextView.setAlpha(0.0f);
+        mRemainingLivesLayout.setLivesNumber(mGameManager.getLivesNumber());
+        selectRemainingLivesViews();
     }
 
     private GameManager.GameStateListener mGameStateListener = new GameManager.GameStateListener() {
@@ -132,18 +134,16 @@ public class GameBoardFragment extends Fragment {
                 @Override
                 public void run() {
                     playScoreFloatingAnimation(score);
-                    selectPlayerLostLivesViews();
+                    selectRemainingLivesViews();
                 }
             });
         }
     };
 
-    private void selectPlayerLostLivesViews() {
+    private void selectRemainingLivesViews() {
         for(int i =0; i < mRemainingLivesLayout.getChildCount(); i++){
             PlayerLifeView view = (PlayerLifeView) mRemainingLivesLayout.getChildAt(i);
-            if(i < mGameManager.getPlayerLostLives()){
-                view.setSelected(true);
-            }
+            view.setSelected(i < mGameManager.getLivesNumber() - mGameManager.getPlayerLostLives());
         }
     }
 
