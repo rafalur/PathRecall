@@ -1,5 +1,7 @@
 package com.rafal.pathrecall.ui;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +21,7 @@ import com.rafal.pathrecall.engine.GameSession;
 import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.R;
 import com.rafal.pathrecall.data.PathStats;
+import com.rafal.pathrecall.ui.dialogs.GameOverDialog;
 import com.rafal.pathrecall.ui.utils.ScoreAnimator;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
 import com.rafal.pathrecall.ui.views.PlayerLifeView;
@@ -138,7 +141,30 @@ public class GameBoardFragment extends Fragment {
                 }
             });
         }
+
+        @Override
+        public void OnGameOver() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showGameOverDialog();
+                }
+            });
+        }
     };
+
+    private void showGameOverDialog() {
+        String title = getString(R.string.game_over);
+        String subtitle = String.format(getString(R.string.game_over_subtitle), mGameManager.getCurrentScore());
+        GameOverDialog dialog = new GameOverDialog(getActivity(), title , subtitle);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                // TODO: Go to menu view
+            }
+        });
+        dialog.show();
+    }
 
     private void selectRemainingLivesViews() {
         for(int i =0; i < mRemainingLivesLayout.getChildCount(); i++){

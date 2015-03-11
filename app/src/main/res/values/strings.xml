@@ -16,4 +16,7 @@
     <string name="score">Score</string>
     <string name="level">Level %d</string>
     <string name="remaining_lives">Lives remaining</string>
+    <string name="game_over">Game over</string>
+    <string name="ok">OK</string>
+    <string name="game_over_subtitle">Your score: %d</string>
 </resources>

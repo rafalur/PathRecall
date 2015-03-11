@@ -31,4 +31,10 @@
     <color name="brick_background_normal">#FF808080</color>
     <color name="brick_background_selected">#FF660005</color>
 
+    <color name="dialog_background_transparent">#88000000</color>
+    <color name="dialog_content_background">#143E52</color>
+
+    <color name="dialog_button_background_normal">#103140</color>
+    <color name="dialog_button_background_pressed">#2683AD</color>
+
 </resources>

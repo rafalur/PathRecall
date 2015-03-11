@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="@dimen/offset_normal"
+        android:paddingBottom="@dimen/offset_large"
+        android:paddingLeft="@dimen/offset_xlarge"
+        android:paddingRight="@dimen/offset_xlarge"
+        android:background="@drawable/dialog_background_shape">
+
+        <TextView
+            android:id="@+id/dialogTitleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextDialogTitle"
+            android:layout_centerHorizontal="true"
+            android:text="@string/game_over"/>
+
+        <TextView
+            android:id="@+id/dialogSubtitleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextDialogSubtitle"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/dialogTitleView"
+            android:layout_marginTop="@dimen/offset_normal"/>
+
+        <Button
+            android:id="@+id/dialogOkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ButtonDialogStyle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/offset_xlarge"
+            android:layout_below="@id/dialogSubtitleView"
+            android:text="@string/ok"/>
+    </RelativeLayout>
+
+</RelativeLayout>

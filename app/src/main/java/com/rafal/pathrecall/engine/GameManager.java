@@ -135,6 +135,12 @@ public class GameManager implements GameSession.GameSessionStatusListener {
         }
     }
 
+    private void notifyOnGameOver() {
+        if(mGameStatusListener != null){
+            mGameStatusListener.OnGameOver();
+        }
+    }
+
     public int getCurrentScore() {
         if(mCurrentPlayer != null) {
             return mCurrentPlayer.getScore();
@@ -156,11 +162,20 @@ public class GameManager implements GameSession.GameSessionStatusListener {
 
     public void onScorePresentationFinished() {
         mCurrentGameSession.setState(GameSession.GameState.IDLE);
+
+        if(isGameOver()){
+            notifyOnGameOver();
+        }
+    }
+    
+    public boolean isGameOver(){
+        return mCurrentPlayer.getLostLives() >= GameParameters.DEFAULT_LIVES_NUMBER;
     }
 
     public interface GameStateListener{
         public void OnGameSessionStateChanged(GameSession.GameState newState);
         public void OnCurrentPathStatsChanged(PathStats pathStats);
         public void OnPointsReceived(int score);
+        public void OnGameOver();
     }
 }

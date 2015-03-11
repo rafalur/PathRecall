@@ -5,6 +5,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="GameOverDialog" parent="android:Theme.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/dialog_background_transparent</item>
+    </style>
+
     <style name="FontRegular">
         <item name="android:typeface">sans</item>
     </style>
@@ -40,6 +45,19 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextDialogTitle" parent="FontRegular">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextDialogSubtitle" parent="FontRegular">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="TextScore" parent="FontRegular">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">22dp</item>
@@ -62,6 +80,17 @@
         <item name="android:background">@drawable/button_selector</item>
         <item name="android:padding">@dimen/padding_button</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ButtonDialogStyle">
+        <item name="android:background">@drawable/dialog_button_selector</item>
+        <item name="android:paddingTop">@dimen/padding_button</item>
+        <item name="android:paddingBottom">@dimen/padding_button</item>
+        <item name="android:paddingLeft">@dimen/offset_large</item>
+        <item name="android:paddingRight">@dimen/offset_large</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 
