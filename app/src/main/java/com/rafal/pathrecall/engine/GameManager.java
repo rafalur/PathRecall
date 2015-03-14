@@ -1,10 +1,13 @@
 package com.rafal.pathrecall.engine;
 
+import android.util.Log;
+
 import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Path;
 import com.rafal.pathrecall.data.PathStats;
 import com.rafal.pathrecall.data.Player;
+import com.rafal.pathrecall.data.Point;
 import com.rafal.pathrecall.data.Refree;
 
 import javax.inject.Inject;

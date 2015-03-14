@@ -10,67 +10,60 @@
         <item name="android:windowBackground">@color/dialog_background_transparent</item>
     </style>
 
-    <style name="FontRegular">
+    <style name="TextBaseStyle">
         <item name="android:typeface">sans</item>
+        <item name="android:textColor">@color/main_color_contrasted</item>
     </style>
 
     <style name="TitleStyle">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/main_color_contrasted</item>
         <item name="android:typeface">monospace</item>
         <item name="android:textSize">24dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextMainAccent" parent="FontRegular">
-        <item name="android:textColor">@color/main_accent_color</item>
+    <style name="TextMainAccent" parent="TextBaseStyle">
         <item name="android:textSize">24dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextStatus" parent="FontRegular">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">18dp</item>
-        <item name="android:typeface">sans</item>
+    <style name="TextStatus" parent="TextBaseStyle">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextInfoLabel" parent="FontRegular">
-        <item name="android:textColor">@color/white</item>
+    <style name="TextInfoLabel" parent="TextBaseStyle">
         <item name="android:textSize">14dp</item>
     </style>
 
-    <style name="TextLevel" parent="FontRegular">
-        <item name="android:textColor">@color/white</item>
+    <style name="TextLevel" parent="TextBaseStyle">
         <item name="android:typeface">serif</item>
         <item name="android:textSize">18dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextDialogTitle" parent="FontRegular">
-        <item name="android:textColor">@color/white</item>
+    <style name="TextDialogTitle" parent="TextBaseStyle">
         <item name="android:typeface">serif</item>
         <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextDialogSubtitle" parent="FontRegular">
-        <item name="android:textColor">@color/white</item>
+    <style name="TextDialogSubtitle" parent="TextBaseStyle">
         <item name="android:typeface">serif</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="TextScore" parent="FontRegular">
-        <item name="android:textColor">@color/white</item>
+    <style name="TextScore" parent="TextBaseStyle">
         <item name="android:textSize">22dp</item>
         <item name="android:typeface">serif</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextScoreFloating" parent="TextScore">
-        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">30dp</item>
     </style>
 
-    <style name="TextInfoValues" parent="FontRegular">
+    <style name="TextInfoValues" parent="TextBaseStyle">
         <item name="android:textColor">@color/main_accent_color</item>
         <item name="android:textSize">14dp</item>
         <item name="android:textStyle">bold</item>
@@ -79,7 +72,7 @@
     <style name="ButtonNormalStyle">
         <item name="android:background">@drawable/button_selector</item>
         <item name="android:padding">@dimen/padding_button</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/main_color_contrasted</item>
     </style>
 
     <style name="ButtonDialogStyle">
@@ -88,7 +81,7 @@
         <item name="android:paddingBottom">@dimen/padding_button</item>
         <item name="android:paddingLeft">@dimen/offset_large</item>
         <item name="android:paddingRight">@dimen/offset_large</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/main_color_contrasted</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>

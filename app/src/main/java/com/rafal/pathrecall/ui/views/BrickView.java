@@ -103,6 +103,6 @@ public class BrickView extends RelativeLayout {
     }
 
     private Object evaluateStrokeColor(float alpha){
-        return mColorEvaluator.evaluate(alpha, getResources().getColor(R.color.brick_background_normal), getResources().getColor(R.color.white));
+        return mColorEvaluator.evaluate(alpha, getResources().getColor(R.color.brick_background_normal), getResources().getColor(R.color.main_color_contrasted));
     }
 }

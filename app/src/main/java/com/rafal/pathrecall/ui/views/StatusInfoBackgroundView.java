@@ -2,10 +2,8 @@ package com.rafal.pathrecall.ui.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -49,7 +47,7 @@ public class StatusInfoBackgroundView extends View {
 
         canvas.drawPath(path, paint);
 
-        paint.setColor(getResources().getColor(R.color.white));
+        paint.setColor(getResources().getColor(R.color.main_color_contrasted));
         paint.setStyle(Paint.Style.STROKE);
         int dpSize =  2;
         DisplayMetrics dm = getResources().getDisplayMetrics() ;

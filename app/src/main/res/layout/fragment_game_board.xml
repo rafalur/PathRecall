@@ -170,34 +170,56 @@
         android:layout_marginTop="@dimen/offset_normal"
         android:layout_marginBottom="@dimen/offset_normal"
         android:layout_above="@+id/boardFrameLayout">
-        <View
-            style="@style/Divider"
-            android:layout_width="match_parent"
-            android:layout_centerVertical="true"
-            />
+        <!--<View-->
+            <!--style="@style/Divider"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--/>-->
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/infoTextLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
-            <com.rafal.pathrecall.ui.views.StatusInfoBackgroundView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/infoDescriptionTextView"
-                android:layout_alignRight="@id/infoDescriptionTextView"
-                android:layout_alignTop="@id/infoDescriptionTextView"
-                android:layout_alignBottom="@id/infoDescriptionTextView"
-                />
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:background="@color/info_box_gradient_start">
+            <!--<com.rafal.pathrecall.ui.views.StatusInfoBackgroundView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignLeft="@+id/infoDescriptionTextView"-->
+                <!--android:layout_alignRight="@id/infoDescriptionTextView"-->
+                <!--android:layout_alignTop="@id/infoDescriptionTextView"-->
+                <!--android:layout_alignBottom="@id/infoDescriptionTextView"-->
+                <!--/>-->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/info_box_gradient_inverted"/>
             <TextView
-                android:id="@id/infoDescriptionTextView"
+                android:id="@+id/infoDescriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/offset_xlarge"
                 android:paddingRight="@dimen/offset_xlarge"
                 android:paddingTop="@dimen/offset_small"
                 android:paddingBottom="@dimen/offset_medium"
-                style="@style/TextStatus"/>
-        </RelativeLayout>
+                style="@style/TextStatus"
+                android:background="@color/info_box_gradient_end"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/info_box_gradient"/>
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_alignTop="@id/infoTextLayout"/>
+
+        <View
+            style="@style/Divider"
+            android:layout_alignBottom="@id/infoTextLayout"/>
     </RelativeLayout>
 
     <FrameLayout
