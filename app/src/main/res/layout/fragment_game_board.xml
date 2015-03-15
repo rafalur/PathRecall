@@ -22,27 +22,28 @@
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/levelTextView"
-        android:layout_above="@+id/infoDescriptionLayout">
+        android:layout_below="@id/levelTextView">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/offset_medium">
 
 
 
             <RelativeLayout
-                android:id="@+id/levelInfoLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:id="@+id/levelInfoLeftSideLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/scoreInfoLayout">
-
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/levelInfoLayout"
+                    android:layout_alignRight="@id/levelInfoLayout"
+                    android:layout_alignTop="@id/levelInfoLayout"
+                    android:layout_alignBottom="@id/levelInfoLayout">
                     <View
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -66,67 +67,115 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@id/levelInfoLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/bottomInfoLayout">
-                    <TextView
-                        android:id="@+id/pointsToGetLabel"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="@string/info_points_to_get"
-                        android:gravity="right"
-                        style="@style/TextInfoLabel"/>
-                    <TextView
-                        android:id="@+id/pointsToGetValueView"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/offset_medium"
-                        android:gravity="left"
-                        style="@style/TextInfoValues"
-                        android:text="120"/>
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/offset_medium"
+                    android:paddingBottom="@dimen/offset_medium">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/pointsToGetLabel"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/info_points_to_get"
+                            android:gravity="right"
+                            style="@style/TextInfoLabel"/>
+                        <TextView
+                            android:id="@+id/pointsToGetValueView"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/offset_medium"
+                            android:gravity="left"
+                            style="@style/TextInfoValues"
+                            android:text="120"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bottomInfoLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/turnsNumberLabel"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/info_turns_number"
+                            android:gravity="right"
+                            style="@style/TextInfoLabel"/>
+                        <TextView
+                            android:id="@+id/turnsNumberValueView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:layout_marginLeft="@dimen/offset_medium"
+                            style="@style/TextInfoValues"
+                            android:text="4"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/info_hit"
+                            android:gravity="right"
+                            style="@style/TextInfoLabel"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:layout_marginLeft="@dimen/offset_medium"
+                            style="@style/TextInfoValues"
+                            android:text="+10"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/info_miss"
+                            android:gravity="right"
+                            style="@style/TextInfoLabel"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:layout_marginLeft="@dimen/offset_medium"
+                            style="@style/TextInfoValues"
+                            android:text="-10"/>
+                    </LinearLayout>
+
+
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@id/bottomInfoLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/offset_medium">
-
-                <TextView
-                    android:id="@+id/turnsNumberLabel"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/info_turns_number"
-                    android:gravity="right"
-                    style="@style/TextInfoLabel"/>
-                <TextView
-                    android:id="@+id/turnsNumberValueView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:layout_marginLeft="@dimen/offset_medium"
-                    style="@style/TextInfoValues"
-                    android:text="4"/>
-                </LinearLayout>
-
-
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/scoreInfoLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
                 android:paddingRight="@dimen/offset_large"
                 android:paddingLeft="@dimen/offset_large"
                 android:paddingTop="@dimen/offset_medium"
                 android:paddingBottom="@dimen/offset_medium"
+                android:layout_alignTop="@id/levelInfoLeftSideLayout"
+                android:layout_alignBottom="@id/levelInfoLeftSideLayout"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:background="@color/info_box_gradient_start">
@@ -153,28 +202,23 @@
 
             <View
                 style="@style/Divider"
-                android:layout_alignParentTop="true"/>
+                android:layout_alignTop="@id/levelInfoLeftSideLayout"/>
 
             <View
                 style="@style/Divider"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignBottom="@id/levelInfoLeftSideLayout"/>
 
         </RelativeLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@id/infoDescriptionLayout"
+        android:id="@+id/infoDescriptionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/offset_normal"
         android:layout_marginBottom="@dimen/offset_normal"
-        android:layout_above="@+id/boardFrameLayout">
-        <!--<View-->
-            <!--style="@style/Divider"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--/>-->
+        android:layout_below="@id/topLayout">
 
         <LinearLayout
             android:id="@+id/infoTextLayout"
@@ -183,14 +227,7 @@
             android:layout_centerHorizontal="true"
             android:orientation="horizontal"
             android:background="@color/info_box_gradient_start">
-            <!--<com.rafal.pathrecall.ui.views.StatusInfoBackgroundView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignLeft="@+id/infoDescriptionTextView"-->
-                <!--android:layout_alignRight="@id/infoDescriptionTextView"-->
-                <!--android:layout_alignTop="@id/infoDescriptionTextView"-->
-                <!--android:layout_alignBottom="@id/infoDescriptionTextView"-->
-                <!--/>-->
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -226,14 +263,19 @@
         android:id="@+id/boardFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomBarLayout">
+        android:layout_above="@+id/bottomBarLayout"
+        android:layout_below="@id/infoDescriptionLayout">
+
         <com.rafal.pathrecall.ui.views.GameBoardGridView
             android:id="@+id/mainGrid"
             android:padding="@dimen/padding_default"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:stretchMode="none"
+            android:isScrollContainer="false"
+            android:layout_gravity="center">
         </com.rafal.pathrecall.ui.views.GameBoardGridView>
+
         <TextView
             android:id="@+id/scoreFloatingView"
             android:layout_width="wrap_content"
@@ -248,9 +290,7 @@
         android:id="@+id/bottomBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:paddingTop="@dimen/offset_normal"
-        android:paddingBottom="@dimen/offset_normal">
+        android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:id="@+id/bootomBarInnerLayout"

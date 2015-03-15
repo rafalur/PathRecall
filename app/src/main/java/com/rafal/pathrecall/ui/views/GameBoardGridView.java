@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
 import com.rafal.pathrecall.engine.GameManager;
 import com.rafal.pathrecall.PathRecallApp;
@@ -22,6 +24,7 @@ import javax.inject.Inject;
 public class GameBoardGridView extends GridView implements Board.OnBoardStateChangedListener {
 
     private int mBrickSize;
+    private boolean mBrickSizeCalculated;
 
     @Inject GameManager mGameManager;
     @Inject Board mBoard;
@@ -45,21 +48,37 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
         init(context);
     }
 
-    public void init(Context context){
+    public void init(final Context context){
         PathRecallApp.getObjectGraph().inject(this);
 
-        calculateBrickSize();
-        mBoardAdapter = new BoardAdapter(context);
-        setAdapter(mBoardAdapter);
         setClipToPadding(false);
         setChildrenDrawingOrderEnabled(true);
 
         initBoard();
+
+        mBoardAdapter = new BoardAdapter(context);
+        setAdapter(mBoardAdapter);
+
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.d("test", "Board width: " + getWidth() + ", height: " + getHeight());
+                if(!mBrickSizeCalculated && getWidth() > 0 && getHeight() > 0) {
+                    mBrickSizeCalculated = true;
+                    calculateBrickSize();
+                }
+            }
+        });
+
     }
 
     private void calculateBrickSize() {
-        int screenWidth = UiUtils.getScreenSize(getContext()).x;
-        mBrickSize = screenWidth/Board.BOARD_SIZE;
+        int spaceAvailable = Math.min(getWidth() - getPaddingLeft() - getPaddingRight(), getHeight() - getPaddingTop() - getPaddingBottom());
+        mBrickSize = spaceAvailable / Board.BOARD_SIZE;
+        setColumnWidth(mBrickSize);
+
+        // couldn't find any better way to force it to wrap content, only this works...
+        getLayoutParams().width = mBrickSize * Board.BOARD_SIZE + getPaddingLeft() + getPaddingRight();
     }
 
     public void initBoard(){
