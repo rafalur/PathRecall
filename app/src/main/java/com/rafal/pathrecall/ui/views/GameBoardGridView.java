@@ -79,6 +79,8 @@ public class GameBoardGridView extends GridView implements Board.OnBoardStateCha
 
         // couldn't find any better way to force it to wrap content, only this works...
         getLayoutParams().width = mBrickSize * Board.BOARD_SIZE + getPaddingLeft() + getPaddingRight();
+        int verticalPadding = (getHeight() - mBrickSize * Board.BOARD_SIZE)/2;
+        setPadding(getPaddingLeft(), verticalPadding, getPaddingRight(), verticalPadding);
     }
 
     public void initBoard(){
