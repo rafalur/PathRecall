@@ -1,14 +1,9 @@
 package com.rafal.pathrecall.engine;
 
-import android.util.Log;
-
 import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Path;
 import com.rafal.pathrecall.data.PathStats;
-import com.rafal.pathrecall.data.Player;
-import com.rafal.pathrecall.data.Point;
-import com.rafal.pathrecall.data.Refree;
 
 import javax.inject.Inject;
 
@@ -18,6 +13,7 @@ public class GameManager implements GameSession.GameSessionStatusListener {
     @Inject PathPlayer mPlayer;
     @Inject GameSession mCurrentGameSession;
     @Inject Player mCurrentPlayer;
+    @Inject DifficultyProfiler mDifficultyProfiler;
 
     private Path mPath;
     private GameStateListener mGameStatusListener;
@@ -31,18 +27,13 @@ public class GameManager implements GameSession.GameSessionStatusListener {
     public void initializeGame() {
         mCurrentGameSession.addGameStatusListener(this);
         mCurrentGameSession.init();
+        mDifficultyProfiler.resetToDefault();
         mPlayer.setStateListener(mPathPlayerListener);
         generateRandomPath(4);
     }
 
     public Board getBoard() {
         return mBoard;
-    }
-
-    public void playRandomPath(){
-        if(!mPlayer.isPathPlaying()){
-            generateRandomPathAndPlayIt(4);
-        }
     }
 
     public void playCurrentPath(){
@@ -56,16 +47,11 @@ public class GameManager implements GameSession.GameSessionStatusListener {
     }
 
     private void prepareNextPath(){
-        generateRandomPath(4);
+        generateRandomPath(mDifficultyProfiler.getTurnsNumber() + 1);
     }
 
-    private void generateRandomPathAndPlayIt(int turnsNumber){
-        generateRandomPath(turnsNumber);
-        playCurrentPath();
-    }
-
-    private void generateRandomPath(int turnsNumber){
-        mPath = Path.generateRandomPath(turnsNumber);
+    private void generateRandomPath(int sectionsNumber){
+        mPath = Path.generateRandomPath(sectionsNumber);
         notifyOnCurrentPathStatsChanged();
     }
 
@@ -86,16 +72,17 @@ public class GameManager implements GameSession.GameSessionStatusListener {
 
         mBoard.clearSelectionLeavingLastStateFadedOut();
 
-        int score = Refree.countAndAddPointsForPlayer(mCurrentPlayer, playerPath, mPath);
+        int score = Refree.countAndAddPointsForPlayer(mCurrentPlayer, playerPath, mPath, mDifficultyProfiler);
         mCurrentGameSession.setCurrentRoundScore(score);
 
         mCurrentGameSession.setState(GameSession.GameState.REPLAY_VERIFY);
     }
 
     @Override
-    public void onGameStateChanged(GameSession.GameState newState, GameSession.GameState oldState) {
+    public void onGameSessionStateChanged(GameSession.GameState newState, GameSession.GameState oldState) {
         enableDrawing(newState == GameSession.GameState.USER_DRAW);
         if(newState == GameSession.GameState.IDLE){
+            mDifficultyProfiler.updateForLevel(mCurrentGameSession.getLevel());
             prepareNextPath();
         }
         notifyOnGameSessionStateChanged(newState);
@@ -157,6 +144,10 @@ public class GameManager implements GameSession.GameSessionStatusListener {
 
     public int getCurrentLevel(){
         return mCurrentGameSession.getLevel();
+    }
+
+    public DifficultyProfiler getCurrentDifficultyProfiler() {
+        return mDifficultyProfiler;
     }
 
     public void playCurrentPathForVerification() {

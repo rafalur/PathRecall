@@ -54,7 +54,7 @@ public class GameSession {
     private void notifyStatusListeners(GameState newState, GameState oldState) {
         if(mGameStatusListeners != null) {
             for (GameSessionStatusListener listener : mGameStatusListeners) {
-                listener.onGameStateChanged(newState, oldState);
+                listener.onGameSessionStateChanged(newState, oldState);
             }
         }
     }
@@ -66,7 +66,7 @@ public class GameSession {
     }
 
     public interface GameSessionStatusListener {
-        public void onGameStateChanged(GameState newState, GameState oldState);
+        public void onGameSessionStateChanged(GameState newState, GameState oldState);
     }
 
     public int getCurrentRoundScore() {

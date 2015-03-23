@@ -1,8 +1,10 @@
 package com.rafal.pathrecall.modules;
 
+import com.rafal.pathrecall.engine.DifficultyProfiler;
 import com.rafal.pathrecall.engine.GameManager;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
+import com.rafal.pathrecall.engine.RegularDifficultyProfiler;
 import com.rafal.pathrecall.ui.GameBoardFragment;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
 
@@ -35,5 +37,10 @@ public class GameEngineModule {
         }
 
         return bricks;
+    }
+
+    @Provides
+    public DifficultyProfiler getDifficultyProfiler(){
+        return new RegularDifficultyProfiler();
     }
 }

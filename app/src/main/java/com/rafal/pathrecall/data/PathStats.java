@@ -1,8 +1,7 @@
 package com.rafal.pathrecall.data;
 
-/**
- * Created by Rafal on 2014-12-04.
- */
+import com.rafal.pathrecall.engine.DifficultyProfiler;
+
 public class PathStats {
     private final Path mPath;
 
@@ -14,8 +13,7 @@ public class PathStats {
         return mPath.getTurnsNumber();
     }
 
-    public int getPointsToGet() {
-        //TODO: Get score multiplier from separate object
-        return mPath.getCount() * 10;
+    public int getPointsToGet(DifficultyProfiler profiler) {
+        return mPath.getCount() * profiler.getHitPoints();
     }
 }

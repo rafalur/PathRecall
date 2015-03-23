@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.rafal.pathrecall.engine.DifficultyProfiler;
 import com.rafal.pathrecall.engine.GameManager;
 import com.rafal.pathrecall.engine.GameSession;
 import com.rafal.pathrecall.PathRecallApp;
@@ -64,6 +65,10 @@ public class GameBoardFragment extends Fragment {
     TextView mTurnsNumberTextView;
     @InjectView(R.id.pointsToGetValueView)
     TextView mPointsToGetTextView;
+    @InjectView(R.id.hitPointsValueView)
+    TextView mHitPoitsTextView;
+    @InjectView(R.id.missPointsValueView)
+    TextView mMissPoitsTextView;
     @InjectView(R.id.scoreTextView)
     TextView mScoreTextView;
     @InjectView(R.id.levelTextView)
@@ -125,8 +130,12 @@ public class GameBoardFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mTurnsNumberTextView.setText(Integer.toString(pathStats.getTurnsNumber()));
-                    mPointsToGetTextView.setText(Integer.toString(pathStats.getPointsToGet()));
+                    DifficultyProfiler profiler = mGameManager.getCurrentDifficultyProfiler();
+
+                    mHitPoitsTextView.setText(Integer.toString(profiler.getHitPoints()));
+                    mMissPoitsTextView.setText(Integer.toString(profiler.getMissPoints()));
+                    mTurnsNumberTextView.setText(Integer.toString(profiler.getTurnsNumber()));
+                    mPointsToGetTextView.setText(Integer.toString(pathStats.getPointsToGet(profiler)));
                 }
             });
         }

@@ -3,7 +3,6 @@ package com.rafal.pathrecall.data;
 import android.util.Log;
 
 import com.rafal.pathrecall.constants.GameConstants;
-import com.rafal.pathrecall.engine.GameManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +64,10 @@ public class Path {
     }
 
 
-    public static Path generateRandomPath(int turnsNumber){
+    public static Path generateRandomPath(int sectionsNumber){
         Path path = new Path();
 
-        path.setTurnsNumber(turnsNumber);
+        path.setSectionsNumber(sectionsNumber);
 
         Point startPoint;
         Direction direction = null;
@@ -76,8 +75,8 @@ public class Path {
         int availableSpace;
         int length;
 
-        for (int i = 0; i < turnsNumber; i++) {
-            boolean isLastSection = (i == turnsNumber - 1);
+        for (int i = 0; i < sectionsNumber; i++) {
+            boolean isLastSection = (i == sectionsNumber - 1);
             if(i == 0){
                 direction = getRandomDirection();
                 startPoint = getRandomStartPoint(direction);
@@ -162,7 +161,7 @@ public class Path {
         return mTurnsNumber;
     }
 
-    public void setTurnsNumber(int turnsNumber) {
+    public void setSectionsNumber(int turnsNumber) {
         this.mTurnsNumber = turnsNumber;
     }
 
