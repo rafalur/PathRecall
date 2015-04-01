@@ -52,8 +52,6 @@ public class GameBoardFragment extends Fragment {
     @InjectView(R.id.bottomButtonsBar)
     RelativeLayout mBottomButtonsLayout;
 
-    @InjectView(R.id.playPathButtonsLayout)
-    RelativeLayout mPlayPathButtonsLayout;
     @InjectView(R.id.idleButtonsLayout)
     RelativeLayout mIdleButtonsLayout;
     @InjectView(R.id.verifyButtonsLayout)
@@ -194,13 +192,13 @@ public class GameBoardFragment extends Fragment {
                 break;
             case PLAYING_PATH:
                 mInfoDescTextView.setText(R.string.playing_path_state_description);
-                mPlayPathButtonsLayout.setVisibility(View.VISIBLE);
                 break;
             case USER_DRAW:
                 mInfoDescTextView.setText(R.string.draw_state_description);
                 mVerifyButtonsLayout.setVisibility(View.VISIBLE);
                 break;
             case REPLAY_VERIFY:
+                mInfoDescTextView.setText(R.string.replay_state_description);
                 int fadeOutDuration = getResources().getInteger(R.integer.user_selection_fade_out_duration);
                 int pathReplayDelay = getResources().getInteger(R.integer.path_replay_delay);
                 final Handler handler = new Handler(Looper.getMainLooper());

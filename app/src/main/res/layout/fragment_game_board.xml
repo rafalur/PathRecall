@@ -339,17 +339,6 @@
                         android:text="@string/play_path_button_text"/>
                 </RelativeLayout>
                 <RelativeLayout
-                    android:id="@+id/playPathButtonsLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/offset_normal" >
-                    <Button
-                        android:id="@+id/stopButton"
-                        style="@style/ButtonNormalStyle"
-                        android:layout_centerInParent="true"
-                        android:text="@string/stop_button_text"/>
-                </RelativeLayout>
-                <RelativeLayout
                     android:id="@+id/verifyButtonsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

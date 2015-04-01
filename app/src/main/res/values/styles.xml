@@ -1,5 +1,10 @@
 <resources>
 
+    <!-- Base application theme. -->
+    <style name="AppTheme">
+        <!-- Customize your theme here. -->
+    </style>
+
     <style name="GameOverDialog" parent="android:Theme.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/dialog_background_transparent</item>
