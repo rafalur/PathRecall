@@ -28,8 +28,8 @@
     <color name="info_box_gradient_start">#164459</color>
     <color name="info_box_gradient_end">#4C7487</color>
 
-    <color name="button_regular_background_normal">#22FFFFFF</color>
-    <color name="button_regular_background_pressed">#44FFFFFF</color>
+    <color name="button_regular_gradient_top">#1D5873</color>
+    <color name="button_regular_gradient_top_pressed">#4C7487</color>
 
     <color name="brick_background_normal">#FF808080</color>
     <color name="brick_background_selected">#FF660005</color>
@@ -39,5 +39,9 @@
 
     <color name="dialog_button_background_normal">#103140</color>
     <color name="dialog_button_background_pressed">#2683AD</color>
+
+    <color name="player_life_background_empty">#44FFFFFF</color>
+
+
 
 </resources>

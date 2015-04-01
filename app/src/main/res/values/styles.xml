@@ -1,10 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme">
-        <!-- Customize your theme here. -->
-    </style>
-
     <style name="GameOverDialog" parent="android:Theme.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/dialog_background_transparent</item>
@@ -15,75 +10,62 @@
         <item name="android:textColor">@color/main_color_contrasted</item>
     </style>
 
-    <style name="TitleStyle">
-        <item name="android:textColor">@color/main_color_contrasted</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textSize">24dp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextMainAccent" parent="TextBaseStyle">
-        <item name="android:textSize">24dp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="TextStatus" parent="TextBaseStyle">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">@dimen/status_text_size</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextInfoLabel" parent="TextBaseStyle">
-        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="TextLevel" parent="TextBaseStyle">
         <item name="android:typeface">serif</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">@dimen/level_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextDialogTitle" parent="TextBaseStyle">
         <item name="android:typeface">serif</item>
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">@dimen/game_over_dialog_title_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextDialogSubtitle" parent="TextBaseStyle">
         <item name="android:typeface">serif</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/game_over_dialog_subtitle_text_size</item>
     </style>
 
     <style name="TextScore" parent="TextBaseStyle">
-        <item name="android:textSize">22dp</item>
+        <item name="android:textSize">@dimen/score_text_size</item>
         <item name="android:typeface">serif</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextScoreFloating" parent="TextScore">
-        <item name="android:textSize">30dp</item>
+        <item name="android:textSize">@dimen/floating_score_text_size</item>
     </style>
 
+    <style name="TextInfoLabel" parent="TextBaseStyle">
+        <item name="android:textSize">@dimen/info_label_text_size</item>
+    </style>
     <style name="TextInfoValues" parent="TextBaseStyle">
         <item name="android:textColor">@color/main_accent_color</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">@dimen/info_label_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ButtonNormalStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/button_regular_height</item>
         <item name="android:background">@drawable/button_selector</item>
-        <item name="android:padding">@dimen/padding_button</item>
-        <item name="android:textColor">@color/main_color_contrasted</item>
-    </style>
-
-    <style name="ButtonDialogStyle">
-        <item name="android:background">@drawable/dialog_button_selector</item>
         <item name="android:paddingTop">@dimen/padding_button</item>
         <item name="android:paddingBottom">@dimen/padding_button</item>
+        <item name="android:paddingLeft">@dimen/padding_button</item>
+        <item name="android:paddingRight">@dimen/padding_button</item>
+        <item name="android:textColor">@color/main_color_contrasted</item>
+        <item name="android:textSize">@dimen/button_normal_text_size</item>
+    </style>
+
+    <style name="ButtonDialogStyle" parent="ButtonNormalStyle">
         <item name="android:paddingLeft">@dimen/offset_large</item>
         <item name="android:paddingRight">@dimen/offset_large</item>
-        <item name="android:textColor">@color/main_color_contrasted</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
 
@@ -92,5 +74,4 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/divider_normal</item>
     </style>
-
 </resources>

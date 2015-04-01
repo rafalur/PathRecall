@@ -21,4 +21,5 @@
     <string name="game_over">Game over</string>
     <string name="ok">OK</string>
     <string name="game_over_subtitle">Your score: %d</string>
+    <string name="button_clear_board">Clear</string>
 </resources>

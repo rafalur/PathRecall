@@ -55,6 +55,6 @@ public class PlayerLifeView extends RelativeLayout {
 
     public void setSelected(boolean selected){
         ((GradientDrawable)mContentView.getBackground()).setColor(
-                getResources().getColor(selected ? R.color.brick_background_selected : R.color.button_regular_background_pressed));
+                getResources().getColor(selected ? R.color.brick_background_selected : R.color.player_life_background_empty));
     }
 }

@@ -297,7 +297,8 @@
         <LinearLayout
             android:id="@+id/bootomBarInnerLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -333,8 +334,6 @@
                     android:padding="@dimen/offset_normal" >
                     <Button
                         android:id="@+id/playPathButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         style="@style/ButtonNormalStyle"
                         android:layout_centerInParent="true"
                         android:text="@string/play_path_button_text"/>
@@ -346,8 +345,6 @@
                     android:padding="@dimen/offset_normal" >
                     <Button
                         android:id="@+id/stopButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         style="@style/ButtonNormalStyle"
                         android:layout_centerInParent="true"
                         android:text="@string/stop_button_text"/>
@@ -360,15 +357,12 @@
 
                     <Button
                         android:id="@+id/clearButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         style="@style/ButtonNormalStyle"
                         android:layout_alignParentLeft="true"
-                        android:text="Clear"/>
+                        android:layout_centerVertical="true"
+                        android:text="@string/button_clear_board"/>
                     <Button
                         android:id="@+id/verifyPathButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         style="@style/ButtonNormalStyle"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"

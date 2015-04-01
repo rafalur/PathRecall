@@ -1,14 +1,25 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="padding_brick_small">2dp</dimen>
     <dimen name="padding_default">4dp</dimen>
-    <dimen name="padding_button">5dp</dimen>
+    <dimen name="padding_button">8dp</dimen>
     <dimen name="offset_normal">10dp</dimen>
     <dimen name="offset_large">16dp</dimen>
     <dimen name="offset_xlarge">20dp</dimen>
     <dimen name="offset_medium">5dp</dimen>
     <dimen name="offset_small">2dp</dimen>
     <dimen name="life_view_size">22dp</dimen>
+
+    <dimen name="button_regular_height">46dp</dimen>
+
+    <!--text-->
+    <dimen name="status_text_size">17sp</dimen>
+    <dimen name="info_label_text_size">14sp</dimen>
+    <dimen name="level_text_size">18sp</dimen>
+    <dimen name="game_over_dialog_title_text_size">30sp</dimen>
+    <dimen name="game_over_dialog_subtitle_text_size">18sp</dimen>
+    <dimen name="floating_score_text_size">30sp</dimen>
+    <dimen name="score_text_size">22sp</dimen>
+    <dimen name="button_normal_text_size">16sp</dimen>
 </resources>
