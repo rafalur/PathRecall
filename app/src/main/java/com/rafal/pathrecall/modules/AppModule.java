@@ -2,7 +2,10 @@ package com.rafal.pathrecall.modules;
 
 import android.app.Application;
 
+import com.rafal.pathrecall.NavigationManager;
 import com.rafal.pathrecall.PathRecallApp;
+import com.rafal.pathrecall.ui.MainActivity;
+import com.rafal.pathrecall.ui.fragments.MenuFragment;
 
 import javax.inject.Singleton;
 
@@ -12,10 +15,10 @@ import dagger.Provides;
 @Module(
         includes = {
                 GameEngineModule.class,
-                UiModule.class
+                UiModule.class,
         },
         injects = {
-                PathRecallApp.class
+                PathRecallApp.class,
         },
         library = true
 )

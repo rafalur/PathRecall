@@ -22,4 +22,7 @@
     <string name="ok">OK</string>
     <string name="game_over_subtitle">Your score: %d</string>
     <string name="button_clear_board">Clear</string>
+    <string name="menu_start_new_game">New game</string>
+    <string name="menu_quit">Exit</string>
+    <string name="menu_about">About</string>
 </resources>

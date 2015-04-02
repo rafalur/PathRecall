@@ -1,6 +1,5 @@
-package com.rafal.pathrecall.ui;
+package com.rafal.pathrecall.ui.fragments;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,7 +41,7 @@ import butterknife.OnTouch;
  * create zan instance of this fragment.
  *
  */
-public class GameBoardFragment extends Fragment {
+public class GameBoardFragment extends BaseFragment {
     public static final int COLUMNS_NUMBER = 10;
 
     @InjectView(R.id.mainGrid)
@@ -80,7 +79,7 @@ public class GameBoardFragment extends Fragment {
     @Inject
     GameManager mGameManager;
 
-    public static GameBoardFragment newInstance(String param1, String param2) {
+    public static GameBoardFragment newInstance() {
         GameBoardFragment fragment = new GameBoardFragment();
         return fragment;
     }

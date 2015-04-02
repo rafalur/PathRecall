@@ -5,7 +5,8 @@ import com.rafal.pathrecall.engine.GameManager;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Brick;
 import com.rafal.pathrecall.engine.RegularDifficultyProfiler;
-import com.rafal.pathrecall.ui.GameBoardFragment;
+import com.rafal.pathrecall.ui.fragments.GameBoardFragment;
+import com.rafal.pathrecall.ui.fragments.MenuFragment;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
 
 import javax.inject.Singleton;

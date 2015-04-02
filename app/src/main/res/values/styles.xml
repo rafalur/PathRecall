@@ -73,6 +73,14 @@
         <item name="android:paddingRight">@dimen/offset_large</item>
     </style>
 
+    <style name="ButtonMenuStyle" parent="ButtonNormalStyle">
+        <item name="android:minWidth">@dimen/button_menu_width</item>
+        <item name="android:layout_height">@dimen/button_menu_height</item>
+        <item name="android:paddingLeft">@dimen/offset_xlarge</item>
+        <item name="android:paddingRight">@dimen/offset_xlarge</item>
+        <item name="android:textSize">@dimen/button_menu_text_size</item>
+    </style>
+
 
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
