@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background_gradient"
+    android:paddingLeft="@dimen/offset_large"
+    android:paddingRight="@dimen/offset_large"
+    android:gravity="center_horizontal">
+    <ImageView
+        android:id="@+id/aboutLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/offset_large"
+        android:adjustViewBounds="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo_one_line_400x120"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/aboutLogo"
+        android:layout_marginTop="@dimen/offset_large"
+        style="@style/TextAbout"
+        android:text="@string/about_text"
+        android:autoLink="all"/>
+
+</RelativeLayout>

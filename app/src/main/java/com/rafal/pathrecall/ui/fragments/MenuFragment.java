@@ -43,6 +43,7 @@ public class MenuFragment extends BaseFragment {
                 getNavigationManager().switchToGameBoardFragment();
                 break;
             case R.id.menuAboutButton:
+                getNavigationManager().switchToAboutFragment();
                 break;
             case R.id.menuExitButton:
                 getActivity().finish();

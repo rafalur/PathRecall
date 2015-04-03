@@ -3,6 +3,8 @@ package com.rafal.pathrecall;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import com.rafal.pathrecall.ui.fragments.AboutFragment;
+import com.rafal.pathrecall.ui.fragments.BaseFragment;
 import com.rafal.pathrecall.ui.fragments.GameBoardFragment;
 import com.rafal.pathrecall.ui.fragments.MenuFragment;
 
@@ -16,15 +18,20 @@ public class NavigationManager {
     }
 
     public void switchToMenuFragment(){
-        mFragmentManager.beginTransaction()
-                .replace(mFragmentContainerId, MenuFragment.newInstance())
-                .addToBackStack(null)
-                .commit();
+        switchToFragment(MenuFragment.newInstance());
     }
 
     public void switchToGameBoardFragment(){
+        switchToFragment(GameBoardFragment.newInstance());
+    }
+
+    public void switchToAboutFragment(){
+        switchToFragment(AboutFragment.newInstance());
+    }
+
+    private void switchToFragment(BaseFragment fragment){
         mFragmentManager.beginTransaction()
-                .replace(mFragmentContainerId, GameBoardFragment.newInstance())
+                .replace(mFragmentContainerId, fragment)
                 .addToBackStack(null)
                 .commit();
     }

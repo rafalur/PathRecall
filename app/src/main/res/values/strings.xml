@@ -25,4 +25,5 @@
     <string name="menu_start_new_game">New game</string>
     <string name="menu_quit">Exit</string>
     <string name="menu_about">About</string>
+    <string name="about_text">Path Recall is an open source project.\nSource code can be found here:\n\nhttps://github.com/rafalur/PathRecall\n\nDeveloped by Rafal Urbaniak.\n\nContact: pathrecall@gmail.com</string>
 </resources>

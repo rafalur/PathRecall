@@ -56,6 +56,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAbout" parent="TextBaseStyle">
+        <item name="android:textSize">@dimen/about_text_size</item>
+    </style>
+
     <style name="ButtonNormalStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/button_regular_height</item>

@@ -25,4 +25,5 @@
     <dimen name="score_text_size">22sp</dimen>
     <dimen name="button_normal_text_size">16sp</dimen>
     <dimen name="button_menu_text_size">20sp</dimen>
+    <dimen name="about_text_size">18sp</dimen>
 </resources>
