@@ -21,6 +21,8 @@ import com.rafal.pathrecall.engine.GameSession;
 import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.R;
 import com.rafal.pathrecall.data.PathStats;
+import com.rafal.pathrecall.modules.AppModule;
+import com.rafal.pathrecall.modules.GameEngineModule;
 import com.rafal.pathrecall.ui.dialogs.GameOverDialog;
 import com.rafal.pathrecall.ui.utils.ScoreAnimator;
 import com.rafal.pathrecall.ui.views.GameBoardGridView;
@@ -33,6 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnTouch;
+import dagger.ObjectGraph;
 
 
 /**
@@ -87,13 +90,20 @@ public class GameBoardFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ObjectGraph scopedGraph = ((PathRecallApp) getActivity().getApplication()).createScopedGraph(new GameEngineModule());
+        scopedGraph.inject(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((PathRecallApp) getActivity().getApplication()).restoreMainObjectGraph();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        PathRecallApp.getObjectGraph().inject(this);
-
         View root = inflater.inflate(R.layout.fragment_game_board, container, false);
         ButterKnife.inject(this, root);
         confViews();

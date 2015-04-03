@@ -14,7 +14,7 @@ import dagger.Provides;
 
 @Module(
         includes = {
-                GameEngineModule.class,
+//                GameEngineModule.class,
                 UiModule.class,
         },
         injects = {

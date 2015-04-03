@@ -16,6 +16,7 @@ import dagger.Provides;
 
 @Module(
         injects = {GameBoardFragment.class, GameBoardGridView.class, GameManager.class, Board.class},
+        addsTo = AppModule.class,
         library = true
 )
 

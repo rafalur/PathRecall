@@ -29,6 +29,15 @@ public class PathRecallApp extends Application {
         mApplicationGraph.inject(o);
     }
 
+    public ObjectGraph createScopedGraph(Object... modules) {
+        mApplicationGraph = mApplicationGraph.plus(modules);
+        return mApplicationGraph;
+    }
+
+    public void restoreMainObjectGraph() {
+        mApplicationGraph = ObjectGraph.create(new AppModule(this));
+    }
+
     public static PathRecallApp get(Context context) {
         return (PathRecallApp) context.getApplicationContext();
     }
