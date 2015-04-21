@@ -4,32 +4,64 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_background_gradient">
     <ImageView
+        android:id="@+id/menuLogoView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/offset_xlarge"
         android:src="@drawable/logo_one_line_600x180"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        android:gravity="center">
-        <Button
-            android:id="@+id/menuNewGameButton"
-            style="@style/ButtonMenuStyle"
-            android:text="@string/menu_start_new_game"
-            android:layout_marginBottom="@dimen/offset_large"/>
-        <Button
-            android:id="@+id/menuAboutButton"
-            style="@style/ButtonMenuStyle"
-            android:text="@string/menu_about"
-            android:layout_marginBottom="@dimen/offset_large"/>
-        <Button
-            android:id="@+id/menuExitButton"
-            style="@style/ButtonMenuStyle"
-            android:text="@string/menu_quit"
-            android:layout_marginBottom="@dimen/offset_large"/>
-    </LinearLayout>
+        android:layout_below="@id/menuLogoView"
+        android:layout_alignParentBottom="true">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+            <Button
+                android:id="@+id/menuStartGameButton"
+                style="@style/ButtonMenuStyle"
+                android:text="@string/menu_start_new_game"
+                android:layout_marginBottom="@dimen/offset_medium"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/offset_medium"
+                style="@style/TextNormal"
+                android:text="@string/menu_player_label"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/offset_xxlarge">
+                <Spinner
+                    android:id="@+id/menuPlayersSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/player_spinner_background_30x30"
+                    android:popupBackground="@drawable/player_spinner_popup_background_30x30"
+                    android:dropDownVerticalOffset="@dimen/offset_medium"/>
+                <ImageButton
+                    android:id="@+id/addPlayerButon"
+                    style="@style/ButtonAddPlayerStyle"
+                    android:layout_marginLeft="@dimen/offset_medium"
+                    android:src="@drawable/ic_add_player_button"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/menuAboutButton"
+                style="@style/ButtonMenuStyle"
+                android:text="@string/menu_about"
+                android:layout_marginBottom="@dimen/offset_large"/>
+            <Button
+                android:id="@+id/menuExitButton"
+                style="@style/ButtonMenuStyle"
+                android:text="@string/menu_quit"/>
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

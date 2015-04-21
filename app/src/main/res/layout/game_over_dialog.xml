@@ -11,8 +11,7 @@
         android:paddingTop="@dimen/offset_normal"
         android:paddingBottom="@dimen/offset_large"
         android:paddingLeft="@dimen/offset_xlarge"
-        android:paddingRight="@dimen/offset_xlarge"
-        android:background="@drawable/dialog_background_shape">
+        android:paddingRight="@dimen/offset_xlarge">
 
         <TextView
             android:id="@+id/dialogTitleView"

@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="GameOverDialog" parent="android:Theme.Light">
+    <style name="DialogNormal" parent="android:Theme.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/dialog_background_transparent</item>
     </style>
@@ -13,6 +13,10 @@
     <style name="TextBaseStyle">
         <item name="android:typeface">sans</item>
         <item name="android:textColor">@color/main_color_contrasted</item>
+    </style>
+
+    <style name="TextNormal" parent="TextBaseStyle">
+        <item name="android:textSize">@dimen/text_normal_size</item>
     </style>
 
     <style name="TextStatus" parent="TextBaseStyle">
@@ -30,6 +34,10 @@
         <item name="android:typeface">serif</item>
         <item name="android:textSize">@dimen/game_over_dialog_title_text_size</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextDialogAddPlayerTitle" parent="TextDialogTitle">
+        <item name="android:textSize">@dimen/add_player_dialog_title</item>
     </style>
 
     <style name="TextDialogSubtitle" parent="TextBaseStyle">
@@ -60,6 +68,10 @@
         <item name="android:textSize">@dimen/about_text_size</item>
     </style>
 
+    <style name="TextPlayersSpinner" parent="TextBaseStyle">
+        <item name="android:textSize">@dimen/spinner_player_name</item>
+    </style>
+
     <style name="ButtonNormalStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/button_regular_height</item>
@@ -82,6 +94,12 @@
         <item name="android:layout_height">@dimen/button_menu_height</item>
         <item name="android:paddingLeft">@dimen/offset_xlarge</item>
         <item name="android:paddingRight">@dimen/offset_xlarge</item>
+        <item name="android:textSize">@dimen/button_menu_text_size</item>
+    </style>
+
+    <style name="ButtonAddPlayerStyle" parent="ButtonNormalStyle">
+        <item name="android:minWidth">@dimen/button_add_player_size</item>
+        <item name="android:layout_height">@dimen/button_add_player_size</item>
         <item name="android:textSize">@dimen/button_menu_text_size</item>
     </style>
 

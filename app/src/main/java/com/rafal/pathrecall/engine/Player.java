@@ -2,14 +2,22 @@ package com.rafal.pathrecall.engine;
 
 import android.util.Log;
 
+import com.google.gson.annotations.SerializedName;
+
 import javax.inject.Inject;
 
 public class Player {
     private int mScore;
     private int mLostLives;
+    @SerializedName("name")
+    private String mName;
 
     @Inject
     Player(){}
+
+    public Player(String name){
+        mName = name;
+    }
 
     public int getScore() {
         return mScore;
@@ -26,5 +34,9 @@ public class Player {
 
     public void onLifeLost(){
         mLostLives++;
+    }
+
+    public String getName() {
+        return mName;
     }
 }

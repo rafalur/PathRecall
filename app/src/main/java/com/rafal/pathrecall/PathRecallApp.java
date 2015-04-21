@@ -9,10 +9,12 @@ import dagger.ObjectGraph;
 
 public class PathRecallApp extends Application {
     private static ObjectGraph mApplicationGraph;
+    private AppPreferences mPreferences;
 
     @Override public void onCreate() {
         super.onCreate();
 
+        mPreferences = new AppPreferences(getBaseContext());
         buildObjectGraphAndInject();
     }
 
@@ -40,5 +42,9 @@ public class PathRecallApp extends Application {
 
     public static PathRecallApp get(Context context) {
         return (PathRecallApp) context.getApplicationContext();
+    }
+
+    public AppPreferences getPreferences() {
+        return mPreferences;
     }
 }

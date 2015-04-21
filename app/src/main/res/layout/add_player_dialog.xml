@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="@dimen/offset_large">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/offset_large"
+        style="@style/TextDialogAddPlayerTitle"
+        android:text="@string/add_player_dialog_title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextNormal"
+        android:layout_gravity="left"
+        android:layout_marginBottom="@dimen/offset_medium"
+        android:text="@string/add_player_label"/>
+
+    <com.rafal.pathrecall.ui.views.ValidatedEditText
+        android:id="@+id/addPlayerEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:singleLine="true"
+        android:padding="@dimen/offset_medium"/>
+    <TextView
+        android:id="@+id/alreadyExistsErrorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:textSize="@dimen/text_small_size"
+        android:text="@string/add_player_already_exists"
+        android:textColor="@color/add_player_error"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/addPlayerOkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ButtonDialogStyle"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/offset_normal"
+        android:text="@string/ok"/>
+
+</LinearLayout>

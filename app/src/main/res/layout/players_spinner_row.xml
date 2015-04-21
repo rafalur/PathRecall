@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/button_add_player_size"
+    android:layout_centerVertical="true"
+    android:paddingLeft="@dimen/offset_medium"
+    android:paddingRight="@dimen/offset_medium">
+    <TextView
+        android:id="@+id/playerNameTextView"
+        style="@style/TextPlayersSpinner"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:ellipsize="end"/>
+
+</RelativeLayout>

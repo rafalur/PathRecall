@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>
     <color name="fuchsia">#FF00FF</color>
@@ -42,6 +43,5 @@
 
     <color name="player_life_background_empty">#44FFFFFF</color>
 
-
-
+    <color name="add_player_error">#FF3D3D</color>
 </resources>
