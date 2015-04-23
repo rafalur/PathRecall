@@ -10,12 +10,10 @@ import com.rafal.pathrecall.engine.Player;
 import java.lang.reflect.Type;
 import java.util.List;
 
-/**
- * Created by Rafal on 2015-04-08.
- */
 public class AppPreferences {
     private static final String KEY_PREFS = "PATH_RECALL_PREFS";
     private static final String KEY_PLAYERS = "KEY_PLAYERS";
+    private static final String KEY_DEFAULT_PLAYER = "KEY_DEFAULT_PLAYERS";
 
     SharedPreferences mPreferences;
 
@@ -23,12 +21,24 @@ public class AppPreferences {
         mPreferences = context.getSharedPreferences(KEY_PREFS, Context.MODE_PRIVATE);
     }
 
+    public void storeDefaultPlayer(String player){
+        storeString(KEY_DEFAULT_PLAYER, player);
+    }
+
+    public String getDefaultPlayer(){
+        return mPreferences.getString(KEY_DEFAULT_PLAYER, null);
+    }
+
+    private void storeString(String key, String stringToStore) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(key, stringToStore);
+        editor.commit();
+    }
+
     public void storePlayers(List<Player> players){
         Gson gson = new Gson();
         String jsonPlayers = gson.toJson(players);
-        SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putString(KEY_PLAYERS, jsonPlayers);
-        editor.commit();
+        storeString(KEY_PLAYERS, jsonPlayers);
     }
 
     public List<Player> getPlayers(){

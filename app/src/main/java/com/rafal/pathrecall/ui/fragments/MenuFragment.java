@@ -16,9 +16,12 @@ import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.R;
 import com.rafal.pathrecall.engine.Player;
 import com.rafal.pathrecall.engine.PlayersManager;
+import com.rafal.pathrecall.ui.adapters.PlayersAdapter;
 import com.rafal.pathrecall.ui.dialogs.AddPlayerDialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -29,7 +32,6 @@ public class MenuFragment extends BaseFragment {
 
     @InjectView(R.id.menuPlayersSpinner)
     Spinner mPlayersSpinner;
-
 
     PlayersAdapter mPlayersAdapter;
 
@@ -59,13 +61,18 @@ public class MenuFragment extends BaseFragment {
         }
         mPlayersAdapter = new PlayersAdapter(getActivity(), R.id.playerNameTextView, players);
         mPlayersSpinner.setAdapter(mPlayersAdapter);
+
+        String defaultPlayer = PathRecallApp.get(getActivity()).getPreferences().getDefaultPlayer();
+        if(defaultPlayer != null) {
+            mPlayersSpinner.setSelection(mPlayersAdapter.getIndexOfPlayer(defaultPlayer));
+        }
     }
 
     @OnClick({ R.id.menuStartGameButton, R.id.menuAboutButton, R.id.menuExitButton })
     protected void handleClicks(Button button) {
         switch (button.getId()) {
             case R.id.menuStartGameButton:
-                getNavigationManager().switchToGameBoardFragment();
+                startGame();
                 break;
             case R.id.menuAboutButton:
                 getNavigationManager().switchToAboutFragment();
@@ -76,36 +83,33 @@ public class MenuFragment extends BaseFragment {
         }
     }
 
-    private class PlayersAdapter extends ArrayAdapter<Player>{
-        private final List<Player> mPlayers;
-
-        public PlayersAdapter(Context context, int resource, List<Player> objects) {
-            super(context, resource, objects);
-            mPlayers = objects;
+    private void startGame() {
+        if(mPlayersAdapter.getCount() < 1){
+            final AddPlayerDialog dialog = new AddPlayerDialog(getActivity(), PlayersManager.getPlayersNamesFromPlayersList(mPlayersAdapter.getPlayers()));
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    String playerName = dialog.getPlayerName();
+                    if(playerName != null && !playerName.isEmpty()) {
+                        addPlayer(playerName);
+                        startGame();
+                    }
+                }
+            });
+            dialog.show();
+            return;
         }
+        String currentPlayer = mPlayersAdapter.getItem(mPlayersSpinner.getSelectedItemPosition()).getName();
+        PathRecallApp.get(getActivity()).getPreferences().storeDefaultPlayer(currentPlayer);
+        getNavigationManager().switchToGameBoardFragment();
+    }
 
-        @Override
-        public View getDropDownView(int position, View convertView,ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        public View getCustomView(int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = getLayoutInflater(null);
-            View row=inflater.inflate(R.layout.players_spinner_row, parent, false);
-            TextView label=(TextView)row.findViewById(R.id.playerNameTextView);
-            label.setText(getItem(position).getName());
-
-            return row;
-        }
-
-        public List<Player> getPlayers() {
-            return mPlayers;
+    private void addPlayer(String playerName) {
+        if(playerName != null){
+            Player player = new Player(playerName);
+            mPlayersAdapter.add(player);
+            mPlayersSpinner.setSelection(mPlayersAdapter.getIndexOfPlayer(playerName));
+            PathRecallApp.get(getActivity()).getPreferences().storePlayers(mPlayersAdapter.getPlayers());
         }
     }
 
@@ -116,12 +120,7 @@ public class MenuFragment extends BaseFragment {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 String playerName = dialog.getPlayerName();
-                if(playerName != null){
-                    Player player = new Player(playerName);
-                    mPlayersAdapter.add(player);
-                    mPlayersSpinner.setSelection(mPlayersAdapter.getCount() - 1);
-                    PathRecallApp.get(getActivity()).getPreferences().storePlayers(mPlayersAdapter.getPlayers());
-                }
+                addPlayer(playerName);
             }
         });
         dialog.show();
