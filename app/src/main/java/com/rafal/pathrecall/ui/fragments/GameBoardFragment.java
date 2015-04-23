@@ -1,5 +1,7 @@
 package com.rafal.pathrecall.ui.fragments;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -81,6 +85,7 @@ public class GameBoardFragment extends BaseFragment {
 
     @Inject
     GameManager mGameManager;
+    private boolean mBoardInitialAnimationPlayed;
 
     public static GameBoardFragment newInstance() {
         GameBoardFragment fragment = new GameBoardFragment();
@@ -119,7 +124,24 @@ public class GameBoardFragment extends BaseFragment {
         mScoreFloatingTextView.setAlpha(0.0f);
         mRemainingLivesLayout.setLivesNumber(mGameManager.getLivesNumber());
         selectRemainingLivesViews();
+
+        mMainGrid.getViewTreeObserver().addOnGlobalLayoutListener(mGridLayoutListener);
     }
+
+    ViewTreeObserver.OnGlobalLayoutListener mGridLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            if(!mBoardInitialAnimationPlayed && mMainGrid.getWidth() > 0 && mMainGrid.getHeight() > 0){
+                mBoardInitialAnimationPlayed = true;
+                mMainGrid.setVisibility(View.VISIBLE);
+                AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getActivity(),
+                        R.animator.board_init_scale_anim);
+                set.setTarget(mMainGrid);
+                set.setInterpolator(new OvershootInterpolator(1.2f));
+                set.start();
+            }
+        }
+    };
 
     private GameManager.GameStateListener mGameStateListener = new GameManager.GameStateListener() {
         @Override

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="brick_scale_down_anim_duration">300</integer>
+    <integer name="board_scale_anim_duration">700</integer>
     <integer name="user_selection_fade_out_duration">700</integer>
     <integer name="path_replay_delay">500</integer>
 </resources>

@@ -275,7 +275,8 @@
             android:layout_height="match_parent"
             android:stretchMode="none"
             android:isScrollContainer="false"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:visibility="invisible">
         </com.rafal.pathrecall.ui.views.GameBoardGridView>
 
         <TextView
