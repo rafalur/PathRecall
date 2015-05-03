@@ -1,6 +1,6 @@
 package com.rafal.pathrecall.data;
 
-import com.rafal.pathrecall.engine.DifficultyProfiler;
+import com.rafal.pathrecall.engine.difficulty.DifficultyProfiler;
 
 public class PathStats {
     private final Path mPath;

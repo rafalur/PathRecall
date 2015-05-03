@@ -3,6 +3,7 @@ package com.rafal.pathrecall;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import com.rafal.pathrecall.engine.difficulty.Difficulty;
 import com.rafal.pathrecall.ui.fragments.AboutFragment;
 import com.rafal.pathrecall.ui.fragments.BaseFragment;
 import com.rafal.pathrecall.ui.fragments.GameBoardFragment;
@@ -21,8 +22,8 @@ public class NavigationManager {
         switchToFragment(MenuFragment.newInstance());
     }
 
-    public void switchToGameBoardFragment(){
-        switchToFragment(GameBoardFragment.newInstance());
+    public void switchToGameBoardFragment(String playerName, Difficulty difficulty){
+        switchToFragment(GameBoardFragment.newInstance(playerName, difficulty));
     }
 
     public void switchToAboutFragment(){

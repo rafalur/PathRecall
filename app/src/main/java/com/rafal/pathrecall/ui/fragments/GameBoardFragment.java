@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,13 +18,13 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.rafal.pathrecall.engine.DifficultyProfiler;
-import com.rafal.pathrecall.engine.GameManager;
-import com.rafal.pathrecall.engine.GameSession;
 import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.R;
 import com.rafal.pathrecall.data.PathStats;
-import com.rafal.pathrecall.modules.AppModule;
+import com.rafal.pathrecall.engine.difficulty.Difficulty;
+import com.rafal.pathrecall.engine.difficulty.DifficultyProfiler;
+import com.rafal.pathrecall.engine.GameManager;
+import com.rafal.pathrecall.engine.GameSession;
 import com.rafal.pathrecall.modules.GameEngineModule;
 import com.rafal.pathrecall.ui.dialogs.GameOverDialog;
 import com.rafal.pathrecall.ui.utils.ScoreAnimator;
@@ -50,6 +49,8 @@ import dagger.ObjectGraph;
  */
 public class GameBoardFragment extends BaseFragment {
     public static final int COLUMNS_NUMBER = 10;
+    public static final String ARG_PLAYER_NAME = "player_name";
+    public static final String ARG_DIFFICULTY = "difficulty";
 
     @InjectView(R.id.mainGrid)
     GameBoardGridView mMainGrid;
@@ -85,10 +86,17 @@ public class GameBoardFragment extends BaseFragment {
 
     @Inject
     GameManager mGameManager;
-    private boolean mBoardInitialAnimationPlayed;
 
-    public static GameBoardFragment newInstance() {
+
+    private boolean mBoardInitialAnimationPlayed;
+    private String mPlayerName;
+
+    public static GameBoardFragment newInstance(String playerName, Difficulty difficulty) {
         GameBoardFragment fragment = new GameBoardFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ARG_PLAYER_NAME, playerName);
+        bundle.putSerializable(ARG_DIFFICULTY, difficulty);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -96,7 +104,9 @@ public class GameBoardFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ObjectGraph scopedGraph = ((PathRecallApp) getActivity().getApplication()).createScopedGraph(new GameEngineModule());
+        mPlayerName = getArguments().getString(ARG_PLAYER_NAME);
+        Difficulty difficulty = (Difficulty)getArguments().getSerializable(ARG_DIFFICULTY);
+        ObjectGraph scopedGraph = ((PathRecallApp) getActivity().getApplication()).createScopedGraph(new GameEngineModule(mPlayerName, difficulty));
         scopedGraph.inject(this);
     }
 

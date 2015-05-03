@@ -24,6 +24,7 @@
     <string name="button_clear_board">Clear</string>
     <string name="menu_start_new_game">Start game</string>
     <string name="menu_player_label">Player:</string>
+    <string name="menu_difficulty_label">Difficulty:</string>
     <string name="menu_add_player_button">+</string>
     <string name="add_player_dialog_title">Create new player</string>
     <string name="add_player_label">Player name:</string>

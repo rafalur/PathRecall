@@ -9,11 +9,9 @@ import javax.inject.Inject;
 public class Player {
     private int mScore;
     private int mLostLives;
+
     @SerializedName("name")
     private String mName;
-
-    @Inject
-    Player(){}
 
     public Player(String name){
         mName = name;

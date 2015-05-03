@@ -16,10 +16,13 @@ import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.R;
 import com.rafal.pathrecall.engine.Player;
 import com.rafal.pathrecall.engine.PlayersManager;
+import com.rafal.pathrecall.engine.difficulty.Difficulty;
+import com.rafal.pathrecall.ui.adapters.DifficultyAdapter;
 import com.rafal.pathrecall.ui.adapters.PlayersAdapter;
 import com.rafal.pathrecall.ui.dialogs.AddPlayerDialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -32,8 +35,11 @@ public class MenuFragment extends BaseFragment {
 
     @InjectView(R.id.menuPlayersSpinner)
     Spinner mPlayersSpinner;
+    @InjectView(R.id.difficultySpinner)
+    Spinner mDifficultySpinner;
 
-    PlayersAdapter mPlayersAdapter;
+    private PlayersAdapter mPlayersAdapter;
+    private DifficultyAdapter mDifficultyAdapter;
 
     public static MenuFragment newInstance() {
         MenuFragment fragment = new MenuFragment();
@@ -59,13 +65,15 @@ public class MenuFragment extends BaseFragment {
         if(players == null){
             players = new ArrayList<Player>();
         }
-        mPlayersAdapter = new PlayersAdapter(getActivity(), R.id.playerNameTextView, players);
+        mPlayersAdapter = new PlayersAdapter(getActivity(), players);
         mPlayersSpinner.setAdapter(mPlayersAdapter);
 
         String defaultPlayer = PathRecallApp.get(getActivity()).getPreferences().getDefaultPlayer();
         if(defaultPlayer != null) {
             mPlayersSpinner.setSelection(mPlayersAdapter.getIndexOfPlayer(defaultPlayer));
         }
+        mDifficultyAdapter = new DifficultyAdapter(getActivity());
+        mDifficultySpinner.setAdapter(mDifficultyAdapter);
     }
 
     @OnClick({ R.id.menuStartGameButton, R.id.menuAboutButton, R.id.menuExitButton })
@@ -100,8 +108,9 @@ public class MenuFragment extends BaseFragment {
             return;
         }
         String currentPlayer = mPlayersAdapter.getItem(mPlayersSpinner.getSelectedItemPosition()).getName();
+        Difficulty difficulty = mDifficultyAdapter.getItem(mDifficultySpinner.getSelectedItemPosition());
         PathRecallApp.get(getActivity()).getPreferences().storeDefaultPlayer(currentPlayer);
-        getNavigationManager().switchToGameBoardFragment();
+        getNavigationManager().switchToGameBoardFragment(currentPlayer, difficulty);
     }
 
     private void addPlayer(String playerName) {

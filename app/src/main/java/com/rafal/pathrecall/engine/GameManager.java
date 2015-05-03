@@ -4,6 +4,7 @@ import com.rafal.pathrecall.PathRecallApp;
 import com.rafal.pathrecall.data.Board;
 import com.rafal.pathrecall.data.Path;
 import com.rafal.pathrecall.data.PathStats;
+import com.rafal.pathrecall.engine.difficulty.DifficultyProfiler;
 
 import javax.inject.Inject;
 

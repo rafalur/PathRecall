@@ -109,4 +109,10 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/divider_normal</item>
     </style>
+
+    <style name="SpinnerRegular">
+        <item name="android:background">@drawable/player_spinner_background_30x30</item>
+        <item name="android:popupBackground">@drawable/player_spinner_popup_background_30x30</item>
+        <item name="android:dropDownVerticalOffset">@dimen/offset_medium</item>
+    </style>
 </resources>

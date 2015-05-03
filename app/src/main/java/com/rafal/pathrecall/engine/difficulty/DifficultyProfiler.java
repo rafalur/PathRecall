@@ -1,4 +1,4 @@
-package com.rafal.pathrecall.engine;
+package com.rafal.pathrecall.engine.difficulty;
 
 public abstract class DifficultyProfiler {
     protected int mHitPoints;

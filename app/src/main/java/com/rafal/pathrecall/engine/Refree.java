@@ -2,6 +2,7 @@ package com.rafal.pathrecall.engine;
 
 import com.rafal.pathrecall.data.Path;
 import com.rafal.pathrecall.data.Point;
+import com.rafal.pathrecall.engine.difficulty.DifficultyProfiler;
 
 public class Refree {
     public static int countAndAddPointsForPlayer(Player player, Path playerPath, Path playedPath, DifficultyProfiler pointsProfiler){

@@ -17,8 +17,9 @@ import java.util.List;
 public class PlayersAdapter extends ArrayAdapter<Player> {
     private final List<Player> mPlayers;
 
-    public PlayersAdapter(Context context, int resource, List<Player> objects) {
-        super(context, resource, objects);
+
+    public PlayersAdapter(Context context, List<Player> objects) {
+        super(context, R.layout.players_spinner_row, objects);
         mPlayers = objects;
         sortPlayers();
     }
