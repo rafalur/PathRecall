@@ -29,8 +29,17 @@ public class DifficultyAdapter extends ArrayAdapter<Difficulty> {
         return getCustomView(position, convertView, parent);
     }
 
+    public int getIndexOf(Difficulty difficulty){
+        for(int i =0; i < getCount(); i++){
+            Difficulty currentDifficulty = getItem(i);
+            if(currentDifficulty == difficulty){
+                return i;
+            }
+        }
+        return 0;
+    }
 
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
+    private View getCustomView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View row=inflater.inflate(R.layout.players_spinner_row, parent, false);

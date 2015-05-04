@@ -23,6 +23,7 @@ public class AddPlayerDialog extends BaseDialog {
 
     private final List<String> mPlayersNames;
     private Drawable mErrorIcon;
+    private boolean mCancelled;
 
     public AddPlayerDialog(Context context, List<String> existingPlayersNames) {
         super(context, R.style.DialogNormal);
@@ -80,10 +81,21 @@ public class AddPlayerDialog extends BaseDialog {
     }
 
     public String getPlayerName(){
+        if(mCancelled){
+            return null;
+        }
+
         String playerName = mPlayerEdit.getText().toString();
         if(playerName == null || playerName.isEmpty() || playerAlreadyExists(playerName)){
             return null;
         }
+
         return playerName;
+    }
+
+    @Override
+    public void onBackPressed() {
+        mCancelled = true;
+        super.onBackPressed();
     }
 }

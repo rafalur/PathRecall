@@ -72,8 +72,12 @@ public class MenuFragment extends BaseFragment {
         if(defaultPlayer != null) {
             mPlayersSpinner.setSelection(mPlayersAdapter.getIndexOfPlayer(defaultPlayer));
         }
+
         mDifficultyAdapter = new DifficultyAdapter(getActivity());
         mDifficultySpinner.setAdapter(mDifficultyAdapter);
+
+        Difficulty defaultDifficulty = PathRecallApp.get(getActivity()).getPreferences().getDefaultDifficulty();
+        mDifficultySpinner.setSelection(mDifficultyAdapter.getIndexOf(defaultDifficulty));
     }
 
     @OnClick({ R.id.menuStartGameButton, R.id.menuAboutButton, R.id.menuExitButton })
@@ -109,8 +113,14 @@ public class MenuFragment extends BaseFragment {
         }
         String currentPlayer = mPlayersAdapter.getItem(mPlayersSpinner.getSelectedItemPosition()).getName();
         Difficulty difficulty = mDifficultyAdapter.getItem(mDifficultySpinner.getSelectedItemPosition());
-        PathRecallApp.get(getActivity()).getPreferences().storeDefaultPlayer(currentPlayer);
-        getNavigationManager().switchToGameBoardFragment(currentPlayer, difficulty);
+
+        startGame(currentPlayer, difficulty);
+    }
+
+    private void startGame(String playerName, Difficulty difficulty) {
+        PathRecallApp.get(getActivity()).getPreferences().storeDefaultPlayer(playerName);
+        PathRecallApp.get(getActivity()).getPreferences().storeDefaultDifficulty(difficulty);
+        getNavigationManager().switchToGameBoardFragment(playerName, difficulty);
     }
 
     private void addPlayer(String playerName) {
