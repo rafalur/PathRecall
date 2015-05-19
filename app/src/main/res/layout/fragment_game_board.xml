@@ -28,9 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/offset_medium">
-
-
-
             <RelativeLayout
                 android:id="@+id/levelInfoLeftSideLayout"
                 android:layout_width="match_parent"
@@ -168,12 +165,12 @@
 
             <RelativeLayout
                 android:id="@+id/scoreInfoLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/score_layout_width"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingRight="@dimen/offset_large"
-                android:paddingLeft="@dimen/offset_large"
+                android:paddingRight="@dimen/offset_small"
+                android:paddingLeft="@dimen/offset_small"
                 android:paddingTop="@dimen/offset_medium"
                 android:paddingBottom="@dimen/offset_medium"
                 android:layout_alignTop="@id/levelInfoLeftSideLayout"
@@ -181,25 +178,48 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:background="@color/info_box_gradient_start">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    style="@style/TextLevel"
-                    android:text="@string/score"/>
-                <TextView
-                    android:id="@+id/scoreTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    style="@style/TextScore"
-                    android:text="-"/>
-                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/playerNameView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:singleLine="true"
+                        style="@style/TextInfoLabel"
+                        android:text="@string/score"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/playerNameView"
+                        android:layout_alignParentBottom="true">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                                <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/TextLevel"
+                                android:text="@string/score"
+                                 android:includeFontPadding="false"/>
+                                <TextView
+                                    android:id="@+id/scoreTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    style="@style/TextScore"
+                                    android:includeFontPadding="false"
+                                    android:layout_marginTop="@dimen/score_layout_spacing"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
             </RelativeLayout>
 
             <View

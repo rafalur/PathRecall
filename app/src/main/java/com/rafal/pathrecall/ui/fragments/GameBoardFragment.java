@@ -74,6 +74,8 @@ public class GameBoardFragment extends BaseFragment {
     TextView mHitPoitsTextView;
     @InjectView(R.id.missPointsValueView)
     TextView mMissPoitsTextView;
+    @InjectView(R.id.playerNameView)
+    TextView mPlayerNameView;
     @InjectView(R.id.scoreTextView)
     TextView mScoreTextView;
     @InjectView(R.id.levelTextView)
@@ -134,6 +136,7 @@ public class GameBoardFragment extends BaseFragment {
         mScoreFloatingTextView.setAlpha(0.0f);
         mRemainingLivesLayout.setLivesNumber(mGameManager.getLivesNumber());
         selectRemainingLivesViews();
+        mPlayerNameView.setText(mPlayerName);
 
         mMainGrid.getViewTreeObserver().addOnGlobalLayoutListener(mGridLayoutListener);
     }

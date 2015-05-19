@@ -1,0 +1,23 @@
+<resources>
+
+    <style name="ButtonNormalStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/button_regular_height</item>
+        <item name="android:minWidth">@dimen/button_regular_min_width</item>
+        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:paddingTop">@dimen/padding_button</item>
+        <item name="android:paddingBottom">@dimen/padding_button</item>
+        <item name="android:paddingLeft">@dimen/padding_button</item>
+        <item name="android:paddingRight">@dimen/padding_button</item>
+        <item name="android:textColor">@color/main_color_contrasted</item>
+        <item name="android:textSize">@dimen/button_normal_text_size</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="SpinnerRegular">
+        <item name="android:background">@drawable/player_spinner_background_30x30</item>
+        <item name="android:popupBackground">@drawable/player_spinner_popup_background_30x30</item>
+        <item name="android:dropDownVerticalOffset">@dimen/offset_medium</item>
+        <item name="android:overlapAnchor">false</item>
+    </style>
+</resources>

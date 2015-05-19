@@ -12,12 +12,16 @@
     <dimen name="offset_small">2dp</dimen>
     <dimen name="life_view_size">22dp</dimen>
 
+    <dimen name="score_layout_spacing">-3dp</dimen>
+
     <dimen name="button_regular_height">46dp</dimen>
+    <dimen name="button_regular_min_width">66dp</dimen>
     <dimen name="button_menu_height">54dp</dimen>
     <dimen name="button_menu_width">140dp</dimen>
     <dimen name="button_add_player_size">28dp</dimen>
 
     <dimen name="add_player_edit_text_min_width">160dp</dimen>
+    <dimen name="score_layout_width">100dp</dimen>
 
     <!--text-->
     <dimen name="text_small_size">14sp</dimen>
@@ -34,4 +38,5 @@
     <dimen name="about_text_size">18sp</dimen>
     <dimen name="spinner_player_name">16sp</dimen>
     <dimen name="add_player_dialog_title">22sp</dimen>
+
 </resources>
